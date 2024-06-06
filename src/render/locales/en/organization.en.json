@@ -1,0 +1,23 @@
+{
+  "form": {
+    "organization_name": "organization name",
+    "created_at": "Date of establishment",
+    "branches": "branches",
+    "branch_name": "Branch name",
+    "branch_address": "Branch Address",
+    "sponsorship_cases": "Sponsorship Cases",
+    "scheduled_visits": "Beneficiaries Scheduled Visits "
+  },
+  "main_branch": "main Branch",
+  "enter-organization-details": "Please Enter Your Organization Details",
+  "sponsorship_cases": {
+    "poor_family": "Poor Family",
+    "widow_or_divorcee": "Widow or Divorcee",
+    "orphan": "Orphan",
+    "elderly_people": "Elderly People",
+    "people_with_disabilities": "People with Disabilities",
+    "sick_people": "Sick People",
+    "refugees_and_immigrants": "Refugees and Immigrants",
+    "educate": "Education  Support"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "next": "next",
+  "back": "back",
+  "confirm": "confirm",
+  "cancel": "cancel",
+  "toast": {
+    "success": "Submitted Successfully",
+    "failed": "Submitted Failed"
+  },
+
+  "form": {
+    "empty_error": "This field is required ",
+    "add_item": "Add Item",
+    "phone": "phone",
+    "email": "email",
+    "password": " Password",
+    "username": "username",
+    "max_selected": "selected items count {count} ",
+    "errors": {
+      "short_field": "value is too short",
+      "date": "Enter The Date",
+      "min_selected": "select more values"
+    }
+  },
+  "actions": {
+    "confirm-msg": "Are you sure the data is correct",
+    "confirm-changes": "Confirm Changes"
+  },
+  "admin": "Admin",
+  "assalam": "Assalam Alaykum ",
+  "details": "{label} details",
+  "organization": "organization"
+}

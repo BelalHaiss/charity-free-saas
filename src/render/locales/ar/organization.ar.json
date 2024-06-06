@@ -1,0 +1,24 @@
+{
+  "form": {
+    "organization_name": "اسم المؤسسة",
+    "created_at": "تاريخ التاسيس",
+    "branches": "الفروع",
+    "branch_name": "اسم الفرع",
+    "branch_address": "عنون الفرع",
+    "sponsorship_cases": "حالات الدعم",
+    "scheduled_visits": "زيارات مجدوله للمستفيدين"
+  },
+  "main_branch": "الفرع الرئيسي",
+  "enter-organization-details": "برجاء ادخال بيانات الموسسة الخاصة بكم ",
+  "organization-details": "Organization Details",
+  "sponsorship_cases": {
+    "poor_family": "اسره فقيره",
+    "widow_or_divorcee": "ارملة - مطلقه",
+    "orphan": "يتيم",
+    "elderly_people": "كبار سن",
+    "people_with_disabilities": "ذو الاحتياجات الخاصة",
+    "sick_people": "المرضي ",
+    "refugees_and_immigrants": "اللاجئون والمهاجرون",
+    "educate": "دعم تعليمي"
+  }
+}
