@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "jsx": "preserve",
+    "lib": ["esnext", "dom"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "isolatedModules": true,
+    "paths": {
+      "@render/*": ["src/render/*"],
+      "@main/*": ["src/main/*"],
+      "@shared/*": ["src/shared/*"]
+    },
+    "resolveJsonModule": true,
+    "strictPropertyInitialization": false,
+    "types": [
+      "vite/client",
+      "unplugin-vue-router/client",
+      "unplugin-icons/types/vue"
+    ],
+    "strict": true,
+    "allowJs": true,
+    "noImplicitAny": false,
+    "noEmit": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/render/postcss.config.js",
+    "src/render/tailwind.config.js",
+    "src/render/components/molecules/form/form-control-vue"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "next": "التالي",
+  "back": "رجوع",
+  "confirm": "تاكيد",
+  "cancel": "الغاء",
+  "toast": {
+    "success": "تم الحفظ بنجاح",
+    "failed": "حدث خطاء"
+  },
+  "form": {
+    "empty_error": "هذا الحقل مطلوب ",
+    "add_item": "اضف قيمة",
+    "phone": " رقم الهاتف",
+    "password": " كلمة المرور",
+    "email": "البريد الالكتروني",
+    "username": "اسم المستخدم",
+    "max_selected": " عدد الاختيارات  {count}",
+    "errors": {
+      "short_field": "القيمة قصير جدًا",
+      "date": "يجب اختيار التاريخ",
+      "min_selected": "يجب اختيار اكثر من قيمة"
+    }
+  },
+  "actions": {
+    "confirm-msg": "هل انت متاكد من صحة البيانات  ",
+    "confirm-changes": "تاكيد التعديلات"
+  },
+  "admin": "الادمن",
+  "assalam": "السلام عليكم",
+  "details": " بيانات  {label}",
+  "organization": "المؤسسة"
+}

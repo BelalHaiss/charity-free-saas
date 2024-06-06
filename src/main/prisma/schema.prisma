@@ -1,0 +1,281 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator json {
+  provider = "prisma-json-types-generator"
+  // namespace = "PrismaJson"
+  // clientOutput = "<finds it automatically>"
+  // (./ -> relative to schema, or an importable path to require() it)
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("VITE_DATABASE_URL")
+}
+
+model Beneficiary {
+  id                  Int    @id @default(autoincrement())
+  join_date           Int    @db.Year
+  initial_visit_date  Int    @db.Year
+  days_between_visits Int
+  more_details        String @db.Text
+  notes               String @db.Text
+
+  people             Person[]
+  BeneficiaryBenefit BeneficiaryBenefit[]
+
+  branch_id Int
+  Branch    Branch? @relation(fields: [branch_id], references: [id])
+
+  @@map("beneficiary")
+}
+
+model Person {
+  id            Int         @id @default(autoincrement())
+  name          String
+  identity_card Int?        @unique @db.TinyInt
+  type          PersonType?
+  birth_yyyy    Int?        @db.Year
+  gender        GENDER?
+  income        Decimal?    @db.Decimal(10, 2)
+  address       String?
+  phone         String?
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+
+  sponsorship_case_id Int?             @db.TinyInt
+  sponsorship         SponsorshipCase? @relation(fields: [sponsorship_case_id], references: [id])
+
+  beneficiary_id Int
+  Beneficiary    Beneficiary @relation(fields: [beneficiary_id], references: [id])
+
+  @@map("person")
+}
+
+model Benefit {
+  id               Int  @id @default(autoincrement())
+  category_item_id Int?
+  item_qty         Int?
+
+  financial_sponsorship_name      String?
+  financial_sponsorship_value     Decimal?   @db.Decimal(10, 2)
+  financial_sponsorship_unit_id   Int?
+  beneficiaries_count             Int?
+  financial_sponsorship_unit_size UNIT_SIZE?
+
+  visit_benefits       VisitBenefit[]
+  beneficiary_benefits BeneficiaryBenefit[]
+  donate_items         DonateItem[]
+
+  @@map("benefit")
+}
+
+model BeneficiaryBenefit {
+  beneficiary_id Int
+  beneficiary    Beneficiary @relation(fields: [beneficiary_id], references: [id])
+  benefit_id     Int
+  Benefit        Benefit     @relation(fields: [benefit_id], references: [id])
+
+  item_unit_size UNIT_SIZE? // if not financial benefit
+  item_value     Int? // if not financial benefit
+
+  @@id([beneficiary_id, benefit_id])
+  @@map("beneficiary_benefit")
+}
+
+model VisitBenefit {
+  visit_id   Int
+  visit      Visit   @relation(fields: [visit_id], references: [id])
+  benefit_id Int
+  Benefit    Benefit @relation(fields: [benefit_id], references: [id])
+
+  unit_label String
+  unit_value Decimal
+
+  @@id([visit_id, benefit_id])
+  @@map("visit_benefit")
+}
+
+model Visit {
+  id             Int            @id @default(autoincrement())
+  beneficiary_id Int
+  created_at     DateTime
+  note           String         @db.Text
+  visit_benefits VisitBenefit[]
+  branch_id      Int
+  branch         Branch         @relation(fields: [branch_id], references: [id])
+
+  @@map("visit")
+}
+
+model CategoryItem {
+  id                 Int            @id @default(autoincrement())
+  name               String
+  unit_id            Int?
+  unit               Unit?          @relation(fields: [unit_id], references: [id])
+  parent_category_id Int?
+  parentCategory     CategoryItem?  @relation("CategoryItem", fields: [parent_category_id], references: [id])
+  items              CategoryItem[] @relation("CategoryItem")
+
+  branch_id Int
+  branch    Branch @relation(fields: [branch_id], references: [id])
+
+  @@map("category_item")
+}
+
+model Unit {
+  id              Int            @id @default(autoincrement())
+  category_label  String
+  label           String
+  bg_unit_label   String
+  bg_unit_abbr    String
+  sm_unit_label   String
+  sm_unit_abbr    String
+  sm_to_bg_factor Int
+  category_items  CategoryItem[]
+  transactions    Transaction[]
+
+  @@map("unit")
+}
+
+model SponsorshipCase {
+  id        Int      @id @default(autoincrement()) @db.TinyInt
+  name      String
+  branch_id Int
+  branch    Branch   @relation(fields: [branch_id], references: [id])
+  persons   Person[]
+
+  @@map("sponsorship_case")
+}
+
+model Organization {
+  id         Int       @id @default(autoincrement())
+  name       String
+  created_at DateTime?
+  logo_url   String?
+  branches   Branch[]
+}
+
+model Branch {
+  id               Int          @id @default(autoincrement())
+  address          String?
+  phone            String?
+  name             String
+  organization_id  Int
+  scheduled_visits Boolean      @default(false)
+  Organization     Organization @relation(fields: [organization_id], references: [id])
+
+  beneficiaries      Beneficiary[]
+  sponsorships_cases SponsorshipCase[]
+  Visit              Visit[]
+  Donate             Donate[]
+  Transaction        Transaction[]
+  CategoryItem       CategoryItem[]
+
+  @@map("branch")
+}
+
+model User {
+  id           Int     @id @default(autoincrement())
+  username     String  @unique
+  password     String
+  is_suspended Boolean @default(false)
+
+  role_id  Int?
+  role     Role?  @relation(fields: [role_id], references: [id])
+  /// [UserBranchesIds]
+  branches Json
+  notes    Note[]
+}
+
+model Donate {
+  id          Int      @id @default(autoincrement())
+  donor       String
+  donor_phone String?
+  created_at  DateTime @default(now())
+  created_by  String
+
+  branch_id    Int
+  branch       Branch       @relation(fields: [branch_id], references: [id])
+  transaction  Transaction?
+  donate_items DonateItem[]
+}
+
+model DonateItem {
+  id                      Int    @id @default(autoincrement())
+  deduction_sm_unit_value Int
+  unit_label              String
+  unit_value              Int
+
+  benefit_id Int
+  Benefit    Benefit @relation(fields: [benefit_id], references: [id])
+
+  donate_id Int
+  Donate    Donate @relation(fields: [donate_id], references: [id])
+}
+
+model Transaction {
+  id         Int             @id @default(autoincrement())
+  created_at DateTime        @default(now())
+  created_by String
+  unit_id    Int
+  unit_size  UNIT_SIZE
+  amount     Decimal         @db.Decimal(10, 2)
+  type       TransactionType
+  desc       String
+  Unit       Unit?           @relation(fields: [unitId], references: [id])
+  unitId     Int?
+
+  branch_id Int
+  branch    Branch @relation(fields: [branch_id], references: [id])
+
+  donate_id Int?    @unique
+  donate    Donate? @relation(fields: [donate_id], references: [id])
+}
+
+model Role {
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  /// [RolePermissions]
+  permissions Json
+  users       User[]
+
+  @@map("role")
+}
+
+model Note {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  title      String
+  desc       String
+  branch_id  Int?
+
+  user_id Int
+  user    User @relation(fields: [user_id], references: [id])
+}
+
+enum TransactionType {
+  DONATE
+  EXPENSE
+}
+
+enum UNIT_SIZE {
+  SM
+  LG
+}
+
+enum GENDER {
+  MALE
+  FEMALE
+}
+
+enum PersonType {
+  BENEFICIARY
+  SPOUSE
+  CHILD
+}
