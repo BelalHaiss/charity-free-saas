@@ -15,10 +15,19 @@
   .flex-center {
     @apply flex justify-center items-center;
   }
+  #app {
+    @apply w-full mx-auto max-w-[1500px];
+  }
   .mx-container {
     @apply w-full mx-auto max-w-[1200px];
   }
   .form-input {
-    @apply w-[300px] h-[35px];
+    @apply w-full h-[35px];
+  }
+}
+
+@layer base {
+  * {
+    font-family: 'Tajawal', system-ui, sans-serif !important;
   }
 }

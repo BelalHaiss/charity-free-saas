@@ -1,12 +1,25 @@
 <script setup lang="ts">
-import { watchEffect } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { usePrimeVue } from 'primevue/config';
 import { getPrimeLocaleOption } from './locales/locale.util';
+import { useGlobalState } from './composables/use-global-state';
+import { useRouter, useRoute } from 'vue-router/auto';
+import TopNav from './components/organisms/layout/top-nav.vue';
 
 const { locale } = useI18n<any, 'ar' | 'en'>();
 const primevue = usePrimeVue();
+const isFirstRouteHandled = ref(false);
+const { storage } = useGlobalState();
+const router = useRouter();
+const route = useRoute();
 
+onMounted(() => {
+  console.log({ storage: storage.value });
+  const { organization } = storage.value;
+  isFirstRouteHandled.value = true;
+  if (!organization) router.push('/setup');
+});
 watchEffect(() => {
   document.documentElement.lang = locale.value;
   document.documentElement.dir = locale.value === 'ar' ? 'rtl' : 'ltr';
@@ -28,6 +41,10 @@ watchEffect(() => {
 </script>
 
 <template>
+  <div v-if="!isFirstRouteHandled" class="flex-center w-dvw h-dvh">
+    <ProgressSpinner />
+  </div>
+
   <Toast />
   <RouterView />
 </template>

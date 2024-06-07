@@ -3,6 +3,7 @@
   "back": "رجوع",
   "confirm": "تاكيد",
   "cancel": "الغاء",
+  "app_name": "يد العون",
   "toast": {
     "success": "تم الحفظ بنجاح",
     "failed": "حدث خطاء"

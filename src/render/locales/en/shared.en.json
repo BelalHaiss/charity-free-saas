@@ -3,11 +3,11 @@
   "back": "back",
   "confirm": "confirm",
   "cancel": "cancel",
+  "app_name": "Helping Hand",
   "toast": {
     "success": "Submitted Successfully",
     "failed": "Submitted Failed"
   },
-
   "form": {
     "empty_error": "This field is required ",
     "add_item": "Add Item",

@@ -26,7 +26,7 @@ const toggle = (event) => {
 </script>
 
 <template>
-  <div class="locale-changer">
+  <div>
     <langItem
       @click="toggle"
       class="border-2 border-green-400"
@@ -41,7 +41,7 @@ const toggle = (event) => {
       :model="items"
       :popup="true"
     >
-      <template #item="{ item, props }">
+      <template #item="{ item }">
         <langItem class="w-full" :locale="item.label as 'en'|'ar' " />
       </template>
     </Menu>

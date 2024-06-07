@@ -19,6 +19,23 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
+    '/beneficiaries/': RouteRecordInfo<'/beneficiaries/', '/beneficiaries', Record<never, never>, Record<never, never>>,
+    '/beneficiaries/[id]/': RouteRecordInfo<'/beneficiaries/[id]/', '/beneficiaries/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/beneficiaries/[id]/edit': RouteRecordInfo<'/beneficiaries/[id]/edit', '/beneficiaries/:id/edit', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/beneficiaries/create': RouteRecordInfo<'/beneficiaries/create', '/beneficiaries/create', Record<never, never>, Record<never, never>>,
+    '/benefits/finance': RouteRecordInfo<'/benefits/finance', '/benefits/finance', Record<never, never>, Record<never, never>>,
+    '/benefits/items': RouteRecordInfo<'/benefits/items', '/benefits/items', Record<never, never>, Record<never, never>>,
+    '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
+    '/profile/': RouteRecordInfo<'/profile/', '/profile', Record<never, never>, Record<never, never>>,
+    '/reports/daily': RouteRecordInfo<'/reports/daily', '/reports/daily', Record<never, never>, Record<never, never>>,
+    '/reports/donates': RouteRecordInfo<'/reports/donates', '/reports/donates', Record<never, never>, Record<never, never>>,
+    '/settings/info': RouteRecordInfo<'/settings/info', '/settings/info', Record<never, never>, Record<never, never>>,
+    '/settings/units': RouteRecordInfo<'/settings/units', '/settings/units', Record<never, never>, Record<never, never>>,
+    '/settings/users/manage': RouteRecordInfo<'/settings/users/manage', '/settings/users/manage', Record<never, never>, Record<never, never>>,
+    '/settings/users/roles': RouteRecordInfo<'/settings/users/roles', '/settings/users/roles', Record<never, never>, Record<never, never>>,
     '/setup': RouteRecordInfo<'/setup', '/setup', Record<never, never>, Record<never, never>>,
+    '/visits/': RouteRecordInfo<'/visits/', '/visits', Record<never, never>, Record<never, never>>,
+    '/visits/[id]/': RouteRecordInfo<'/visits/[id]/', '/visits/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
+    '/visits/create': RouteRecordInfo<'/visits/create', '/visits/create', Record<never, never>, Record<never, never>>,
   }
 }
