@@ -30,7 +30,7 @@ export const useInitialSetup = () => {
     organization: false,
     admin: false
   });
-  watch(errors, async () => {
+  watch(errors, () => {
     isFormsValid.value.organization =
       isFieldDirty('branch') &&
       isFieldDirty('branch') &&

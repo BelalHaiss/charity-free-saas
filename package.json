@@ -9,7 +9,7 @@
     "debug": "rimraf dist && vite -- --dsb-debug",
     "prisma:generate": "npx prisma generate --schema=src/main/prisma/schema.prisma ",
     "build": "rimraf dist && vue-tsc && vite build",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps && npm run prisma:generate"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.8",
