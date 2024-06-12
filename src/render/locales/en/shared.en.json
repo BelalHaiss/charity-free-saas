@@ -4,6 +4,8 @@
   "confirm": "confirm",
   "cancel": "cancel",
   "app_name": "Helping Hand",
+  "account": "Account",
+  "logout": "Logout",
   "toast": {
     "success": "Submitted Successfully",
     "failed": "Submitted Failed"

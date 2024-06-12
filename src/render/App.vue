@@ -44,7 +44,7 @@ watchEffect(() => {
   <div v-if="!isFirstRouteHandled" class="flex-center w-dvw h-dvh">
     <ProgressSpinner />
   </div>
-
+  <TopNav />
   <Toast />
   <RouterView />
 </template>
