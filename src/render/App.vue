@@ -6,6 +6,7 @@ import { getPrimeLocaleOption } from './locales/locale.util';
 import { useGlobalState } from './composables/use-global-state';
 import { useRouter, useRoute } from 'vue-router/auto';
 import TopNav from './components/organisms/layout/top-nav.vue';
+import SideNav from './components/organisms/layout/side-nav.vue';
 
 const { locale } = useI18n<any, 'ar' | 'en'>();
 const primevue = usePrimeVue();
@@ -15,7 +16,6 @@ const router = useRouter();
 const route = useRoute();
 
 onMounted(() => {
-  console.log({ storage: storage.value });
   const { organization } = storage.value;
   isFirstRouteHandled.value = true;
   if (!organization) router.push('/setup');
@@ -44,9 +44,17 @@ watchEffect(() => {
   <div v-if="!isFirstRouteHandled" class="flex-center w-dvw h-dvh">
     <ProgressSpinner />
   </div>
-  <TopNav />
-  <Toast />
-  <RouterView />
+  <div class="w-full h-dvh max-h-dvh flex flex-col gap-2 p-1">
+    <TopNav />
+    <Toast />
+
+    <div class="flex gap-2 overflow-hidden flex-1">
+      <SideNav />
+      <main class="flex-1 max-h-full min-h-full overflow-auto">
+        <RouterView />
+      </main>
+    </div>
+  </div>
 </template>
 
 <style>

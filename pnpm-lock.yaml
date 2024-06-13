@@ -39,8 +39,8 @@ dependencies:
     specifier: ^1.7.2
     version: 1.7.2
   primevue:
-    specifier: ^3.51.0
-    version: 3.51.0(vue@3.4.27)
+    specifier: 3.52.0
+    version: 3.52.0(vue@3.4.27)
   reflect-metadata:
     specifier: ^0.2.2
     version: 0.2.2
@@ -1398,8 +1398,8 @@ packages:
       undici-types: 5.26.5
     dev: true
 
-  /@types/node@20.14.1:
-    resolution: {integrity: sha512-T2MzSGEu+ysB/FkWfqmhV3PLyQlowdptmmgD20C6QxsS8Fmv5SjpZ1ayXaEC0S21/h5UJ9iA6W/5vSNU5l00OA==}
+  /@types/node@20.14.2:
+    resolution: {integrity: sha512-xyu6WAMVwv6AKFLB+e/7ySZVr/0zLCzOa7rSpq6jNwpqOrUbcACDWC+53d4n2QHOnDou0fbIsg8wZu/sxrnI4Q==}
     requiresBuild: true
     dependencies:
       undici-types: 5.26.5
@@ -1410,7 +1410,7 @@ packages:
     resolution: {integrity: sha512-E6OCaRmAe4WDmWNsL/9RMqdkkzDCY1etutkflWk4c+AcjDU07Pcz1fQwTX0TQz+Pxqn9i4L1TU3UFpjnrcDgxA==}
     requiresBuild: true
     dependencies:
-      '@types/node': 20.14.1
+      '@types/node': 20.14.2
       xmlbuilder: 15.1.1
     dev: true
     optional: true
@@ -3991,8 +3991,8 @@ packages:
       picocolors: 1.0.1
       source-map-js: 1.2.0
 
-  /primevue@3.51.0(vue@3.4.27):
-    resolution: {integrity: sha512-BdMveidLSr0fNJ5+mxuke8mMCHyiXwvfDP4iwPr6R98rl3E0Wcm1u4/RKVrL7o0Iq606SXyhPQL3LGyAfXngcA==}
+  /primevue@3.52.0(vue@3.4.27):
+    resolution: {integrity: sha512-HLOVP5YI0ArFKUhIyfZsWmTNMaBYNCBWC/3DYvdd/Po4LY5/WXf7yIYvArE2q/3OuwSXJXvjlR8UNQeJYRSQog==}
     peerDependencies:
       vue: ^3.0.0
     dependencies:

@@ -6,10 +6,32 @@
   "app_name": "يد العون",
   "account": "حسابي",
   "logout": "خروج",
+
+  "pages": {
+    "beneficiaries": "المستفيدين",
+    "add_beneficiary": "اضف مستفيد",
+    "beneficiaries_show": "عرض المستفيدين",
+    "visits": "الزيارات",
+    "add_visit": "اضف زيارة",
+    "visits_show": "عرض الزيارات",
+    "benefits": "الفوائد",
+    "benefits_items": "المنتجات",
+    "benefits_finance": "المالية",
+    "profile": "الحساب الشخصي",
+    "reports": "التقارير",
+    "reports_daily": "التقرير اليومي",
+    "reports_donates": "تقرير التبرعات",
+    "settings": "الاعدادات",
+    "settings_user": "المستخدمين",
+    "settings_user_roles": "الصلاحيات",
+    "settings_unit": "الوحدات"
+  },
+
   "toast": {
     "success": "تم الحفظ بنجاح",
     "failed": "حدث خطاء"
   },
+
   "form": {
     "empty_error": "هذا الحقل مطلوب ",
     "add_item": "اضف قيمة",

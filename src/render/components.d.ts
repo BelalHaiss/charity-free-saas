@@ -22,6 +22,7 @@ declare module 'vue' {
     ProgressSpinner: typeof import('primevue/progressspinner')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Sidebar: typeof import('primevue/sidebar')['default']
     Stepper: typeof import('primevue/stepper')['default']
     StepperPanel: typeof import('primevue/stepperpanel')['default']
   }

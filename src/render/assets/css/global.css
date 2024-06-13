@@ -16,7 +16,7 @@
     @apply flex justify-center items-center;
   }
   #app {
-    @apply w-full mx-auto max-w-[1500px];
+    @apply w-full mx-auto max-w-[1500px] bg-gray-50;
   }
   .mx-container {
     @apply w-full mx-auto max-w-[1200px];
@@ -29,5 +29,31 @@
 @layer base {
   * {
     font-family: 'Tajawal', system-ui, sans-serif !important;
+  }
+}
+
+body {
+  --sb-track-color: #aeb4b7d1;
+  --sb-thumb-color: #6baf8d;
+  --sb-size: 7px;
+}
+
+*::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 5px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
   }
 }

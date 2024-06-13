@@ -6,6 +6,26 @@
   "app_name": "Helping Hand",
   "account": "Account",
   "logout": "Logout",
+
+  "pages": {
+    "beneficiaries": "Beneficiaries",
+    "add_beneficiary": "Add beneficiary",
+    "beneficiaries_show": "View Beneficiaries",
+    "visits": "Visits",
+    "add_visit": "Add Visit",
+    "visits_show": "View visits",
+    "benefits": "Benefits",
+    "benefits_items": "Items",
+    "benefits_finance": "Financial",
+    "profile": "Profile",
+    "reports": "Reports",
+    "reports_daily": "Daily Report",
+    "reports_donates": "Donates Report",
+    "settings": "Settings",
+    "settings_user": "Users",
+    "settings_user_roles": "Roles",
+    "settings_unit": "Units"
+  },
   "toast": {
     "success": "Submitted Successfully",
     "failed": "Submitted Failed"
