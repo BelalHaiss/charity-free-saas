@@ -11,3 +11,5 @@ export const i18nConfig = createI18n({
   },
   legacy: false
 });
+
+export type Locale = 'ar' | 'en';

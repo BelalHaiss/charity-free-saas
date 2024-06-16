@@ -11,9 +11,12 @@ import { useConfirm } from '@render/composables/use-confirm';
 import { useToast } from '@render/composables/use-toast';
 import { useGlobalState } from '@render/composables/use-global-state';
 import { sleep } from '@render/utils/dev.util';
+import { useI18n } from 'vue-i18n';
+import { Locale } from '@render/config/i18n';
 
 export const useInitialSetup = () => {
-  const { values, errors, isFieldDirty, isFieldValid } =
+  const { locale } = useI18n<any, Locale>();
+  const { values, errors, isFieldDirty, isFieldValid, setFieldValue } =
     useForm<InitialSetupClient>({
       initialValues: {
         adminUser: {
@@ -21,7 +24,8 @@ export const useInitialSetup = () => {
         },
         branch: {
           scheduled_visits: false
-        }
+        },
+        lang: locale.value
       },
       validationSchema: toTypedSchema(initialSetupSchema)
     });
@@ -41,6 +45,10 @@ export const useInitialSetup = () => {
       isFieldDirty('adminUser') && isFieldValid('adminUser');
   });
 
+  watch(locale, () => setFieldValue('lang', locale.value));
+  watch(values, () => {
+    console.log({ values });
+  });
   // submiting data
 
   const { execute } = useAxiosFetch<InitialSetupToClient>('/setup/init', {

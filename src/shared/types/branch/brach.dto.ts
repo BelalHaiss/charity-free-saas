@@ -1,4 +1,5 @@
 import { Branch, SponsorshipCase } from '@prisma/client';
+import { Locale } from '@render/config/i18n';
 import { CreatableSelectOptions } from '@render/types/form.types';
 
 export type NewBranchData = Pick<
@@ -15,4 +16,5 @@ export type NewBranchDataToServer = Omit<
   sponsorships_cases: {
     create: { name: SponsorshipCase['name'] }[];
   };
+  lang: Locale;
 };

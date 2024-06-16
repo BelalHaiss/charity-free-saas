@@ -25,5 +25,6 @@ declare module 'vue' {
     Sidebar: typeof import('primevue/sidebar')['default']
     Stepper: typeof import('primevue/stepper')['default']
     StepperPanel: typeof import('primevue/stepperpanel')['default']
+    Tree: typeof import('primevue/tree')['default']
   }
 }

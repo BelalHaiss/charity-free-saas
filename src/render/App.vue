@@ -5,7 +5,6 @@ import { usePrimeVue } from 'primevue/config';
 import { getPrimeLocaleOption } from './locales/locale.util';
 import { useGlobalState } from './composables/use-global-state';
 import { useRouter, useRoute } from 'vue-router/auto';
-import TopNav from './components/organisms/layout/top-nav.vue';
 import SideNav from './components/organisms/layout/side-nav.vue';
 
 const { locale } = useI18n<any, 'ar' | 'en'>();

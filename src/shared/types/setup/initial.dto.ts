@@ -1,15 +1,17 @@
 import { User } from '@prisma/client';
-import { InitialAdmin } from '../user/user.dto';
+import { InitialAdmin, InitialAdminToServer } from '../user/user.dto';
 import {
   OrganizationAppModel,
   OrganizationToServer
 } from '../organization/organization.dto';
 import { NewBranchData, NewBranchDataToServer } from '../branch/brach.dto';
+import { Locale } from '@render/config/i18n';
 
 export interface InitialSetupClient {
   branch: NewBranchData;
   organization: OrganizationToServer;
   adminUser: InitialAdmin;
+  lang: Locale;
 }
 
 export type InitialSetupToClient = {
@@ -20,5 +22,5 @@ export type InitialSetupToClient = {
 export type InitialSetupToServer = {
   branch: NewBranchDataToServer;
   organization: OrganizationToServer;
-  adminUser: InitialAdmin;
+  adminUser: InitialAdminToServer;
 };

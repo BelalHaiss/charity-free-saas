@@ -161,14 +161,14 @@ model Organization {
 }
 
 model Branch {
-  id               Int          @id @default(autoincrement())
-  address          String?
-  phone            String?
-  name             String
-  organization_id  Int
-  scheduled_visits Boolean      @default(false)
-  Organization     Organization @relation(fields: [organization_id], references: [id])
-
+  id                 Int               @id @default(autoincrement())
+  address            String?
+  phone              String?
+  name               String
+  organization_id    Int
+  scheduled_visits   Boolean           @default(false)
+  Organization       Organization      @relation(fields: [organization_id], references: [id])
+  lang               Lang
   beneficiaries      Beneficiary[]
   sponsorships_cases SponsorshipCase[]
   Visit              Visit[]
@@ -184,12 +184,12 @@ model User {
   username     String  @unique
   password     String
   is_suspended Boolean @default(false)
-
-  role_id  Int?
-  role     Role?  @relation(fields: [role_id], references: [id])
+  lang         Lang
+  role_id      Int?
+  role         Role?   @relation(fields: [role_id], references: [id])
   /// [UserBranchesIds]
-  branches Json
-  notes    Note[]
+  branches     Json
+  notes        Note[]
 }
 
 model Donate {
@@ -257,6 +257,11 @@ model Note {
 
   user_id Int
   user    User @relation(fields: [user_id], references: [id])
+}
+
+enum Lang {
+  ar
+  en
 }
 
 enum TransactionType {

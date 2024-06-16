@@ -2,7 +2,7 @@
 
 ## ⚡Vite + Electron + Vuejs + Nestjs Template
 
-it use template -> [Doubleshot](https://github.com/Doubleshotjs/doubleshot)
+it use template -> [Doubleshot](https://github.com/ArcherGu/fast-vite-nestjs-electron)
 
 ### Tech Used
 

@@ -10,10 +10,11 @@ export class initialSetupClientToServer
 {
   transform(value: InitialSetupClient): InitialSetupToServer {
     const serverData: InitialSetupToServer = {
-      adminUser: value.adminUser,
+      adminUser: { ...value.adminUser, lang: value.lang },
       organization: value.organization,
       branch: {
         ...value.branch,
+        lang: value.lang,
         sponsorships_cases: {
           create: value.branch.sponsorships_cases.map((creatableSelect) => ({
             name: creatableSelect.value
