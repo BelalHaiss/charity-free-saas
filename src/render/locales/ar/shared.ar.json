@@ -8,6 +8,7 @@
   "logout": "خروج",
 
   "pages": {
+    "home": "الرئيسية",
     "beneficiaries": "المستفيدين",
     "add_beneficiary": "اضف مستفيد",
     "beneficiaries_show": "عرض المستفيدين",
@@ -22,6 +23,7 @@
     "reports_daily": "التقرير اليومي",
     "reports_donates": "تقرير التبرعات",
     "settings": "الاعدادات",
+    "settings_org": "بيانات المؤسسة",
     "settings_user": "المستخدمين",
     "settings_user_roles": "الصلاحيات",
     "settings_unit": "الوحدات"

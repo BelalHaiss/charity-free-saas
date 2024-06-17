@@ -16,10 +16,13 @@
     @apply flex justify-center items-center;
   }
   #app {
-    @apply w-full mx-auto max-w-[1500px] bg-gray-50;
+    @apply w-full overflow-hidden relative flex mx-auto max-w-[1500px]  h-dvh;
   }
-  .mx-container {
-    @apply w-full mx-auto max-w-[1200px];
+  .page-container {
+    @apply flex  flex-col flex-1 gap-2 [&>div]:rounded-2xl  [&>div]:bg-white [&>div]:shadow-md;
+  }
+  .page-content {
+    @apply flex-1 w-full mx-auto  overflow-y-auto overflow-x-hidden;
   }
   .form-input {
     @apply w-full h-[35px];
@@ -29,6 +32,9 @@
 @layer base {
   * {
     font-family: 'Tajawal', system-ui, sans-serif !important;
+  }
+  body {
+    background-color: lightgray;
   }
 }
 

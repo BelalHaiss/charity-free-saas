@@ -8,7 +8,7 @@ import OrganizationTemplate from '@render/modules/initial-setup/components/templ
 const { confirmProps, isFormsValid } = useInitialSetup();
 </script>
 <template>
-  <div class="p-2 md:p-4 flex flex-col mx-container relative">
+  <div class="p-2 md:p-4 flex flex-col page-content relative">
     <ConfirmDialog v-bind="confirmProps" />
     <div class="flex-center gap-2">
       <langMenu />

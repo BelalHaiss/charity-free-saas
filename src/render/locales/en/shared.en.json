@@ -8,6 +8,7 @@
   "logout": "Logout",
 
   "pages": {
+    "home": "Home",
     "beneficiaries": "Beneficiaries",
     "add_beneficiary": "Add beneficiary",
     "beneficiaries_show": "View Beneficiaries",
@@ -22,6 +23,8 @@
     "reports_daily": "Daily Report",
     "reports_donates": "Donates Report",
     "settings": "Settings",
+    "settings_org": "organization details",
+
     "settings_user": "Users",
     "settings_user_roles": "Roles",
     "settings_unit": "Units"
