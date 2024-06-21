@@ -23,5 +23,12 @@ export const useGlobalState = createGlobalState(() => {
     setUser: (userData: User) => (storage.value.user = { ...userData })
   };
 
-  return { actions, storage };
+  const getters = {
+    getSponsorShipCaseById: (id: number) =>
+      storage.value.organization!.branches[0].sponsorships_cases.find(
+        (val) => val.id === id
+      )
+  };
+
+  return { actions, storage, getters };
 });

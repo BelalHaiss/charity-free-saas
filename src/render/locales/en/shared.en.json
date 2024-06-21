@@ -54,5 +54,16 @@
   "admin": "Admin",
   "assalam": "Assalam Alaykum ",
   "details": "{label} details",
-  "organization": "organization"
+  "organization": "organization",
+  "add": "add {label} ",
+  "beneficiary": "beneficiary",
+  "code": "Code",
+  "name": "{label} name",
+  "type": "{label} type",
+  "date": "{label} Date",
+  "sponsorship": "sponsorship",
+  "created_at": "Created At",
+  "updated_at": "Updated At",
+  "note": "Note",
+  "identity_card": "Identity Card"
 }

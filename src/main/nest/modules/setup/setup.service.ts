@@ -3,7 +3,6 @@ import { OrganizationService } from '../organization/organization.service';
 import { SetupServiceI } from './interfaces/setup.service.interface';
 import {
   InitialSetupToClient,
-  InitialSetupClient,
   InitialSetupToServer
 } from '@shared/types/setup/initial.dto';
 import { PrismaService } from '@main/nest/shared/services/prisma.service';

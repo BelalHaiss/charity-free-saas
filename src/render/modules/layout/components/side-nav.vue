@@ -5,6 +5,7 @@ import IcBaselineLogout from '~icons/ic/baseline-logout';
 import { TreeNode } from 'primevue/treenode';
 import { TreeExpandedKeys } from 'primevue/tree';
 import { useSideNav } from '../viewModel/useSideNav';
+import LangMenu from '@render/components/atoms/lang-menu.vue';
 
 const { navItems } = useSideNav();
 const toggleNodeExpand = (node: TreeNode) => {
@@ -79,6 +80,7 @@ const expandedItems = ref<TreeExpandedKeys>({});
         </template>
       </Tree>
     </div>
+    <LangMenu />
 
     <div class="flex-center gap-2 mb-1 mt-auto border-t py-1">
       <Avatar :label="'U'" shape="circle" class="size-[25px]" />

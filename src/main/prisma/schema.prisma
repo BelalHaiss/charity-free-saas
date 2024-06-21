@@ -18,18 +18,18 @@ datasource db {
 }
 
 model Beneficiary {
-  id                  Int    @id @default(autoincrement())
-  join_date           Int    @db.Year
-  initial_visit_date  Int    @db.Year
-  days_between_visits Int
-  more_details        String @db.Text
-  notes               String @db.Text
+  id                  Int                  @id @default(autoincrement())
+  join_date           DateTime             @default(now())
+  initial_visit_date  DateTime?
+  days_between_visits Int?
+  notes               String?              @db.Text
+  people              Person[]
+  BeneficiaryBenefit  BeneficiaryBenefit[]
 
-  people             Person[]
-  BeneficiaryBenefit BeneficiaryBenefit[]
-
-  branch_id Int
-  Branch    Branch? @relation(fields: [branch_id], references: [id])
+  branch_id  Int
+  Branch     Branch?  @relation(fields: [branch_id], references: [id])
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("beneficiary")
 }
@@ -37,7 +37,7 @@ model Beneficiary {
 model Person {
   id            Int         @id @default(autoincrement())
   name          String
-  identity_card Int?        @unique @db.TinyInt
+  identity_card String?     @unique
   type          PersonType?
   birth_yyyy    Int?        @db.Year
   gender        GENDER?
@@ -104,7 +104,7 @@ model Visit {
   id             Int            @id @default(autoincrement())
   beneficiary_id Int
   created_at     DateTime
-  note           String         @db.Text
+  note           String?        @db.Text
   visit_benefits VisitBenefit[]
   branch_id      Int
   branch         Branch         @relation(fields: [branch_id], references: [id])

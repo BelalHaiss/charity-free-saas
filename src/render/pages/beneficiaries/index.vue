@@ -1,4 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import BenefciariesMain from '@render/modules/beneficiaries/components/templates/benefciaries-main.vue';
+import BreadCrump from '@render/modules/layout/components/bread-crump.vue';
+</script>
 <template>
-  <h1>Beneficiary Page</h1>
+  <BreadCrump
+    :paths="[{ path: '/beneficiaries/', actualPath: '/beneficiaries/' }]"
+  />
+
+  <BenefciariesMain />
 </template>

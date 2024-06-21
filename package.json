@@ -23,6 +23,7 @@
     "@vueuse/integrations": "^10.10.0",
     "argon2": "^0.40.1",
     "axios": "^1.7.2",
+    "luxon": "^3.4.4",
     "primevue": "3.52.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
@@ -33,7 +34,9 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@iconify/json": "^2.2.213",
+    "@types/luxon": "^3.4.2",
     "@vitejs/plugin-vue": "5.0.4",
     "@vue/compiler-sfc": "3.4.27",
     "autoprefixer": "^10.4.19",

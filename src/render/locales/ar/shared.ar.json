@@ -6,7 +6,6 @@
   "app_name": "يد العون",
   "account": "حسابي",
   "logout": "خروج",
-
   "pages": {
     "home": "الرئيسية",
     "beneficiaries": "المستفيدين",
@@ -55,5 +54,16 @@
   "admin": "الادمن",
   "assalam": "السلام عليكم",
   "details": " بيانات  {label}",
-  "organization": "المؤسسة"
+  "organization": "المؤسسة",
+  "add": "اضف {label}",
+  "beneficiary": "مستفيد",
+  "code": "كود",
+  "name": "اسم {label}",
+  "type": "نوع {label}",
+  "date": "تاريخ {label}",
+  "sponsorship": "كفالة",
+  "created_at": "تاريخ الانشاء",
+  "updated_at": "تاريخ اخر تعديل",
+  "note": "ملاحظة",
+  "identity_card": "رقم البطاقة"
 }
