@@ -4,10 +4,15 @@ import {
   BeneficiaryTableDTO,
   BeneficiaryTableQuery,
 } from "@shared/types/beneficiaries/beneficiaries.dto";
+import { BeneficiaryMapper } from "./beneficiary.mapper";
 @Injectable()
 export class BeneficiaryService {
-  constructor(private prismaService: PrismaService) {}
-  create(createBeneficiaryDto: {}) {
+  constructor(
+    private prismaService: PrismaService,
+    private beneficiaryMapper: BeneficiaryMapper,
+  ) {}
+  create(createBeneficiaryDto: object) {
+    return createBeneficiaryDto;
     return "This action adds a new beneficiary";
   }
 
@@ -44,14 +49,15 @@ export class BeneficiaryService {
       },
     });
 
-    return [];
+    return this.beneficiaryMapper.mapToBeneficiaryTableDTO(beneficiaries);
   }
 
   findOne(id: number) {
     return `This action returns a #${id} beneficiary`;
   }
 
-  update(id: number, updateBeneficiaryDto: {}) {
+  update(id: number, updateBeneficiaryDto: object) {
+    return updateBeneficiaryDto;
     return `This action updates a #${id} beneficiary`;
   }
 

@@ -1,63 +1,59 @@
-import { Ref, ref, watch } from 'vue';
-import { initialSetupSchema } from '@shared/services/schema/setup.schema';
-import {
-  InitialSetupClient,
-  InitialSetupToClient
-} from '@shared/types/setup/initial.dto';
-import { useForm } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod';
-import { useAxiosFetch } from '@render/composables/use-axios-fetch';
-import { useConfirm } from '@render/composables/use-confirm';
-import { useToast } from '@render/composables/use-toast';
-import { useGlobalState } from '@render/composables/use-global-state';
-import { sleep } from '@render/utils/dev.util';
-import { useI18n } from 'vue-i18n';
-import { Locale } from '@render/config/i18n';
+import { Ref, ref, watch } from "vue";
+import { initialSetupSchema } from "@shared/services/schema/setup.schema";
+import { InitialSetupClient } from "@shared/types/setup/initial.dto";
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import { useConfirm } from "@render/composables/use-confirm";
+import { useToast } from "@render/composables/use-toast";
+// import { useGlobalState } from '@render/composables/use-global-state';
+import { sleep } from "@render/utils/dev.util";
+import { useI18n } from "vue-i18n";
+import type { Locale } from "@render/config/i18n";
 
 export const useInitialSetup = () => {
-  const { locale } = useI18n<any, Locale>();
+  const { locale } = useI18n<NonNullable<unknown>, Locale>();
   const { values, errors, isFieldDirty, isFieldValid, setFieldValue } =
     useForm<InitialSetupClient>({
       initialValues: {
         adminUser: {
-          branches: [1]
+          branches: [1],
         },
         branch: {
-          scheduled_visits: false
+          scheduled_visits: false,
         },
-        lang: locale.value
+        lang: locale.value,
       },
-      validationSchema: toTypedSchema(initialSetupSchema)
+      validationSchema: toTypedSchema(initialSetupSchema),
     });
 
   const isFormsValid = ref({
     organization: false,
-    admin: false
+    admin: false,
   });
   watch(errors, () => {
     isFormsValid.value.organization =
-      isFieldDirty('branch') &&
-      isFieldDirty('branch') &&
-      isFieldValid('organization') &&
-      isFieldValid('branch');
+      isFieldDirty("branch") &&
+      isFieldDirty("branch") &&
+      isFieldValid("organization") &&
+      isFieldValid("branch");
 
     isFormsValid.value.admin =
-      isFieldDirty('adminUser') && isFieldValid('adminUser');
+      isFieldDirty("adminUser") && isFieldValid("adminUser");
   });
 
-  watch(locale, () => setFieldValue('lang', locale.value));
+  watch(locale, () => setFieldValue("lang", locale.value));
   watch(values, () => {
     console.log({ values });
   });
   // submiting data
 
-  const { execute } = useAxiosFetch<InitialSetupToClient>('/setup/init', {
-    method: 'POST',
-    data: values
-  });
+  // const { execute } = useAxiosFetch<InitialSetupToClient>('/setup/init', {
+  //   method: 'POST',
+  //   data: values
+  // });
 
   const { successToast, failedToast } = useToast();
-  const { actions } = useGlobalState();
+  // const { actions } = useGlobalState();
   const onConfirmSubmit = async (isSubmitting: Ref<boolean>) => {
     isSubmitting.value = true;
     try {
@@ -72,7 +68,7 @@ export const useInitialSetup = () => {
       //   actions.setUser(result.data.value.user);
       // }
     } catch (error) {
-      console.log({ error }, 'failed errro');
+      console.log({ error }, "failed errro");
       failedToast();
       return;
     } finally {
@@ -83,6 +79,6 @@ export const useInitialSetup = () => {
 
   return {
     confirmProps,
-    isFormsValid
+    isFormsValid,
   };
 };

@@ -1,6 +1,6 @@
-import { CalendarProps } from 'primevue/calendar';
-import { CheckboxProps } from 'primevue/checkbox';
-import { MultiSelectProps } from 'primevue/multiselect';
+import { CalendarProps } from "primevue/calendar";
+import { CheckboxProps } from "primevue/checkbox";
+import { MultiSelectProps } from "primevue/multiselect";
 
 export type SelectOptions<T extends string | number = string | number> = {
   label: string;
@@ -8,7 +8,7 @@ export type SelectOptions<T extends string | number = string | number> = {
 };
 
 export type CreatableSelectOptions<
-  T extends string | number = string | number
+  T extends string | number = string | number,
 > = {
   label: string;
   value: T;
@@ -16,12 +16,12 @@ export type CreatableSelectOptions<
 };
 
 export type FormFieldType =
-  | 'text'
-  | 'date'
-  | 'multi-select-creatable'
-  | 'number'
-  | 'password'
-  | 'checkbox';
+  | "text"
+  | "date"
+  | "multi-select-creatable"
+  | "number"
+  | "password"
+  | "checkbox";
 
 type InputProps = MultiSelectProps | CalendarProps | CheckboxProps;
 export type FormField<K extends string> = {
@@ -31,9 +31,9 @@ export type FormField<K extends string> = {
   inputProps?: InputProps;
 };
 
-export type FormFieldProps<T extends InputProps = {}> = Omit<
+export type FormFieldProps<T extends InputProps = object> = Omit<
   FormField<string>,
-  'inputProps'
+  "inputProps"
 > & {
   inputProps: T extends InputProps ? T : undefined;
 };

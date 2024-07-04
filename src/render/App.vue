@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, watchEffect } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { usePrimeVue } from 'primevue/config';
-import { getPrimeLocaleOption } from './locales/locale.util';
-import { useGlobalState } from './composables/use-global-state';
-import { useRouter, useRoute } from 'vue-router/auto';
-import SideNav from './modules/layout/components/side-nav.vue';
+import { computed, onMounted, ref, watch, watchEffect } from "vue";
+import { useI18n } from "vue-i18n";
+import { usePrimeVue } from "primevue/config";
+import { getPrimeLocaleOption } from "./locales/locale.util";
+// import { useGlobalState } from './composables/use-global-state';
+import { useRoute } from "vue-router/auto";
+import SideNav from "./modules/layout/components/side-nav.vue";
+import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
+import { Locale } from "./config/i18n";
 
-const { locale } = useI18n<any, 'ar' | 'en'>();
+const { locale } = useI18n<object, Locale>();
 const primevue = usePrimeVue();
 const isFirstRouteHandled = ref(false);
-const { storage } = useGlobalState();
-const router = useRouter();
+// const { storage } = useGlobalState();
 const route = useRoute();
 
 watch(route, () => {
@@ -19,34 +20,37 @@ watch(route, () => {
 });
 
 onMounted(() => {
-  const { organization } = storage.value;
+  // const { organization } = storage.value;
   isFirstRouteHandled.value = true;
   // if (!organization) router.push('/setup');
 });
 watchEffect(() => {
   document.documentElement.lang = locale.value;
-  document.documentElement.dir = locale.value === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.dir = locale.value === "ar" ? "rtl" : "ltr";
   if (primevue.config.locale) {
     primevue.config.locale.dayNamesMin = getPrimeLocaleOption(
       locale.value,
-      'dayNamesMin'
+      "dayNamesMin",
     );
     primevue.config.locale.monthNamesShort = getPrimeLocaleOption(
       locale.value,
-      'monthNamesShort'
+      "monthNamesShort",
     );
     primevue.config.locale.monthNames = getPrimeLocaleOption(
       locale.value,
-      'monthNames'
+      "monthNames",
     );
   }
 });
 
-const isSetupPage = computed(() => route.fullPath === '/setup');
+const isSetupPage = computed(() => route.fullPath === "/setup");
 </script>
 
 <template>
-  <div v-if="!isFirstRouteHandled" class="flex-center w-dvw h-dvh">
+  <div
+    v-if="!isFirstRouteHandled"
+    class="flex-center w-dvw h-dvh"
+  >
     <ProgressSpinner />
   </div>
 
@@ -59,9 +63,10 @@ const isSetupPage = computed(() => route.fullPath === '/setup');
   >
     <RouterView />
   </main>
+  <VueQueryDevtools />
 </template>
 
 <style>
-@import './assets/css/global.css';
-@import 'primevue/resources/themes/aura-light-green/theme.css';
+@import "./assets/css/global.css";
+@import "primevue/resources/themes/aura-light-green/theme.css";
 </style>

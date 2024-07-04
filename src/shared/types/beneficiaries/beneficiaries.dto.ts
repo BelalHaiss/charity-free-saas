@@ -1,5 +1,5 @@
 import { Beneficiary, Person } from "@prisma/client";
-import { ApiPaginationQueryParams, ApiQueryParams } from "../util.types";
+import { ApiPaginationQueryParams } from "../util.types";
 
 export type BeneficiaryTableDTO = Pick<
   Beneficiary,

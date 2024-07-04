@@ -15,7 +15,7 @@ export class BeneficiaryController {
   constructor(private readonly beneficiaryService: BeneficiaryService) {}
 
   @Post()
-  create(@Body() createBeneficiaryDto: {}) {
+  create(@Body() createBeneficiaryDto: object) {
     return this.beneficiaryService.create(createBeneficiaryDto);
   }
 
@@ -30,7 +30,7 @@ export class BeneficiaryController {
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateBeneficiaryDto: {}) {
+  update(@Param("id") id: string, @Body() updateBeneficiaryDto: object) {
     return this.beneficiaryService.update(+id, updateBeneficiaryDto);
   }
 

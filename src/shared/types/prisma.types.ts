@@ -1,6 +1,7 @@
-import { PrismaClient, UNIT_SIZE } from '@prisma/client';
-import { PermissionsType } from './roles/role.types';
-import { ITXClientDenyList } from '@prisma/client/runtime/library';
+/* eslint-disable @typescript-eslint/no-namespace */
+import { PrismaClient, UNIT_SIZE } from "@prisma/client";
+import { PermissionsType } from "./roles/role.types";
+import { ITXClientDenyList } from "@prisma/client/runtime/library";
 
 type Beneficiary_Item_Details = {
   item_unit_size: UNIT_SIZE;

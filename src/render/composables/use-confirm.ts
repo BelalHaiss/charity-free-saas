@@ -1,5 +1,5 @@
-import { Ref, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { Ref, ref } from "vue";
+import { Locale, useI18n } from "vue-i18n";
 
 export type ConfirmDialogProps = {
   isVisible: Ref<boolean>;
@@ -12,21 +12,20 @@ export type ConfirmDialogProps = {
 
 export const useConfirm = (
   onConfirm: (isSubmitting: Ref<boolean>) => void,
-  customProps?: Partial<ConfirmDialogProps>
+  customProps?: Partial<ConfirmDialogProps>,
 ) => {
-  const { t } = useI18n<any, 'ar' | 'en'>();
+  const { t } = useI18n<object, Locale>();
   const isVisible = ref(false);
   const isSubmitting = ref(false);
   const showDialog = () => {
-    console.log('showDialog');
+    console.log("showDialog");
     isVisible.value = true;
   };
   const hideDialog = () => (isVisible.value = false);
 
-  // @ts-ignore
-  const header = customProps?.header ?? t('shared.actions.confirm-changes');
+  const header = customProps?.header ?? t("shared.actions.confirm-changes");
   const description =
-    customProps?.description ?? t('shared.actions.confirm-msg');
+    customProps?.description ?? t("shared.actions.confirm-msg");
 
   const onCancel = customProps?.onCancel ?? hideDialog;
   return {
@@ -36,6 +35,6 @@ export const useConfirm = (
     onConfirm: () => onConfirm(isSubmitting),
     header,
     description,
-    showDialog
+    showDialog,
   };
 };

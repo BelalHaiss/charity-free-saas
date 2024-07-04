@@ -1,9 +1,10 @@
-export function extractFields<T extends {}, K extends keyof T>(
+export function extractFields<T extends object, K extends keyof T>(
   obj: T,
   keys: K[],
 ): Pick<T, K> {
   const pickedObj: Pick<T, K> = {} as Pick<T, K>;
   for (const key of keys) {
+    // eslint-disable-next-line no-prototype-builtins
     if (obj.hasOwnProperty(key)) {
       pickedObj[key] = obj[key];
     }
@@ -11,7 +12,7 @@ export function extractFields<T extends {}, K extends keyof T>(
   return pickedObj;
 }
 
-export function removeFields<T extends {}, K extends keyof T>(
+export function removeFields<T extends object, K extends keyof T>(
   obj: T,
   keys: K[],
 ): Omit<T, K> {
@@ -22,5 +23,5 @@ export function removeFields<T extends {}, K extends keyof T>(
   return filteredObj as Omit<T, K>;
 }
 
-const isObject = (x: any) =>
+export const isObject = (x: object) =>
   typeof x === "object" && !Array.isArray(x) && x !== null;

@@ -25,6 +25,8 @@
     "@nestjs/mapped-types": "^2.0.5",
     "@nestjs/platform-express": "^10.3.10",
     "@prisma/client": "^5.16.1",
+    "@tanstack/vue-query": "^5.49.1",
+    "@tanstack/vue-query-devtools": "^5.49.1",
     "@vee-validate/zod": "^4.13.1",
     "@vueuse/core": "^10.11.0",
     "@vueuse/integrations": "^10.11.0",
@@ -43,16 +45,21 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@eslint/js": "^9.6.0",
     "@faker-js/faker": "^8.4.1",
     "@iconify/json": "^2.2.225",
     "@snaplet/copycat": "^5.0.0",
     "@snaplet/seed": "0.97.20",
+    "@tanstack/eslint-plugin-query": "^5.50.0",
     "@types/luxon": "^3.4.2",
     "@vitejs/plugin-vue": "5.0.4",
     "@vue/compiler-sfc": "3.4.27",
     "autoprefixer": "^10.4.19",
     "electron": "30.0.6",
     "electron-builder": "24.13.3",
+    "eslint": "9.x",
+    "eslint-plugin-vue": "^9.21.0",
+    "globals": "^15.8.0",
     "husky": "^9.0.11",
     "lint-staged": "^14.0.1",
     "postcss": "^8.4.39",
@@ -62,6 +69,7 @@
     "rimraf": "5.0.7",
     "tailwindcss": "^3.4.4",
     "typescript": "5.4.5",
+    "typescript-eslint": "^7.15.0",
     "unplugin-icons": "^0.19.0",
     "unplugin-vue-components": "^0.27.2",
     "unplugin-vue-router": "^0.8.8",
@@ -74,7 +82,8 @@
   },
   "lint-staged": {
     "*.{ts,css,vue}": [
-      "prettier --write"
+      "prettier --write",
+      "eslint --fix"
     ]
   }
 }
