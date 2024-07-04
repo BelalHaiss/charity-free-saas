@@ -11,3 +11,31 @@ export type OptionalNullable<T> = {
 } & {
   [K in keyof PickNotNullable<T>]: T[K];
 };
+
+type FilterConditions<T> = {
+  [Property in keyof T]?: T[Property];
+};
+
+interface PaginationOptions {
+  page: number; // Page number
+  pageSize: number; // Number of items per page
+}
+
+type CursorPagination = {
+  id: number;
+};
+type SortOptions<T> = {
+  [Property in keyof T]?: "asc" | "desc";
+};
+
+export type ApiQueryParams<T> = {
+  filter: FilterConditions<T>;
+  sort?: SortOptions<T>;
+};
+
+export type ApiPaginationQueryParams<T> = {
+  filter: FilterConditions<T>;
+  pagination: PaginationOptions;
+  sort?: SortOptions<T>;
+  cursorPagination?: CursorPagination;
+};

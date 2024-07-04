@@ -1,11 +1,12 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import queryType from "query-types";
 import {
   GlobalExceptionFilter,
   CustomHttpExceptionFilter,
   PrismaExceptionFilter,
-  CustomExceptionFilter
-} from './shared/exception/http-exception.filter';
+  CustomExceptionFilter,
+} from "./shared/exception/http-exception.filter";
 
 export const bootstrapNest = async () => {
   const nestApp = await NestFactory.create(AppModule);
@@ -14,9 +15,10 @@ export const bootstrapNest = async () => {
     new GlobalExceptionFilter(),
     new CustomHttpExceptionFilter(),
     new PrismaExceptionFilter(),
-    new CustomExceptionFilter()
+    new CustomExceptionFilter(),
   );
-  nestApp.setGlobalPrefix('/v1/api');
+  nestApp.setGlobalPrefix("/api/v1");
+  nestApp.use(queryType.middleware());
 
   await nestApp.listen(4000);
 };

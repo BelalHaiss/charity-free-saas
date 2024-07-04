@@ -5,10 +5,12 @@ import {
   Body,
   Patch,
   Param,
-  Delete
-} from '@nestjs/common';
-import { BeneficiaryService } from './beneficiary.service';
-@Controller('beneficiary')
+  Delete,
+  Query,
+} from "@nestjs/common";
+import { BeneficiaryService } from "./beneficiary.service";
+import type { BeneficiaryTableQuery } from "@shared/types/beneficiaries/beneficiaries.dto";
+@Controller("beneficiary")
 export class BeneficiaryController {
   constructor(private readonly beneficiaryService: BeneficiaryService) {}
 
@@ -18,22 +20,22 @@ export class BeneficiaryController {
   }
 
   @Get()
-  findAll() {
-    return this.beneficiaryService.findAll();
+  findAll(@Query() query: BeneficiaryTableQuery) {
+    return this.beneficiaryService.findAll(query);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.beneficiaryService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBeneficiaryDto: {}) {
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() updateBeneficiaryDto: {}) {
     return this.beneficiaryService.update(+id, updateBeneficiaryDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.beneficiaryService.remove(+id);
   }
 }

@@ -2,10 +2,7 @@ import { User } from "@prisma/client";
 import * as argon2 from "argon2";
 import { UserServiceI } from "./interfaces/user.service.interface";
 import { PrismaInteractiveTransaction } from "@shared/types/prisma.types";
-import {
-  InitialAdmin,
-  InitialAdminToServer,
-} from "@shared/types/user/user.dto";
+import { InitialAdminToServer } from "@shared/types/user/user.dto";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()

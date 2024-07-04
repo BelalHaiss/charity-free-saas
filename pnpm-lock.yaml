@@ -44,6 +44,12 @@ dependencies:
   primevue:
     specifier: 3.52.0
     version: 3.52.0(vue@3.4.31)
+  qs:
+    specifier: ^6.12.2
+    version: 6.12.2
+  query-types:
+    specifier: ^0.1.4
+    version: 0.1.4
   reflect-metadata:
     specifier: ^0.2.2
     version: 0.2.2
@@ -5137,6 +5143,17 @@ packages:
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.6
+    dev: false
+
+  /qs@6.12.2:
+    resolution: {integrity: sha512-x+NLUpx9SYrcwXtX7ob1gnkSems4i/mGZX5SlYxwIau6RrUSODO89TR/XDGGpn5RPWSYIB+aSfuSlV5+CmbTBg==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.6
+    dev: false
+
+  /query-types@0.1.4:
+    resolution: {integrity: sha512-DvOCeSGI+RJeZ8+13NYTZUGbGva3P85GmATpY2ojj0mIsNfw70xeTpQW51JaYDZyQ2Li/svGT+FUdd4CBUoDcQ==}
     dev: false
 
   /queue-microtask@1.2.3:

@@ -12,6 +12,7 @@
     "paths": {
       "@render/*": ["src/render/*"],
       "@main/*": ["src/main/*"],
+      "@nest/*": ["src/main/nest/*"],
       "@shared/*": ["src/shared/*"]
     },
     "resolveJsonModule": true,
