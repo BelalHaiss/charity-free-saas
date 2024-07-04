@@ -1,12 +1,5 @@
-import {
-  Beneficiary,
-  GENDER,
-  Person,
-  PersonType,
-  Prisma
-} from '@prisma/client';
-import { OptionalNullable } from '@shared/types/util.types';
-import { faker } from '@faker-js/faker';
+import { Beneficiary, Person, PersonType } from "@prisma/client";
+import { faker } from "@faker-js/faker";
 
 export const seedBenefciaries: (Partial<Beneficiary> & {
   people: Partial<Person>[];
@@ -19,8 +12,14 @@ export const seedBenefciaries: (Partial<Beneficiary> & {
     {
       name: faker.person.fullName(),
       type: PersonType.BENEFICIARY,
-      gender: 'MALE',
-      identity_card: faker.phone.imei()
-    }
-  ]
+      gender: "MALE",
+      identity_card: faker.phone.imei(),
+    },
+    {
+      name: faker.person.fullName(),
+      type: PersonType.SPOUSE,
+      gender: "FEMALE",
+      identity_card: faker.phone.imei(),
+    },
+  ],
 }));

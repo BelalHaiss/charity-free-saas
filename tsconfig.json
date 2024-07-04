@@ -37,5 +37,6 @@
     "src/render/postcss.config.js",
     "src/render/tailwind.config.js",
     "src/render/components/molecules/form/form-control-vue"
-  ]
+  ],
+  "exclude": ["node_modules"]
 }

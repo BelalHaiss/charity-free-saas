@@ -39,7 +39,7 @@ model Person {
   name          String
   identity_card String?     @unique
   type          PersonType?
-  birth_yyyy    Int?        @db.Year
+  birthday      DateTime
   gender        GENDER?
   income        Decimal?    @db.Decimal(10, 2)
   address       String?
