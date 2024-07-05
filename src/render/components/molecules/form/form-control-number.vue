@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { FormFieldProps } from '@render/types/form.types';
-import { useField } from 'vee-validate';
+import { FormFieldProps } from "@render/types/form.types";
+import { useField } from "vee-validate";
 const { name, label } = defineProps<FormFieldProps>();
 const { value, errorMessage } = useField<string>(() => name);
 </script>
@@ -8,14 +8,18 @@ const { value, errorMessage } = useField<string>(() => name);
   <div>
     <label :for="name">{{ label }}</label>
     <InputNumber
-      class="form-input"
-      :useGrouping="false"
       :id="name"
-      :invalid="!!errorMessage"
       v-model="value"
+      class="form-input"
+      :use-grouping="false"
+      :invalid="!!errorMessage"
       :aria-describedby="name + `-help`"
     />
-    <small class="text-red-500" v-if="errorMessage" :id="name + `-help`">{{
+    <small
+      v-if="errorMessage"
+      :id="name + `-help`"
+      class="text-red-500"
+    >{{
       $t(errorMessage)
     }}</small>
   </div>

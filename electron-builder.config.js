@@ -4,11 +4,12 @@
  */
 const config = {
   directories: {
-    output: 'dist/electron',
+    output: 'dist/electron'
   },
   publish: null,
   npmRebuild: false,
-  files: ['dist/main/**/*', 'dist/render/**/*'],
-}
+  files: ['dist/main/**/*', 'dist/render/**/*']
+};
 
-module.exports = config
+// eslint-disable-next-line no-undef
+module.exports = config;

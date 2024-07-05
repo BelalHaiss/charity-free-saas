@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ConfirmDialogProps } from '@render/composables/use-confirm';
-import { computed } from 'vue';
+import { ConfirmDialogProps } from "@render/composables/use-confirm";
+import { computed } from "vue";
 const props = defineProps<ConfirmDialogProps>();
 
 const isSubmitting = computed(() => props.isSubmitting.value);
@@ -24,13 +24,13 @@ const isVisible = computed(() => props.isVisible.value);
         :disabled="isSubmitting"
         severity="secondary"
         @click="props.onCancel"
-      ></Button>
+      />
       <Button
         type="button"
         :label="$t('shared.confirm')"
         :loading="isSubmitting"
         @click="props.onConfirm"
-      ></Button>
+      />
     </div>
   </Dialog>
 </template>

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import {
   CreatableSelectOptions,
-  FormFieldProps
-} from '@render/types/form.types';
-import { computed, ref, watch } from 'vue';
+  FormFieldProps,
+} from "@render/types/form.types";
+import { computed, ref, watch } from "vue";
 
-import { useField } from 'vee-validate';
-import { MultiSelectProps } from 'primevue/multiselect';
+import { useField } from "vee-validate";
+import { MultiSelectProps } from "primevue/multiselect";
 
 const newOptionsCreated = ref<CreatableSelectOptions[]>([]);
 const props = defineProps<FormFieldProps<MultiSelectProps>>();
@@ -14,34 +14,34 @@ const props = defineProps<FormFieldProps<MultiSelectProps>>();
 const { value, errorMessage, setValue } = useField<CreatableSelectOptions[]>(
   () => props.name,
   undefined,
-  { initialValue: [] }
+  { initialValue: [] },
 );
 const currentFilterValue = ref();
 const handleNewItem = () => {
   const filterValue = currentFilterValue.value;
 
   const isAlreadyOption = value.value.some(
-    (option) => option.value === filterValue
+    (option) => option.value === filterValue,
   );
   if (isAlreadyOption) return;
   const newFilterOption: CreatableSelectOptions = {
     label: filterValue,
     value: filterValue,
-    isCreated: true
+    isCreated: true,
   };
   newOptionsCreated.value.push(newFilterOption);
   setValue([...value.value, newFilterOption]);
 };
 
 const maxSelectedCount = computed(
-  () => props.inputProps.maxSelectedLabels ?? 0
+  () => props.inputProps.maxSelectedLabels ?? 0,
 );
 
 const allOptions = computed(
   () =>
     props.inputProps.options!.concat(
-      newOptionsCreated.value
-    ) as CreatableSelectOptions[]
+      newOptionsCreated.value,
+    ) as CreatableSelectOptions[],
 );
 watch(value, () => console.log({ value }));
 </script>
@@ -52,21 +52,21 @@ watch(value, () => console.log({ value }));
       v-model="value"
       :options="allOptions"
       filter
-      optionLabel="label"
+      option-label="label"
       :placeholder="props.inputProps.placeholder"
-      :selectedItemsLabel="
+      :selected-items-label="
         $t('shared.form.max_selected', {
-          count: value.length
+          count: value.length,
         })
       "
-      :maxSelectedLabels="maxSelectedCount"
-      @filter="(ev) => (currentFilterValue = ev.value)"
+      :max-selected-labels="maxSelectedCount"
       class="max-w-[300px] form-input"
       :pt="{
         filterContainer: {
-          class: 'max-w-[300px] overflow-hidden'
-        }
+          class: 'max-w-[300px] overflow-hidden',
+        },
       }"
+      @filter="(ev) => (currentFilterValue = ev.value)"
     >
       <template #option="slotProps">
         <div class="flex align-items-center ms-2">
@@ -76,14 +76,18 @@ watch(value, () => console.log({ value }));
       <template #emptyfilter>
         <Button
           :outlined="true"
-          @click="handleNewItem"
           class="py-1 max-w-[300px] overflow-hidden"
+          @click="handleNewItem"
         >
-          {{ $t('shared.form.add_item') + ' ' + currentFilterValue }}
+          {{ $t("shared.form.add_item") + " " + currentFilterValue }}
         </Button>
       </template>
     </MultiSelect>
-    <small class="text-red-500" v-if="errorMessage" :id="name + `-help`">{{
+    <small
+      v-if="errorMessage"
+      :id="name + `-help`"
+      class="text-red-500"
+    >{{
       $t(errorMessage)
     }}</small>
   </div>

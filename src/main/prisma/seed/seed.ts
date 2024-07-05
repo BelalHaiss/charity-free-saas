@@ -15,7 +15,7 @@ const main = async () => {
   // Truncate all tables in the database
   await seed.$resetDatabase();
   await seed.beneficiary((x) =>
-    x(200, (ctx) => ({
+    x(200, () => ({
       people: [
         {
           name: faker.person.fullName(),

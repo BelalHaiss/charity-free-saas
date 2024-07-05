@@ -9,7 +9,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     await this.$connect();
   }
 
-  filterPaginate(query: ApiPaginationQueryParams<any>) {
+  filterPaginate(query: ApiPaginationQueryParams<object>) {
     return {
       take: query.pagination.pageSize,
       skip: query.pagination.pageSize * (query.pagination.page - 1),

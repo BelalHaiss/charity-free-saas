@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { RouterLink } from 'vue-router/auto';
-import IcBaselineLogout from '~icons/ic/baseline-logout';
-import { TreeNode } from 'primevue/treenode';
-import { TreeExpandedKeys } from 'primevue/tree';
-import { useSideNav } from '../viewModel/useSideNav';
-import LangMenu from '@render/components/atoms/lang-menu.vue';
+import { ref } from "vue";
+import { RouterLink } from "vue-router/auto";
+import IcBaselineLogout from "~icons/ic/baseline-logout";
+import { TreeNode } from "primevue/treenode";
+import { TreeExpandedKeys } from "primevue/tree";
+import { useSideNav } from "../viewModel/useSideNav";
+import LangMenu from "@render/components/atoms/lang-menu.vue";
 
 const { navItems } = useSideNav();
 const toggleNodeExpand = (node: TreeNode) => {
@@ -20,11 +20,14 @@ const expandedItems = ref<TreeExpandedKeys>({});
     class="absolute start-0 h-full bg-white rounded-2xl group py-4 px-2 w-[85px] transition-all duration-300 hover:w-[190px] shadow-xl z-50 overflow-hidden flex flex-col items-center"
   >
     <div class="flex-center mb-4 gap-2 w-full">
-      <img src="@render/assets/images/logo.png" class="size-[60px]" />
+      <img
+        src="@render/assets/images/logo.png"
+        class="size-[60px]"
+      >
       <span
         class="text-primary-color font-bold text-lg max-w-min text-center [word-spacing:100px] hidden group-hover:block"
       >
-        {{ $t('shared.app_name') }}
+        {{ $t("shared.app_name") }}
       </span>
     </div>
 
@@ -33,17 +36,18 @@ const expandedItems = ref<TreeExpandedKeys>({});
         :expanded-keys="expandedItems"
         :pt="{
           content: {
-            class: 'flex-row-reverse     outline-none    overflow-hidden w-full'
+            class:
+              'flex-row-reverse     outline-none    overflow-hidden w-full',
           },
           label: {
-            class: 'w-full max-w-full '
+            class: 'w-full max-w-full ',
           },
           container: {
-            class: 'flex flex-col gap-2    '
+            class: 'flex flex-col gap-2    ',
           },
           toggler: {
-            class: 'hidden group-hover:flex '
-          }
+            class: 'hidden group-hover:flex ',
+          },
         }"
         :value="navItems"
       >
@@ -55,9 +59,11 @@ const expandedItems = ref<TreeExpandedKeys>({});
             <component
               :is="node.customIcon"
               class="group-hover:me-2 text-[25px] mx-auto group-hover:mx-0"
+            />
+            <span
+              role="button"
+              class="hidden group-hover:block"
             >
-            </component>
-            <span role="button" class="hidden group-hover:block">
               {{ node.label }}
             </span>
           </div>
@@ -69,10 +75,9 @@ const expandedItems = ref<TreeExpandedKeys>({});
             :to="node.path"
           >
             <component
-              class="group-hover:me-2 text-base mx-auto group-hover:mx-0"
               :is="node.customIcon"
-            >
-            </component>
+              class="group-hover:me-2 text-base mx-auto group-hover:mx-0"
+            />
             <span class="hidden group-hover:block">
               {{ node.label }}
             </span>
@@ -83,7 +88,11 @@ const expandedItems = ref<TreeExpandedKeys>({});
     <LangMenu />
 
     <div class="flex-center gap-2 mb-1 mt-auto border-t py-1">
-      <Avatar :label="'U'" shape="circle" class="size-[25px]" />
+      <Avatar
+        :label="'U'"
+        shape="circle"
+        class="size-[25px]"
+      />
       <span class="hidden group-hover:block"> Ahmed Met </span>
 
       <Button

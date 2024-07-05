@@ -3,12 +3,12 @@ import {
   Catch,
   ArgumentsHost,
   HttpStatus,
-  HttpException
-} from '@nestjs/common';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { CustomException } from './CustomException';
-import { Response } from 'express';
-import { ErrorObject } from './error-body.type';
+  HttpException,
+} from "@nestjs/common";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { CustomException } from "./CustomException";
+import { Response } from "express";
+import { ErrorObject } from "./error-body.type";
 
 @Catch(HttpException)
 export class CustomHttpExceptionFilter implements ExceptionFilter {
@@ -18,7 +18,7 @@ export class CustomHttpExceptionFilter implements ExceptionFilter {
       message: JSON.stringify(exception.getResponse()),
       statusCode: exception.getStatus(),
       errorType: exception.message,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
     response.status(errorBdoy.statusCode).json(errorBdoy);
   }
@@ -42,7 +42,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
       : exception.name;
     const resBody = new CustomException({
       message,
-      status: HttpStatus.CONFLICT
+      status: HttpStatus.CONFLICT,
     });
 
     response.status(resBody.statusCode).json(resBody.getResponse());
@@ -51,12 +51,12 @@ export class PrismaExceptionFilter implements ExceptionFilter {
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
-  catch(exception: any, host: ArgumentsHost) {
+  catch(exception: object, host: ArgumentsHost) {
     const response: Response = host.switchToHttp().getResponse();
 
-    console.log('unhandeld error', exception);
+    console.log("unhandeld error", exception);
     response
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .json({ message: 'Internal server error' });
+      .json({ message: "Internal server error" });
   }
 }
