@@ -103,6 +103,9 @@ devDependencies:
   '@types/luxon':
     specifier: ^3.4.2
     version: 3.4.2
+  '@types/qs':
+    specifier: ^6.9.15
+    version: 6.9.15
   '@vitejs/plugin-vue':
     specifier: 5.0.4
     version: 5.0.4(vite@5.2.11)(vue@3.4.31)
@@ -1906,6 +1909,10 @@ packages:
       xmlbuilder: 15.1.1
     dev: true
     optional: true
+
+  /@types/qs@6.9.15:
+    resolution: {integrity: sha512-uXHQKES6DQKKCLh441Xv/dwxOq1TVS3JPUMlEqoEglvlhR6Mxnlew/Xq/LRVHpLyk7iK3zODe1qYHIMltO7XGg==}
+    dev: true
 
   /@types/responselike@1.0.3:
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}

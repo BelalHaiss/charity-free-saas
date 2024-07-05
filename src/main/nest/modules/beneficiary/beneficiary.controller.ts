@@ -10,6 +10,7 @@ import {
 } from "@nestjs/common";
 import { BeneficiaryService } from "./beneficiary.service";
 import type { BeneficiaryTableQuery } from "@shared/types/beneficiaries/beneficiaries.dto";
+
 @Controller("beneficiary")
 export class BeneficiaryController {
   constructor(private readonly beneficiaryService: BeneficiaryService) {}

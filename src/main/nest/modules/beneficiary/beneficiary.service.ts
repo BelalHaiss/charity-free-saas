@@ -34,9 +34,7 @@ export class BeneficiaryService {
         },
       },
       ...pageQuery,
-      cursor: {
-        id: query.cursorPagination?.id,
-      },
+
       orderBy: {
         updated_at: "desc",
       },

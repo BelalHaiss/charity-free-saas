@@ -18,7 +18,7 @@ export class BeneficiaryMapper {
       name: item.people[0].name,
       identity_card: item.people[0].identity_card,
       notes: item.notes,
-      sponsorship_case_id: item.people[0].sponsorship_case_id,
+      sponsorship_case_id: item.people[0].sponsorship_case_id ?? 0,
     }));
     return mappedData;
   }

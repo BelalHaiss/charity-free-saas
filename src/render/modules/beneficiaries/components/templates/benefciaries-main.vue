@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import TableFilterControl from "@render/components/molecules/table-filters/table-filter-control.vue";
+import { useQueryTyped } from "@render/composables/use-query-typed";
 import type { Locale } from "@render/config/i18n";
 import { TableColumns, TableFilter } from "@render/types/table.types";
 import { formatDate } from "@render/utils/date.util";
-import { BeneficiaryTableDTO } from "@shared/types/beneficiaries/beneficiaries.dto";
+import {
+  BeneficiaryTableDTO,
+  BeneficiaryTableQuery,
+} from "@shared/types/beneficiaries/beneficiaries.dto";
 import Column from "primevue/column";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterLink } from "vue-router/auto";
+import { beneficiaryRepository } from "../../repository/beneficiary.repository";
 
 const { t, locale } = useI18n<object, Locale>();
 const headers = computed<TableColumns<BeneficiaryTableDTO>[]>(() => [
@@ -61,47 +66,31 @@ const filters = ref<TableFilter<BeneficiaryTableDTO>>({
   name: { value: null, matchMode: "contains" },
 });
 
-const dummyData: BeneficiaryTableDTO[] = [
-  {
-    created_at: new Date(2024, 4, 23),
-    updated_at: new Date(),
-    name: "ahmed",
-    sponsorship_case_id: 213,
-    id: 12321,
-    identity_card: "123123333333",
-    notes: null,
+const tableQuery = ref<BeneficiaryTableQuery>({
+  pagination: {
+    page: 1,
+    pageSize: 20,
   },
-  {
-    created_at: new Date(2024, 2, 23),
-    updated_at: new Date(),
-    name: "3abdo",
-    sponsorship_case_id: 213,
-    id: 12321,
-    identity_card: "123123333333",
-    notes: null,
-  },
-  {
-    created_at: new Date(2024, 5, 23),
-    updated_at: new Date(),
-    name: "karim",
-    sponsorship_case_id: 213,
-    id: 12321,
-    identity_card: "123123333333",
-    notes: null,
-  },
-];
+  filter: {},
+});
+
+const { isPending, data, isFetching } = useQueryTyped({
+  queryKey: ["beneficiary", tableQuery.value],
+  queryFn: () =>
+    beneficiaryRepository.getBeneficiariesTableData(tableQuery.value),
+});
+console.log({ isFetching: isFetching.value });
 </script>
 <template>
   <div class="flex flex-col page-content p-2">
     <DataTable
-      :rows="dummyData.length"
-      :value="dummyData"
+      :rows="tableQuery.pagination.pageSize"
+      :value="data"
+      :loading="isPending"
       :filters="filters"
       show-gridlines
       filter-display="row"
       paginator
-      @update:filters="(newFilters) => (filters = newFilters)"
-      @filter="(e) => (filters = e.filters)"
     >
       <Column
         v-for="column in headers"
@@ -112,7 +101,7 @@ const dummyData: BeneficiaryTableDTO[] = [
         :header="column.header"
       >
         <template #body="{ data }">
-          {{ column.dataGetter(data) }}
+          <span> {{ column.dataGetter(data) }} </span>
         </template>
         <template
           v-if="filters[column.field]"
