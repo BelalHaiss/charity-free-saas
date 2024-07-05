@@ -12,9 +12,9 @@ export type TableColumns<T extends object> = {
   options?: SelectOptions[];
 } & Omit<ColumnProps, "field">;
 
-export type TableFilter<T, K extends keyof T = keyof T> = Partial<
-  Record<K, { value: T[K] | null } & Pick<DataTableFilterMetaData, "matchMode">>
->;
+export type TableFilter<T extends object> = {
+  [P in keyof T]?: { value: T[P] } & Pick<DataTableFilterMetaData, "matchMode">;
+};
 
 export type FilterInputProps = InputTextProps | InputNumberProps;
 export type FilterFieldInputType<K extends string = string> = {

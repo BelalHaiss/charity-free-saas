@@ -4,14 +4,15 @@ import {
 } from "@shared/types/beneficiaries/beneficiaries.dto";
 import { BeneficiaryRepositoryI } from "./beneficiary-repository.interface";
 import { fetcher, queryStringify } from "@render/utils/api.util";
+import { Ref } from "vue";
 
 class BeneficiaryRepository implements BeneficiaryRepositoryI {
   async getBeneficiariesTableData(
-    filter: BeneficiaryTableQuery,
-  ): Promise<BeneficiaryTableDTO[]> {
+    filter: Ref<BeneficiaryTableQuery>,
+  ): Promise<BeneficiaryTableDTO> {
     console.log({ filter }, "beneficary table filter");
-    const queryString = queryStringify(filter);
-    const data = await fetcher<BeneficiaryTableDTO[]>({
+    const queryString = queryStringify(filter.value);
+    const data = await fetcher<BeneficiaryTableDTO>({
       url: `beneficiary/?${queryString}`,
     });
     return data;

@@ -10,8 +10,8 @@ export class BeneficiaryMapper {
         people: true;
       };
     }>[],
-  ): BeneficiaryTableDTO[] {
-    const mappedData: BeneficiaryTableDTO[] = data.map((item) => ({
+  ): BeneficiaryTableDTO["data"] {
+    const mappedData: BeneficiaryTableDTO["data"] = data.map((item) => ({
       updated_at: item.updated_at,
       created_at: item.created_at,
       id: item.id,

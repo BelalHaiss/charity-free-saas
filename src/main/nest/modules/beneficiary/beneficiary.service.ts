@@ -5,6 +5,7 @@ import {
   BeneficiaryTableQuery,
 } from "@shared/types/beneficiaries/beneficiaries.dto";
 import { BeneficiaryMapper } from "./beneficiary.mapper";
+import { Prisma } from "@prisma/client";
 @Injectable()
 export class BeneficiaryService {
   constructor(
@@ -16,9 +17,9 @@ export class BeneficiaryService {
     return "This action adds a new beneficiary";
   }
 
-  async findAll(query: BeneficiaryTableQuery): Promise<BeneficiaryTableDTO[]> {
+  async findAll(query: BeneficiaryTableQuery): Promise<BeneficiaryTableDTO> {
     const pageQuery = this.prismaService.filterPaginate(query);
-    const beneficiaries = await this.prismaService.beneficiary.findMany({
+    const currentQuery: Prisma.BeneficiaryFindManyArgs = {
       where: {
         id: query.filter.id,
         people: {
@@ -33,21 +34,33 @@ export class BeneficiaryService {
           },
         },
       },
-      ...pageQuery,
+    };
 
-      orderBy: {
-        updated_at: "desc",
-      },
-      include: {
-        people: {
-          where: {
-            type: "BENEFICIARY",
+    const [beneficiaries, totalRecords] = await this.prismaService.$transaction(
+      [
+        this.prismaService.beneficiary.findMany({
+          ...currentQuery,
+          ...pageQuery,
+
+          orderBy: {
+            updated_at: "desc",
           },
-        },
-      },
-    });
+          include: {
+            people: {
+              where: {
+                type: "BENEFICIARY",
+              },
+            },
+          },
+        }),
+        this.prismaService.beneficiary.count({
+          where: currentQuery.where,
+        }),
+      ],
+    );
+    const data = this.beneficiaryMapper.mapToBeneficiaryTableDTO(beneficiaries);
 
-    return this.beneficiaryMapper.mapToBeneficiaryTableDTO(beneficiaries);
+    return { data, totalRecords };
   }
 
   findOne(id: number) {
