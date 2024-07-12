@@ -1,6 +1,5 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
-import queryType from "query-types";
 import {
   GlobalExceptionFilter,
   CustomHttpExceptionFilter,
@@ -18,7 +17,6 @@ export const bootstrapNest = async () => {
     new CustomExceptionFilter(),
   );
   nestApp.setGlobalPrefix("/api/v1");
-  nestApp.use(queryType.middleware());
 
   await nestApp.listen(4000);
 };

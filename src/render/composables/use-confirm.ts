@@ -18,7 +18,6 @@ export const useConfirm = (
   const isVisible = ref(false);
   const isSubmitting = ref(false);
   const showDialog = () => {
-    console.log("showDialog");
     isVisible.value = true;
   };
   const hideDialog = () => (isVisible.value = false);

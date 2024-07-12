@@ -10,6 +10,7 @@ import {
 } from "@nestjs/common";
 import { BeneficiaryService } from "./beneficiary.service";
 import type { BeneficiaryTableQuery } from "@shared/types/beneficiaries/beneficiaries.dto";
+import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
 
 @Controller("beneficiary")
 export class BeneficiaryController {
@@ -21,7 +22,7 @@ export class BeneficiaryController {
   }
 
   @Get()
-  findAll(@Query() query: BeneficiaryTableQuery) {
+  findAll(@Query() query: CastQueryFieldsToStrings<BeneficiaryTableQuery>) {
     return this.beneficiaryService.findAll(query);
   }
 

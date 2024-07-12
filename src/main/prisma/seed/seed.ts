@@ -4,7 +4,8 @@
  * Use any TypeScript runner to run this script, for example: `npx tsx seed.ts`
  * Learn more about the Seed Client by following our guide: https://docs.snaplet.dev/seed/getting-started
  */
-import { faker } from "@faker-js/faker";
+import { fakerAR } from "@faker-js/faker";
+
 import { createSeedClient } from "@snaplet/seed";
 
 const main = async () => {
@@ -18,18 +19,18 @@ const main = async () => {
     x(200, () => ({
       people: [
         {
-          name: faker.person.fullName(),
+          name: fakerAR.person.fullName(),
           type: "BENEFICIARY",
           gender: "MALE",
-          identity_card: faker.phone.imei(),
-          phone: faker.phone.number(),
+          identity_card: fakerAR.phone.imei(),
+          phone: fakerAR.phone.number(),
         },
         {
-          name: faker.person.fullName(),
+          name: fakerAR.person.fullName(),
           type: "SPOUSE",
           gender: "FEMALE",
-          identity_card: faker.phone.imei(),
-          phone: faker.phone.number(),
+          identity_card: fakerAR.phone.imei(),
+          phone: fakerAR.phone.number(),
         },
       ],
     })),

@@ -10,7 +10,6 @@ class BeneficiaryRepository implements BeneficiaryRepositoryI {
   async getBeneficiariesTableData(
     filter: Ref<BeneficiaryTableQuery>,
   ): Promise<BeneficiaryTableDTO> {
-    console.log({ filter }, "beneficary table filter");
     const queryString = queryStringify(filter.value);
     const data = await fetcher<BeneficiaryTableDTO>({
       url: `beneficiary/?${queryString}`,

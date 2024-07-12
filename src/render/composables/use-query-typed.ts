@@ -9,6 +9,5 @@ export const useQueryTyped = <T extends object>({
   queryKey,
   queryFn,
 }: TypedQueryArg<T>) => {
-  console.log("reRun", queryKey);
   return useQuery({ queryKey, queryFn });
 };

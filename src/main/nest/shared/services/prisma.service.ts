@@ -1,7 +1,10 @@
 import { Global, Injectable, OnModuleInit } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client";
 import { Module } from "@nestjs/common";
-import { ApiPaginationQueryParams } from "@shared/types/util.types";
+import {
+  ApiPaginationQueryParams,
+  CastQueryFieldsToStrings,
+} from "@shared/types/util.types";
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
@@ -9,10 +12,12 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     await this.$connect();
   }
 
-  filterPaginate(query: ApiPaginationQueryParams<object>) {
+  filterPaginate(
+    query: CastQueryFieldsToStrings<ApiPaginationQueryParams<object>>,
+  ) {
     return {
-      take: query.pagination.pageSize,
-      skip: query.pagination.pageSize * query.pagination.page,
+      take: +query.pagination.pageSize,
+      skip: +query.pagination.pageSize * +query.pagination.page,
     };
   }
 }

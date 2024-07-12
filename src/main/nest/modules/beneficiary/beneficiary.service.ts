@@ -6,6 +6,7 @@ import {
 } from "@shared/types/beneficiaries/beneficiaries.dto";
 import { BeneficiaryMapper } from "./beneficiary.mapper";
 import { Prisma } from "@prisma/client";
+import { CastQueryFieldsToStrings } from "@shared/types/util.types";
 @Injectable()
 export class BeneficiaryService {
   constructor(
@@ -17,11 +18,13 @@ export class BeneficiaryService {
     return "This action adds a new beneficiary";
   }
 
-  async findAll(query: BeneficiaryTableQuery): Promise<BeneficiaryTableDTO> {
+  async findAll(
+    query: CastQueryFieldsToStrings<BeneficiaryTableQuery>,
+  ): Promise<BeneficiaryTableDTO> {
     const pageQuery = this.prismaService.filterPaginate(query);
     const currentQuery: Prisma.BeneficiaryFindManyArgs = {
       where: {
-        id: query.filter.id,
+        id: query.filter.id ? +query.filter.id : undefined,
         people: {
           some: {
             name: {
