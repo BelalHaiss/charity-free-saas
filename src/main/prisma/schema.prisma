@@ -57,14 +57,17 @@ model Person {
 }
 
 model Benefit {
-  id               Int  @id @default(autoincrement())
+  id                  Int @id @default(autoincrement())
+  beneficiaries_count Int @default(0)
+
+  //  benefit is item not financial
   category_item_id Int?
   item_qty         Int?
 
+  //  benefit is financial 
   financial_sponsorship_name      String?
   financial_sponsorship_value     Decimal?   @db.Decimal(10, 2)
   financial_sponsorship_unit_id   Int?
-  beneficiaries_count             Int?
   financial_sponsorship_unit_size UNIT_SIZE?
 
   visit_benefits       VisitBenefit[]
@@ -93,8 +96,8 @@ model VisitBenefit {
   benefit_id Int
   Benefit    Benefit @relation(fields: [benefit_id], references: [id])
 
-  unit_label String
-  unit_value Decimal
+  unit_label_and_unit String
+  unit_value          Decimal
 
   @@id([visit_id, benefit_id])
   @@map("visit_benefit")
