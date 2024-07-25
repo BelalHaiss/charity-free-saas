@@ -9,7 +9,7 @@
     "debug": "rimraf dist && vite -- --dsb-debug",
     "build": "rimraf dist && vue-tsc && vite build",
     "postinstall": "electron-builder install-app-deps ",
-    "migrate": "prisma migrate dev",
+    "migrate": "prisma migrate dev ",
     "postmigrate": "npx @snaplet/seed sync",
     "prepare": "husky",
     "type-check": "vue-tsc --noEmit"
@@ -80,7 +80,7 @@
     "vue-tsc": "2.0.19"
   },
   "@snaplet/seed": {
-    "config": "src\\main\\prisma\\seed\\seed.config.ts"
+    "config": "src/main/prisma/seed/seed.config.ts"
   },
   "lint-staged": {
     "*.{ts,css,vue}": [

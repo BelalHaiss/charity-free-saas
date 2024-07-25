@@ -164,6 +164,8 @@ model Organization {
   created_at DateTime?
   logo_url   String?
   branches   Branch[]
+
+  @@map("organization")
 }
 
 model Branch {
@@ -196,6 +198,8 @@ model User {
   /// [UserBranchesIds]
   branches     Json
   notes        Note[]
+
+  @@map("user")
 }
 
 model Donate {
@@ -209,6 +213,8 @@ model Donate {
   branch       Branch       @relation(fields: [branch_id], references: [id])
   transaction  Transaction?
   donate_items DonateItem[]
+
+  @@map("donate")
 }
 
 model DonateItem {
@@ -221,6 +227,8 @@ model DonateItem {
   Donate     Donate @relation(fields: [donate_id], references: [id])
   unit_value Int
   Unit       Unit   @relation(fields: [unit_id], references: [id])
+
+  @@map("donate_item")
 }
 
 model Transaction {
@@ -240,6 +248,8 @@ model Transaction {
   donate             Donate?       @relation(fields: [donate_id], references: [id])
   visit_benefit_id   Int?          @unique
   visit_benefit_item VisitBenefit? @relation(fields: [visit_benefit_id], references: [id])
+
+  @@map("transaction")
 }
 
 model Role {
@@ -262,6 +272,8 @@ model Note {
 
   user_id Int
   user    User @relation(fields: [user_id], references: [id])
+
+  @@map("note")
 }
 
 enum Lang {

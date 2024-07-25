@@ -169,20 +169,6 @@
           "maxLength": null
         },
         {
-          "id": "charity.DonateItem.deduction_sm_unit_value",
-          "name": "deduction_sm_unit_value",
-          "columnName": "deduction_sm_unit_value",
-          "type": "int",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
           "id": "charity.DonateItem.donate_id",
           "name": "donate_id",
           "columnName": "donate_id",
@@ -215,10 +201,10 @@
           "maxLength": null
         },
         {
-          "id": "charity.DonateItem.unit_label",
-          "name": "unit_label",
-          "columnName": "unit_label",
-          "type": "varchar",
+          "id": "charity.DonateItem.unit_id",
+          "name": "unit_id",
+          "columnName": "unit_id",
+          "type": "int",
           "isRequired": true,
           "kind": "scalar",
           "isList": false,
@@ -226,7 +212,7 @@
           "sequence": false,
           "hasDefaultValue": false,
           "isId": false,
-          "maxLength": 191
+          "maxLength": null
         },
         {
           "id": "charity.DonateItem.unit_value",
@@ -268,6 +254,24 @@
           "relationName": "DonateItemTobenefit",
           "relationFromFields": [
             "benefit_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "unit",
+          "type": "unit",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "DonateItemTounit",
+          "relationFromFields": [
+            "unit_id"
           ],
           "relationToFields": [
             "id"
@@ -634,23 +638,9 @@
           "maxLength": null
         },
         {
-          "id": "charity.Transaction.unit_size",
-          "name": "unit_size",
-          "columnName": "unit_size",
-          "type": "enum_charity_transaction_unit_size",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": 2
-        },
-        {
-          "id": "charity.Transaction.unitId",
-          "name": "unitId",
-          "columnName": "unitId",
+          "id": "charity.Transaction.visit_benefit_id",
+          "name": "visit_benefit_id",
+          "columnName": "visit_benefit_id",
           "type": "int",
           "isRequired": false,
           "kind": "scalar",
@@ -700,11 +690,29 @@
         {
           "name": "unit",
           "type": "unit",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "object",
           "relationName": "TransactionTounit",
           "relationFromFields": [
-            "unitId"
+            "unit_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "visit_benefit",
+          "type": "visit_benefit",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "TransactionTovisit_benefit",
+          "relationFromFields": [
+            "visit_benefit_id"
           ],
           "relationToFields": [
             "id"
@@ -727,6 +735,12 @@
           "name": "charity.Transaction.donate_id",
           "fields": [
             "donate_id"
+          ]
+        },
+        {
+          "name": "charity.Transaction.visit_benefit_id",
+          "fields": [
+            "visit_benefit_id"
           ]
         }
       ]
@@ -1308,12 +1322,12 @@
           "name": "beneficiaries_count",
           "columnName": "beneficiaries_count",
           "type": "int",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
           "sequence": false,
-          "hasDefaultValue": false,
+          "hasDefaultValue": true,
           "isId": false,
           "maxLength": null
         },
@@ -2394,6 +2408,20 @@
           "maxLength": 191
         },
         {
+          "name": "DonateItem",
+          "type": "DonateItem",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "DonateItemTounit",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
           "name": "Transaction",
           "type": "Transaction",
           "isRequired": false,
@@ -2427,6 +2455,12 @@
           "name": "charity.unit.id",
           "fields": [
             "id"
+          ]
+        },
+        {
+          "name": "charity.unit.label",
+          "fields": [
+            "label"
           ]
         }
       ]
@@ -2568,13 +2602,31 @@
           "isGenerated": false,
           "sequence": false,
           "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "charity.visit_benefit.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "charity.visit_benefit.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
           "isId": true,
           "maxLength": null
         },
         {
-          "id": "charity.visit_benefit.unit_label",
-          "name": "unit_label",
-          "columnName": "unit_label",
+          "id": "charity.visit_benefit.unit_label_and_unit",
+          "name": "unit_label_and_unit",
+          "columnName": "unit_label_and_unit",
           "type": "varchar",
           "isRequired": true,
           "kind": "scalar",
@@ -2610,7 +2662,7 @@
           "isGenerated": false,
           "sequence": false,
           "hasDefaultValue": false,
-          "isId": true,
+          "isId": false,
           "maxLength": null
         },
         {
@@ -2648,14 +2700,27 @@
           "isGenerated": false,
           "sequence": false,
           "hasDefaultValue": false
+        },
+        {
+          "name": "Transaction",
+          "type": "Transaction",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "TransactionTovisit_benefit",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
         }
       ],
       "uniqueConstraints": [
         {
-          "name": "charity.visit_benefit.visit_id_benefit_id",
+          "name": "charity.visit_benefit.id",
           "fields": [
-            "visit_id",
-            "benefit_id"
+            "id"
           ]
         }
       ]
@@ -2739,17 +2804,6 @@
         },
         {
           "name": "CHILD"
-        }
-      ]
-    },
-    "enum_charity_transaction_unit_size": {
-      "schemaName": "charity",
-      "values": [
-        {
-          "name": "SM"
-        },
-        {
-          "name": "LG"
         }
       ]
     }
