@@ -91,6 +91,8 @@ model BeneficiaryBenefit {
 }
 
 model VisitBenefit {
+  id Int @id @default(autoincrement())
+
   visit_id   Int
   visit      Visit   @relation(fields: [visit_id], references: [id])
   benefit_id Int
@@ -98,8 +100,8 @@ model VisitBenefit {
 
   unit_label_and_unit String
   unit_value          Decimal
+  Transaction         Transaction?
 
-  @@id([visit_id, benefit_id])
   @@map("visit_benefit")
 }
 
@@ -133,7 +135,7 @@ model CategoryItem {
 model Unit {
   id              Int            @id @default(autoincrement())
   category_label  String
-  label           String
+  label           String         @unique()
   bg_unit_label   String
   bg_unit_abbr    String
   sm_unit_label   String
@@ -141,6 +143,7 @@ model Unit {
   sm_to_bg_factor Int
   category_items  CategoryItem[]
   transactions    Transaction[]
+  DonateItem      DonateItem[]
 
   @@map("unit")
 }
@@ -209,16 +212,15 @@ model Donate {
 }
 
 model DonateItem {
-  id                      Int    @id @default(autoincrement())
-  deduction_sm_unit_value Int
-  unit_label              String
-  unit_value              Int
-
+  id         Int     @id @default(autoincrement())
+  unit_id    Int
   benefit_id Int
   Benefit    Benefit @relation(fields: [benefit_id], references: [id])
 
-  donate_id Int
-  Donate    Donate @relation(fields: [donate_id], references: [id])
+  donate_id  Int
+  Donate     Donate @relation(fields: [donate_id], references: [id])
+  unit_value Int
+  Unit       Unit   @relation(fields: [unit_id], references: [id])
 }
 
 model Transaction {
@@ -226,18 +228,18 @@ model Transaction {
   created_at DateTime        @default(now())
   created_by String
   unit_id    Int
-  unit_size  UNIT_SIZE
   amount     Decimal         @db.Decimal(10, 2)
   type       TransactionType
   desc       String
-  Unit       Unit?           @relation(fields: [unitId], references: [id])
-  unitId     Int?
+  Unit       Unit            @relation(fields: [unit_id], references: [id])
 
   branch_id Int
   branch    Branch @relation(fields: [branch_id], references: [id])
 
-  donate_id Int?    @unique
-  donate    Donate? @relation(fields: [donate_id], references: [id])
+  donate_id          Int?          @unique
+  donate             Donate?       @relation(fields: [donate_id], references: [id])
+  visit_benefit_id   Int?          @unique
+  visit_benefit_item VisitBenefit? @relation(fields: [visit_benefit_id], references: [id])
 }
 
 model Role {

@@ -36,6 +36,8 @@ const main = async () => {
     })),
   );
 
+  await seed.unit([{ label: "ج م" }]);
+
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
 
   console.log("Database seeded successfully!");
