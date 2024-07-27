@@ -237,8 +237,9 @@ model Transaction {
   created_by String
   unit_id    Int
   amount     Decimal         @db.Decimal(10, 2)
+  label      String
   type       TransactionType
-  desc       String
+  desc       String?
   Unit       Unit            @relation(fields: [unit_id], references: [id])
 
   branch_id Int

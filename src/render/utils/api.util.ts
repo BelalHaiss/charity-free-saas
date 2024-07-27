@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 });
 
 import qs from "qs";
-export type ApiPaths = "beneficiary" | "setup";
+export type ApiPaths = "beneficiary" | "setup" | "unit";
 
 export type FetcherArgs = {
   url: ApiPaths | `${ApiPaths}/${string}`;

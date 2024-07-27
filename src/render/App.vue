@@ -8,17 +8,20 @@ import { useRoute } from "vue-router/auto";
 import SideNav from "./modules/layout/components/side-nav.vue";
 import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
 import { Locale } from "./config/i18n";
+import { useInitialCacheHandler } from "./composables/use-initial-cache";
 
 const { locale } = useI18n<object, Locale>();
 const primevue = usePrimeVue();
 const isFirstRouteHandled = ref(false);
 // const { storage } = useGlobalState();
 const route = useRoute();
+const isCachedDataFetched = ref(false);
 
-watch(route, () => {
-  console.log({ route });
-});
-
+const setCachedFetchedDone = () => (isCachedDataFetched.value = true);
+const isInitializing = computed(
+  () => isCachedDataFetched.value && isFirstRouteHandled.value,
+);
+useInitialCacheHandler(setCachedFetchedDone);
 onMounted(() => {
   // const { organization } = storage.value;
   isFirstRouteHandled.value = true;
@@ -48,7 +51,7 @@ const isSetupPage = computed(() => route.fullPath === "/setup");
 
 <template>
   <div
-    v-if="!isFirstRouteHandled"
+    v-if="!isInitializing"
     class="flex-center w-dvw h-dvh"
   >
     <ProgressSpinner />
@@ -58,6 +61,7 @@ const isSetupPage = computed(() => route.fullPath === "/setup");
 
   <Toast />
   <main
+    v-if="isInitializing"
     class="w-full h-full p-1 flex-1"
     :class="!isSetupPage ? 'page-container ms-[85px]' : ''"
   >
