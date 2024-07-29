@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
 });
 
 import qs from "qs";
-export type ApiPaths = "beneficiary" | "setup" | "unit";
+export type ApiPaths = "beneficiary" | "setup" | "unit" | "transaction";
 
 export type FetcherArgs = {
   url: ApiPaths | `${ApiPaths}/${string}`;
@@ -19,7 +19,6 @@ export const fetcher = async <T extends object>({
   config,
 }: FetcherArgs): Promise<T> => {
   const res = await axiosInstance<T>(url, config);
-
   return res.data;
 };
 

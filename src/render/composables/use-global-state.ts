@@ -7,6 +7,7 @@ type StateValues = {
   organization: OrganizationAppModel;
   user: User;
   units: Unit[];
+  branchId: number;
 };
 export const useGlobalState = createGlobalState(() => {
   // state
@@ -14,6 +15,7 @@ export const useGlobalState = createGlobalState(() => {
     user: null,
     organization: null,
     units: [],
+    branchId: 0,
   };
 
   const storage = useStorage("app-store", initialState);
@@ -24,6 +26,7 @@ export const useGlobalState = createGlobalState(() => {
       (storage.value.organization = { ...org }),
     setUser: (userData: User) => (storage.value.user = { ...userData }),
     setUnits: (units: Unit[]) => (storage.value.units = units),
+    setBranchId: (branchId: number) => (storage.value.branchId = branchId),
   };
 
   const getters = {

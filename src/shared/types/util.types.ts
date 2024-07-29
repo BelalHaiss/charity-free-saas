@@ -53,4 +53,4 @@ export type CastQueryFieldsToStrings<T> =
               ? string | undefined // Convert optional number to optional string
               : CastQueryFieldsToStrings<T[P]>; // Apply recursively to other properties
         }
-      : string; // Return the type unchanged if it's not an object or array
+      : T; // Return the type unchanged if it's not an object or array

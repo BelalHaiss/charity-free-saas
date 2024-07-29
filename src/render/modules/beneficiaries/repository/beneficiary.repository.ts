@@ -14,7 +14,7 @@ class BeneficiaryRepository implements BeneficiaryRepositoryI {
     const data = await fetcher<BeneficiaryTableDTO>({
       url: `beneficiary/?${queryString}`,
     });
-    return data;
+    return data ?? { totalRecords: 0, data: [] };
   }
 }
 
