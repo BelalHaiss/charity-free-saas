@@ -54,3 +54,7 @@ export type CastQueryFieldsToStrings<T> =
               : CastQueryFieldsToStrings<T[P]>; // Apply recursively to other properties
         }
       : T; // Return the type unchanged if it's not an object or array
+
+export type DateQueryString = string; // formatted as yyyy-mm-dd
+
+export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };

@@ -7,14 +7,14 @@ export const useToast = () => {
     toast.add({
       summary: t('shared.toast.success'),
       severity: 'success',
-      life: 700
+      life: 400
     });
   const failedToast = () => {
     console.log('failed toast will fire');
     toast.add({
       summary: t('shared.toast.failed'),
       severity: 'error',
-      life: 700
+      life: 400
     });
   };
 
