@@ -31,7 +31,7 @@
 
 @layer base {
   * {
-    font-family: 'Tajawal', system-ui, sans-serif !important;
+    font-family: "Tajawal", system-ui, sans-serif !important;
   }
   body {
     background-color: lightgray;

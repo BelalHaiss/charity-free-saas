@@ -1,6 +1,6 @@
-import { Organization, Prisma } from '@prisma/client';
+import { Organization, Prisma } from "@prisma/client";
 
-export type OrganizationToServer = Pick<Organization, 'name' | 'created_at'>;
+export type OrganizationToServer = Pick<Organization, "name" | "created_at">;
 
 export type OrganizationAppModel = Prisma.OrganizationGetPayload<{
   include: {

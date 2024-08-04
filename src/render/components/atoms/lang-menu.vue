@@ -43,10 +43,7 @@ const toggle = (event) => {
       :popup="true"
     >
       <template #item="{ item }">
-        <langItem
-          class="w-full"
-          :locale="item.label as Locale"
-        />
+        <langItem class="w-full" :locale="item.label as Locale" />
       </template>
     </Menu>
   </div>

@@ -1,8 +1,8 @@
-import { Injectable, PipeTransform } from '@nestjs/common';
+import { Injectable, PipeTransform } from "@nestjs/common";
 import type {
   InitialSetupClient,
-  InitialSetupToServer
-} from '@shared/types/setup/initial.dto';
+  InitialSetupToServer,
+} from "@shared/types/setup/initial.dto";
 
 @Injectable()
 export class initialSetupClientToServer
@@ -17,10 +17,10 @@ export class initialSetupClientToServer
         lang: value.lang,
         sponsorships_cases: {
           create: value.branch.sponsorships_cases.map((creatableSelect) => ({
-            name: creatableSelect.value
-          }))
-        }
-      }
+            name: creatableSelect.value,
+          })),
+        },
+      },
     };
     return serverData;
   }

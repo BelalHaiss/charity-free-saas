@@ -6,7 +6,10 @@
   "app_name": "Helping Hand",
   "account": "Account",
   "logout": "Logout",
-
+  "net": "Net",
+  "expenses": "Expenses",
+  "donates": "Donates",
+  "select-date": "Select Date",
   "pages": {
     "home": "Home",
     "beneficiaries": "Beneficiaries",
@@ -65,5 +68,6 @@
   "created_at": "Created At",
   "updated_at": "Updated At",
   "note": "Note",
+  "notes": "Notes",
   "identity_card": "Identity Card"
 }

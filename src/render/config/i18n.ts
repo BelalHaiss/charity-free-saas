@@ -1,15 +1,15 @@
-import ar from '@render/locales/ar';
-import en from '@render/locales/en';
-import { createI18n } from 'vue-i18n';
+import ar from "@render/locales/ar";
+import en from "@render/locales/en";
+import { createI18n } from "vue-i18n";
 
 export const i18nConfig = createI18n({
-  locale: 'ar',
-  fallbackLocale: 'ar',
+  locale: "ar",
+  fallbackLocale: "ar",
   messages: {
     en,
-    ar
+    ar,
   },
-  legacy: false
+  legacy: false,
 });
 
-export type Locale = 'ar' | 'en';
+export type Locale = "ar" | "en";

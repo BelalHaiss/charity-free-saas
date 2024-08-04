@@ -39,10 +39,7 @@ const activePaths = computed<(MenuItem & PathProp)[]>(() =>
   <div>
     <Breadcrumb :model="activePaths">
       <template #item="{ item }">
-        <RouterLink
-          class=""
-          :to="item.actualPath"
-        >
+        <RouterLink class="" :to="item.actualPath">
           {{ $t(item.label as string) }}
         </RouterLink>
       </template>

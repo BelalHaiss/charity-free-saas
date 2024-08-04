@@ -12,7 +12,7 @@ type StateValues = {
 
 export const useGlobalState = createGlobalState(() => {
   // state
-  const initialState: NullableKeys<StateValues, "branchId"> = {
+  const initialState: NullableKeys<StateValues, "branchId" | "units"> = {
     user: null,
     organization: null,
     units: [],

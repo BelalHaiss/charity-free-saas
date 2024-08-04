@@ -10,6 +10,7 @@ declare module 'vue' {
     Avatar: typeof import('primevue/avatar')['default']
     Breadcrumb: typeof import('primevue/breadcrumb')['default']
     Button: typeof import('primevue/button')['default']
+    Calendar: typeof import('primevue/calendar')['default']
     Column: typeof import('primevue/column')['default']
     DataTable: typeof import('primevue/datatable')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']

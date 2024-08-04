@@ -2,13 +2,14 @@
 import { computed, onMounted, ref, watch, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 import { usePrimeVue } from "primevue/config";
-import { getPrimeLocaleOption } from "./locales/locale.util";
+import { getPrimeLocale } from "./locales/locale.util";
 // import { useGlobalState } from './composables/use-global-state';
 import { useRoute } from "vue-router/auto";
 import SideNav from "./modules/layout/components/side-nav.vue";
 import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
 import { Locale } from "./config/i18n";
 import { useInitialCacheHandler } from "./composables/use-initial-cache";
+import SpinnerFullPage from "./components/molecules/spinner-full-page.vue";
 
 const { locale } = useI18n<object, Locale>();
 const primevue = usePrimeVue();
@@ -30,32 +31,14 @@ onMounted(() => {
 watchEffect(() => {
   document.documentElement.lang = locale.value;
   document.documentElement.dir = locale.value === "ar" ? "rtl" : "ltr";
-  if (primevue.config.locale) {
-    primevue.config.locale.dayNamesMin = getPrimeLocaleOption(
-      locale.value,
-      "dayNamesMin",
-    );
-    primevue.config.locale.monthNamesShort = getPrimeLocaleOption(
-      locale.value,
-      "monthNamesShort",
-    );
-    primevue.config.locale.monthNames = getPrimeLocaleOption(
-      locale.value,
-      "monthNames",
-    );
-  }
+  primevue.config.locale = getPrimeLocale(locale.value);
 });
 
 const isSetupPage = computed(() => route.fullPath === "/setup");
 </script>
 
 <template>
-  <div
-    v-if="!isInitializing"
-    class="flex-center w-dvw h-dvh"
-  >
-    <ProgressSpinner />
-  </div>
+  <SpinnerFullPage v-if="!isInitializing" />
 
   <SideNav v-if="!isSetupPage" />
 

@@ -1,4 +1,4 @@
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus } from "@nestjs/common";
 
 export interface ErrorObject {
   timestamp: number;
@@ -7,4 +7,4 @@ export interface ErrorObject {
   message: string;
 }
 export type ErroObjectArgs = Partial<ErrorObject> &
-  Pick<ErrorObject, 'message'>;
+  Pick<ErrorObject, "message">;

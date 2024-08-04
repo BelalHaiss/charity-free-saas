@@ -15,11 +15,7 @@ const { value, errorMessage } = useField<string>(() => name);
       :invalid="!!errorMessage"
       :aria-describedby="name + `-help`"
     />
-    <small
-      v-if="errorMessage"
-      :id="name + `-help`"
-      class="text-red-500"
-    >{{
+    <small v-if="errorMessage" :id="name + `-help`" class="text-red-500">{{
       $t(errorMessage)
     }}</small>
   </div>

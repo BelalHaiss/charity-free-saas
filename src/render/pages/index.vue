@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import HomeTemplate from "@render/modules/home/components/templates/home.template.vue";
+</script>
+
 <template>
-  <h1>day summary page</h1>
+  <div class="page-container">
+    <HomeTemplate />
+  </div>
 </template>

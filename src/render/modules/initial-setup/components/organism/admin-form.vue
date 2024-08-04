@@ -9,11 +9,7 @@ const { fieldList } = useAdminForm();
     <form
       class="flex w-full bg-gray-50/50 flex-col gap-3 border p-2 rounded-xl"
     >
-      <FormControl
-        v-for="item in fieldList"
-        v-bind="item"
-        :key="item.name"
-      />
+      <FormControl v-for="item in fieldList" v-bind="item" :key="item.name" />
     </form>
   </div>
 </template>

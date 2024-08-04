@@ -16,10 +16,7 @@ const { confirmProps, isFormsValid } = useInitialSetup();
       <InitialMessage class="flex-1 mt-4 max-w-[600px]" />
     </div>
     <div class="flex-1 w-full flex justify-content-center">
-      <Stepper
-        linear
-        class="w-full"
-      >
+      <Stepper linear class="w-full">
         <StepperPanel
           :header="$t('shared.details', { label: $t(`shared.organization`) })"
         >

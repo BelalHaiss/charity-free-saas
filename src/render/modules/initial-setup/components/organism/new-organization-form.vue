@@ -6,10 +6,6 @@ const { fieldList } = useOrganizationForm();
 </script>
 <template>
   <form class="flex w-full flex-col gap-3">
-    <FormControl
-      v-for="item in fieldList"
-      v-bind="item"
-      :key="item.name"
-    />
+    <FormControl v-for="item in fieldList" v-bind="item" :key="item.name" />
   </form>
 </template>

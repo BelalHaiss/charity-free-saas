@@ -1,7 +1,7 @@
-import { User } from '@prisma/client';
-import { Locale } from '@render/config/i18n';
+import { User } from "@prisma/client";
+import { Locale } from "@render/config/i18n";
 
-export type InitialAdmin = Pick<User, 'username' | 'password'> & {
+export type InitialAdmin = Pick<User, "username" | "password"> & {
   branches: number[];
 };
 

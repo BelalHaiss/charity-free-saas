@@ -1,17 +1,17 @@
-import { ZodType, z } from 'zod';
-import { createOrganizationSchema } from './organization.schema';
-import { newBranchSchema } from './branch.schema';
-import { userSchema } from './user.schema';
-import { InitialSetupClient } from '@shared/types/setup/initial.dto';
+import { ZodType, z } from "zod";
+import { createOrganizationSchema } from "./organization.schema";
+import { newBranchSchema } from "./branch.schema";
+import { userSchema } from "./user.schema";
+import { InitialSetupClient } from "@shared/types/setup/initial.dto";
 
 export const initialSetupSchema = z.object({
   organization: createOrganizationSchema,
   branch: newBranchSchema,
   adminUser: userSchema.initialAdminWithBranches,
-  lang: z.enum(['ar', 'en'])
+  lang: z.enum(["ar", "en"]),
 }) satisfies ZodType<InitialSetupClient>;
 
 export const initialUiOrganizationSchema = z.object({
   organization: createOrganizationSchema,
-  branch: newBranchSchema
+  branch: newBranchSchema,
 });

@@ -38,11 +38,7 @@ const toggle = (event) => menuRef.value!.toggle(event);
     :model="items"
   >
     <template #end>
-      <Button
-        text
-        severity="danger"
-        class="w-full p-1"
-      >
+      <Button text severity="danger" class="w-full p-1">
         {{ $t("shared.logout") }}
         <IonIosCloseCircle class="ms-auto" />
       </Button>

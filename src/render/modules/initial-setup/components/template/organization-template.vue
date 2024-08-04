@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import NewOrganizationForm from '../organism/new-organization-form.vue';
-import NewBranchForm from '../organism/new-branch-form.vue';
+import NewOrganizationForm from "../organism/new-organization-form.vue";
+import NewBranchForm from "../organism/new-branch-form.vue";
 </script>
 
 <template>

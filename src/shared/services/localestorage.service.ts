@@ -1,5 +1,5 @@
 type LocalStorageMapType = {
-  initial_setup: 'true';
+  initial_setup: "true";
 };
 
 export class LocalStorageService {
@@ -12,13 +12,13 @@ export class LocalStorageService {
   }
   setValue<K extends keyof LocalStorageMapType>(
     key: K,
-    value: LocalStorageMapType[K]
+    value: LocalStorageMapType[K],
   ) {
     window.localStorage.setItem(key, value);
   }
 
   getValue<K extends keyof LocalStorageMapType>(
-    key: K
+    key: K,
   ): LocalStorageMapType[K] {
     const stringValue = localStorage.getItem(key)!;
     return this.safeJSONParser(stringValue) as LocalStorageMapType[K];

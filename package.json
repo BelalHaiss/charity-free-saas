@@ -11,8 +11,8 @@
     "postinstall": "electron-builder install-app-deps ",
     "migrate": "prisma migrate dev  --skip-seed",
     "postmigrate": "npx @snaplet/seed sync && prisma db seed",
-    "prepare": "husky",
-    "type-check": "vue-tsc --noEmit"
+    "type-check": "vue-tsc --noEmit",
+    "prepare": "husky"
   },
   "prisma": {
     "seed": "tsx ./src/main/prisma/seed/seed.ts",
@@ -24,7 +24,7 @@
     "@nestjs/core": "^10.3.10",
     "@nestjs/mapped-types": "^2.0.5",
     "@nestjs/platform-express": "^10.3.10",
-    "@prisma/client": "^5.16.1",
+    "@prisma/client": "^5.17.0",
     "@tanstack/vue-query": "^5.49.1",
     "@tanstack/vue-query-devtools": "^5.49.1",
     "@vee-validate/zod": "^4.13.1",
@@ -62,8 +62,8 @@
     "eslint": "9.x",
     "eslint-plugin-vue": "^9.21.0",
     "globals": "^15.8.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^14.0.1",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.8",
     "postcss": "^8.4.39",
     "prettier": "3.3.2",
     "prisma": "^5.17.0",
