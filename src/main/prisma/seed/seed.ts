@@ -96,15 +96,6 @@ const main = async () => {
     },
   ]);
 
-  await seed.categoryItem([
-    { branch_id: 1, name: "علاج برد ", id: 1 },
-    { branch_id: 1, name: "كونجستال ", parent_category_id: 1, unit_id: 3 },
-    { branch_id: 1, name: "اوترفين ", parent_category_id: 1, unit_id: 2 },
-    { branch_id: 1, name: "منتجات  ", id: 5 },
-    { branch_id: 1, name: "سكر ", parent_category_id: 5, unit_id: 5 },
-    { branch_id: 1, name: "رز ", parent_category_id: 5, unit_id: 5 },
-  ]);
-
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
 
   console.log("Database seeded successfully!");

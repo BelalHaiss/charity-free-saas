@@ -61,8 +61,8 @@ model Benefit {
   beneficiaries_count Int @default(0)
 
   //  benefit is item not financial
-  category_item_id Int?
-  item_qty         Int?
+  item_id Int?
+  item    Item? @relation(fields: [item_id], references: [id])
 
   //  benefit is financial 
   financial_sponsorship_name      String?
@@ -117,14 +117,15 @@ model Visit {
   @@map("visit")
 }
 
-model CategoryItem {
-  id                 Int            @id @default(autoincrement())
-  name               String
-  unit_id            Int?
-  unit               Unit?          @relation(fields: [unit_id], references: [id])
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  Item Item[]
+
   parent_category_id Int?
-  parentCategory     CategoryItem?  @relation("CategoryItem", fields: [parent_category_id], references: [id])
-  items              CategoryItem[] @relation("CategoryItem")
+  parentCategory     Category?  @relation("CategoryHierarchy", fields: [parent_category_id], references: [id])
+  categories         Category[] @relation("CategoryHierarchy")
 
   branch_id Int
   branch    Branch @relation(fields: [branch_id], references: [id])
@@ -132,16 +133,33 @@ model CategoryItem {
   @@map("category_item")
 }
 
+model Item {
+  id   Int    @id @default(autoincrement())
+  name String
+  qty  Int
+
+  category_id Int
+  category    Category @relation(fields: [category_id], references: [id])
+  unit_id     Int?
+  unit        Unit?    @relation(fields: [unit_id], references: [id])
+  branch_id   Int
+  branch      Branch   @relation(fields: [branch_id], references: [id])
+
+  Benefit Benefit[]
+
+  @@map("item")
+}
+
 model Unit {
-  id              Int            @id @default(autoincrement())
+  id              Int           @id @default(autoincrement())
   category_label  String
-  label           String         @unique()
+  label           String        @unique()
   bg_unit_label   String
   bg_unit_abbr    String
   sm_unit_label   String
   sm_unit_abbr    String
   sm_to_bg_factor Int
-  category_items  CategoryItem[]
+  item            Item[]
   transactions    Transaction[]
   DonateItem      DonateItem[]
 
@@ -182,7 +200,8 @@ model Branch {
   Visit              Visit[]
   Donate             Donate[]
   Transaction        Transaction[]
-  CategoryItem       CategoryItem[]
+  CategoryItem       Category[]
+  Item               Item[]
 
   @@map("branch")
 }

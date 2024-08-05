@@ -59,15 +59,18 @@
   "details": "{label} details",
   "organization": "organization",
   "add": "add {label} ",
+  "select": "select {label} ",
   "beneficiary": "beneficiary",
   "code": "Code",
   "name": "{label} name",
   "type": "{label} type",
   "date": "{label} Date",
+  "item": "Item",
   "sponsorship": "sponsorship",
   "created_at": "Created At",
   "updated_at": "Updated At",
   "note": "Note",
   "notes": "Notes",
-  "identity_card": "Identity Card"
+  "identity_card": "Identity Card",
+  "category": "Category"
 }
