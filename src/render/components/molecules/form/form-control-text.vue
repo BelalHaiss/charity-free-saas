@@ -1,21 +1,15 @@
 <script setup lang="ts">
 import { FormFieldProps } from "@render/types/form.types";
 import { useField } from "vee-validate";
+import TextInput from "../text-input.vue";
 const { name, label } = defineProps<FormFieldProps>();
 const { value, errorMessage } = useField<string>(() => name);
 </script>
 <template>
-  <div>
-    <label :for="name">{{ label }}</label>
-    <InputText
-      :id="name"
-      v-model="value"
-      class="form-input"
-      :invalid="!!errorMessage"
-      :aria-describedby="name + `-help`"
-    />
-    <small v-if="errorMessage" :id="name + `-help`" class="text-red-500">{{
-      $t(errorMessage)
-    }}</small>
-  </div>
+  <TextInput
+    v-model="value"
+    :name="name"
+    :label="label"
+    :error-message="errorMessage"
+  />
 </template>

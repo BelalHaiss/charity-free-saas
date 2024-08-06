@@ -56,23 +56,30 @@ model Person {
   @@map("person")
 }
 
+model FinancialBenefit {
+  id Int @id @default(autoincrement())
+
+  name    String
+  amount  Decimal   @db.Decimal(10, 2)
+  unit_id Int
+  unit    MoneyUnit @relation(fields: [unit_id], references: [id])
+
+  benefit_id Int
+  benefit    Benefit @relation(fields: [benefit_id], references: [id])
+
+  @@map("financial_benefit")
+}
+
 model Benefit {
   id                  Int @id @default(autoincrement())
   beneficiaries_count Int @default(0)
 
-  //  benefit is item not financial
-  item_id Int?
-  item    Item? @relation(fields: [item_id], references: [id])
-
-  //  benefit is financial 
-  financial_sponsorship_name      String?
-  financial_sponsorship_value     Decimal?   @db.Decimal(10, 2)
-  financial_sponsorship_unit_id   Int?
-  financial_sponsorship_unit_size UNIT_SIZE?
-
+  type                 BenefitType
   visit_benefits       VisitBenefit[]
   beneficiary_benefits BeneficiaryBenefit[]
-  donate_items         DonateItem[]
+
+  FinancialBenefit FinancialBenefit[]
+  Item             Item[]
 
   @@map("benefit")
 }
@@ -140,27 +147,40 @@ model Item {
 
   category_id Int
   category    Category @relation(fields: [category_id], references: [id])
-  unit_id     Int?
-  unit        Unit?    @relation(fields: [unit_id], references: [id])
+  unit_id     Int
+  unit        Unit     @relation(fields: [unit_id], references: [id])
   branch_id   Int
   branch      Branch   @relation(fields: [branch_id], references: [id])
 
-  Benefit Benefit[]
+  benefit_id  Int
+  ItemBenifit Benefit @relation(fields: [benefit_id], references: [id])
 
   @@map("item")
 }
 
+model MoneyUnit {
+  id      Int    @id @default(autoincrement())
+  en_code String
+  en_name String
+
+  ar_code          String
+  ar_name          String
+  Transaction      Transaction[]
+  FinancialBenefit FinancialBenefit[]
+
+  @@map("money_unit")
+}
+
 model Unit {
-  id              Int           @id @default(autoincrement())
+  id              Int          @id @default(autoincrement())
   category_label  String
-  label           String        @unique()
+  label           String       @unique()
   bg_unit_label   String
   bg_unit_abbr    String
   sm_unit_label   String
   sm_unit_abbr    String
   sm_to_bg_factor Int
   item            Item[]
-  transactions    Transaction[]
   DonateItem      DonateItem[]
 
   @@map("unit")
@@ -237,10 +257,9 @@ model Donate {
 }
 
 model DonateItem {
-  id         Int     @id @default(autoincrement())
+  id         Int @id @default(autoincrement())
   unit_id    Int
   benefit_id Int
-  Benefit    Benefit @relation(fields: [benefit_id], references: [id])
 
   donate_id  Int
   Donate     Donate @relation(fields: [donate_id], references: [id])
@@ -259,7 +278,7 @@ model Transaction {
   label      String
   type       TransactionType
   desc       String?
-  Unit       Unit            @relation(fields: [unit_id], references: [id])
+  Unit       MoneyUnit       @relation(fields: [unit_id], references: [id])
 
   branch_id Int
   branch    Branch @relation(fields: [branch_id], references: [id])
@@ -320,4 +339,9 @@ enum PersonType {
   BENEFICIARY
   SPOUSE
   CHILD
+}
+
+enum BenefitType {
+  FINANCIAL
+  ITEM
 }

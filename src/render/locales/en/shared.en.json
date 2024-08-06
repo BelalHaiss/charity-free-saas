@@ -2,6 +2,7 @@
   "next": "next",
   "back": "back",
   "confirm": "confirm",
+  "save": "Save",
   "cancel": "cancel",
   "app_name": "Helping Hand",
   "account": "Account",
@@ -38,7 +39,7 @@
   },
   "form": {
     "empty_error": "This field is required ",
-    "add_item": "Add Item",
+    "add_item": "Add",
     "phone": "phone",
     "email": "email",
     "password": " Password",
@@ -72,5 +73,6 @@
   "note": "Note",
   "notes": "Notes",
   "identity_card": "Identity Card",
-  "category": "Category"
+  "category": "Category",
+  "unit": "Unit"
 }

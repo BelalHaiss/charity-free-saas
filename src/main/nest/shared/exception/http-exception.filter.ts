@@ -21,6 +21,7 @@ export class CustomHttpExceptionFilter implements ExceptionFilter {
       timestamp: Date.now(),
     };
     response.status(errorBdoy.statusCode).json(errorBdoy);
+    console.error({ errorBdoy });
   }
 }
 
@@ -29,6 +30,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
   catch(exception: CustomException, host: ArgumentsHost) {
     const response: Response = host.switchToHttp().getResponse();
     response.status(exception.statusCode).json(exception.getResponse());
+    console.error({ errorBdoy: exception.getResponse() });
   }
 }
 
@@ -46,6 +48,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
     });
 
     response.status(resBody.statusCode).json(resBody.getResponse());
+    console.error({ error: resBody.getResponse() });
   }
 }
 

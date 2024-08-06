@@ -12,20 +12,31 @@ import {
   convertTransactionGroupToArray,
 } from "@render/modules/transaction/util/transaction.util";
 import { computed, ref } from "vue";
+import { Locale } from "@render/config/i18n";
 
 const { expenses, incomes, notes } = defineProps<DayData>();
 
 const { storage } = useGlobalState();
+const { locale } = useI18n<object, Locale>();
 
-const units = computed(() => storage.value.units);
+const moneyUnits = computed(() => storage.value.moneyUnits);
 
 const moneyTotals = ref<MoneyTotalsBoxes>({
   incomes: [],
   expenses: [],
   net: [],
 });
-const totalExpenses = groupAndSumTransactions(expenses, units.value);
-const totalIncomes = groupAndSumTransactions(incomes, units.value);
+
+const totalExpenses = groupAndSumTransactions(
+  expenses,
+  moneyUnits.value,
+  locale.value,
+);
+const totalIncomes = groupAndSumTransactions(
+  incomes,
+  moneyUnits.value,
+  locale.value,
+);
 const net = getTransactionNet(totalIncomes, totalExpenses);
 
 moneyTotals.value = {

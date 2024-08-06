@@ -40,7 +40,8 @@ export default tseslint.config(
       'vue/no-useless-template-attributes': 0,
       'vue/attribute-hyphenation': 0,
       '@typescript-eslint/no-unused-vars': 0,
-      'vue/max-attributes-per-line': 0
+      'vue/max-attributes-per-line': 0,
+      'vue/multiline-html-element-content-newline': 0
     }
   }
 );

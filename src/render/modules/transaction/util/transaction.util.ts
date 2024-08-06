@@ -1,14 +1,16 @@
-import { Unit } from "@prisma/client";
+import { MoneyUnit, Unit } from "@prisma/client";
 import { Decimal } from "decimal.js/decimal";
 import {
   ClientTransaction,
   TransactionGroup,
   TransactionItem,
 } from "../types/transactions.types";
+import { Locale } from "@render/config/i18n";
 
 export function groupAndSumTransactions(
   transactions: ClientTransaction[],
-  units: Unit[],
+  units: MoneyUnit[],
+  locale: Locale,
 ): TransactionGroup {
   const groupedTransactions: TransactionGroup = {};
 
@@ -16,13 +18,13 @@ export function groupAndSumTransactions(
     const { amount, unit_id } = transaction;
 
     const unit = units.find((unit) => unit.id === unit_id)!;
-    const currency = unit.label;
-    const convertedAmount = new Decimal(amount).mul(unit.sm_to_bg_factor);
+    const currency = locale === "ar" ? unit.ar_code : unit.en_code;
+    const decimalAmount = new Decimal(amount);
     if (groupedTransactions[currency]) {
       groupedTransactions[currency] =
-        groupedTransactions[currency].add(convertedAmount);
+        groupedTransactions[currency].add(decimalAmount);
     } else {
-      groupedTransactions[currency] = convertedAmount;
+      groupedTransactions[currency] = decimalAmount;
     }
   });
 

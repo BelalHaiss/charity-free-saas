@@ -1,4 +1,4 @@
-import { TransactionType } from "@prisma/client";
+import { Prisma, TransactionType } from "@prisma/client";
 import { DateQueryString } from "../util.types";
 
 export type TransactionQueryByType = {
@@ -6,3 +6,5 @@ export type TransactionQueryByType = {
   date: DateQueryString;
   branchId: number;
 };
+
+export type NewTransaction = Prisma.TransactionUncheckedCreateInput;

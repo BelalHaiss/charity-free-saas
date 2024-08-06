@@ -17,7 +17,7 @@ const { options, placeholder, label, isLoading, handleNewItem } =
 const currentFilterValue = ref();
 </script>
 <template>
-  <div>
+  <div class="flex flex-col">
     <label for="select">{{ label }}</label>
     <Dropdown
       v-model="selectedValue"
@@ -30,7 +30,7 @@ const currentFilterValue = ref();
       class="max-w-[300px] form-input"
       :pt="{
         filterContainer: {
-          class: 'max-w-[300px] overflow-hidden',
+          class: 'max-w-[300px] overflow-hidden  [&>input]:m-0',
         },
       }"
       @filter="(ev) => (currentFilterValue = ev.value)"

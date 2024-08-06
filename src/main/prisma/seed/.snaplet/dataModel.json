@@ -1337,7 +1337,7 @@
           "name": "unit_id",
           "columnName": "unit_id",
           "type": "int",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,
@@ -1385,7 +1385,7 @@
         {
           "name": "unit",
           "type": "unit",
-          "isRequired": false,
+          "isRequired": true,
           "kind": "object",
           "relationName": "itemTounit",
           "relationFromFields": [
@@ -1418,6 +1418,95 @@
       "uniqueConstraints": [
         {
           "name": "charity.item.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "money_unit": {
+      "id": "charity.money_unit",
+      "schemaName": "charity",
+      "tableName": "money_unit",
+      "fields": [
+        {
+          "id": "charity.money_unit.ar_code",
+          "name": "ar_code",
+          "columnName": "ar_code",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 191
+        },
+        {
+          "id": "charity.money_unit.ar_name",
+          "name": "ar_name",
+          "columnName": "ar_name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 191
+        },
+        {
+          "id": "charity.money_unit.en_code",
+          "name": "en_code",
+          "columnName": "en_code",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 191
+        },
+        {
+          "id": "charity.money_unit.en_name",
+          "name": "en_name",
+          "columnName": "en_name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 191
+        },
+        {
+          "id": "charity.money_unit.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "charity.money_unit.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "charity.money_unit.id",
           "fields": [
             "id"
           ]

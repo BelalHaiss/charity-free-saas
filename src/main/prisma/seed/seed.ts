@@ -7,6 +7,7 @@
 import { fakerAR } from "@faker-js/faker";
 
 import { createSeedClient } from "@snaplet/seed";
+import { moneyUnits } from "./seed.util";
 
 const main = async () => {
   const seed = await createSeedClient({});
@@ -45,26 +46,6 @@ const main = async () => {
 
   await seed.unit([
     {
-      label: "ج-م",
-      bg_unit_abbr: "ج",
-      bg_unit_label: "جنية",
-      sm_to_bg_factor: 100,
-      sm_unit_abbr: "ق",
-      sm_unit_label: "قرش",
-      category_label: "قوالب مالية",
-      id: 1,
-    },
-    {
-      label: "د-ك",
-      bg_unit_abbr: "د",
-      bg_unit_label: "دينار",
-      sm_to_bg_factor: 1000,
-      sm_unit_abbr: "ف",
-      sm_unit_label: "فلس",
-      category_label: "قوالب مالية",
-      id: 2,
-    },
-    {
       label: "ع-3ش",
       bg_unit_abbr: "ع",
       bg_unit_label: "علبة",
@@ -95,6 +76,8 @@ const main = async () => {
       id: 5,
     },
   ]);
+
+  await seed.moneyUnit(moneyUnits);
 
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes
 

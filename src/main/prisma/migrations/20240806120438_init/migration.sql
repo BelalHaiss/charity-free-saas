@@ -36,8 +36,7 @@ CREATE TABLE `person` (
 CREATE TABLE `benefit` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `beneficiaries_count` INTEGER NOT NULL DEFAULT 0,
-    `category_item_id` INTEGER NULL,
-    `item_qty` INTEGER NULL,
+    `item_id` INTEGER NULL,
     `financial_sponsorship_name` VARCHAR(191) NULL,
     `financial_sponsorship_value` DECIMAL(10, 2) NULL,
     `financial_sponsorship_unit_id` INTEGER NULL,
@@ -82,9 +81,31 @@ CREATE TABLE `visit` (
 CREATE TABLE `category_item` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `unit_id` INTEGER NULL,
     `parent_category_id` INTEGER NULL,
     `branch_id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `item` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `qty` INTEGER NOT NULL,
+    `category_id` INTEGER NOT NULL,
+    `unit_id` INTEGER NOT NULL,
+    `branch_id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `money_unit` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `en_code` VARCHAR(191) NOT NULL,
+    `en_name` VARCHAR(191) NOT NULL,
+    `ar_code` VARCHAR(191) NOT NULL,
+    `ar_name` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -180,8 +201,9 @@ CREATE TABLE `transaction` (
     `created_by` VARCHAR(191) NOT NULL,
     `unit_id` INTEGER NOT NULL,
     `amount` DECIMAL(10, 2) NOT NULL,
+    `label` VARCHAR(191) NOT NULL,
     `type` ENUM('DONATE', 'EXPENSE') NOT NULL,
-    `desc` VARCHAR(191) NOT NULL,
+    `desc` VARCHAR(191) NULL,
     `branch_id` INTEGER NOT NULL,
     `donate_id` INTEGER NULL,
     `visit_benefit_id` INTEGER NULL,
@@ -223,6 +245,9 @@ ALTER TABLE `person` ADD CONSTRAINT `person_sponsorship_case_id_fkey` FOREIGN KE
 ALTER TABLE `person` ADD CONSTRAINT `person_beneficiary_id_fkey` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiary`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `benefit` ADD CONSTRAINT `benefit_item_id_fkey` FOREIGN KEY (`item_id`) REFERENCES `item`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `beneficiary_benefit` ADD CONSTRAINT `beneficiary_benefit_beneficiary_id_fkey` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiary`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -238,13 +263,19 @@ ALTER TABLE `visit_benefit` ADD CONSTRAINT `visit_benefit_benefit_id_fkey` FOREI
 ALTER TABLE `visit` ADD CONSTRAINT `visit_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `category_item` ADD CONSTRAINT `category_item_unit_id_fkey` FOREIGN KEY (`unit_id`) REFERENCES `unit`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `category_item` ADD CONSTRAINT `category_item_parent_category_id_fkey` FOREIGN KEY (`parent_category_id`) REFERENCES `category_item`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `category_item` ADD CONSTRAINT `category_item_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `item` ADD CONSTRAINT `item_category_id_fkey` FOREIGN KEY (`category_id`) REFERENCES `category_item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `item` ADD CONSTRAINT `item_unit_id_fkey` FOREIGN KEY (`unit_id`) REFERENCES `unit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `item` ADD CONSTRAINT `item_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `sponsorship_case` ADD CONSTRAINT `sponsorship_case_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

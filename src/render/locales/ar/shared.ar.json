@@ -30,12 +30,13 @@
 
   "toast": {
     "success": "تم الحفظ بنجاح",
-    "failed": "حدث خطاء"
+    "failed": "حدث خطاء",
+    "invalid_data": "Invalid Data"
   },
 
   "form": {
     "empty_error": "هذا الحقل مطلوب ",
-    "add_item": "اضف قيمة",
+    "add_item": "اضف",
     "phone": " رقم الهاتف",
     "password": " كلمة المرور",
     "email": "البريد الالكتروني",

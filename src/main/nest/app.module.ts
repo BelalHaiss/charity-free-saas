@@ -8,6 +8,9 @@ import { UnitModule } from "./modules/unit/unit.module";
 import { TransactionModule } from "./modules/transaction/transaction.module";
 import { DonateModule } from "./modules/donate/donate.module";
 import { NoteModule } from "./modules/note/note.module";
+import { CategoryModule } from "./modules/category/category.module";
+import { ItemModule } from "./modules/item/item.module";
+import { MoneyUnitModule } from "./modules/money_unit/money_unit.module";
 
 @Module({
   imports: [
@@ -20,6 +23,9 @@ import { NoteModule } from "./modules/note/note.module";
     TransactionModule,
     DonateModule,
     NoteModule,
+    CategoryModule,
+    ItemModule,
+    MoneyUnitModule,
   ],
 })
 export class AppModule {}

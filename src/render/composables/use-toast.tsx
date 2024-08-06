@@ -17,6 +17,13 @@ export const useToast = () => {
       life: 400
     });
   };
+  const invalidDataToast = () => {
+    toast.add({
+      summary: t('shared.toast.invalid_data'),
+      severity: 'error',
+      life: 400
+    });
+  };
 
-  return { successToast, failedToast };
+  return { successToast, failedToast, invalidDataToast };
 };

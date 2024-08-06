@@ -1,4 +1,4 @@
-import { User, Unit } from "@prisma/client";
+import { User, Unit, MoneyUnit } from "@prisma/client";
 import { NullableKeys } from "@render/types/util.types";
 import { OrganizationAppModel } from "@shared/types/organization/organization.dto";
 import { createGlobalState, useStorage } from "@vueuse/core";
@@ -7,16 +7,21 @@ type StateValues = {
   organization: OrganizationAppModel;
   user: User;
   units: Unit[];
+  moneyUnits: MoneyUnit[];
   branchId: number;
 };
 
 export const useGlobalState = createGlobalState(() => {
   // state
-  const initialState: NullableKeys<StateValues, "branchId" | "units"> = {
+  const initialState: NullableKeys<
+    StateValues,
+    "branchId" | "units" | "moneyUnits"
+  > = {
     user: null,
     organization: null,
     units: [],
-    branchId: 0,
+    branchId: 1,
+    moneyUnits: [],
   };
 
   const storage = useStorage("app-store", initialState);
@@ -27,6 +32,7 @@ export const useGlobalState = createGlobalState(() => {
       (storage.value.organization = { ...org }),
     setUser: (userData: User) => (storage.value.user = { ...userData }),
     setUnits: (units: Unit[]) => (storage.value.units = units),
+    setMoneyUnits: (units: MoneyUnit[]) => (storage.value.moneyUnits = units),
     setBranchId: (branchId: number) => (storage.value.branchId = branchId),
   };
 
@@ -36,7 +42,7 @@ export const useGlobalState = createGlobalState(() => {
         (val) => val.id === id,
       ),
     getUnitById: (unitId: number) =>
-      storage.value.units?.find((unit) => unit.id === unitId),
+      storage.value.units.find((unit) => unit.id === unitId),
   };
 
   return { actions, storage, getters };

@@ -14,13 +14,16 @@ export type ApiPaths =
   | "unit"
   | "transaction"
   | "donate"
-  | "note";
+  | "note"
+  | "item"
+  | "category"
+  | "money_unit";
 
 export type FetcherArgs = {
   url: ApiPaths | `${ApiPaths}/${string}`;
   config?: AxiosRequestConfig;
 };
-export const fetcher = async <T extends object>({
+export const fetcher = async <T extends object = never>({
   url,
   config,
 }: FetcherArgs): Promise<T> => {
