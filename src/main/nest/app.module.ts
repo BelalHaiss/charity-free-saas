@@ -9,8 +9,7 @@ import { TransactionModule } from "./modules/transaction/transaction.module";
 import { DonateModule } from "./modules/donate/donate.module";
 import { NoteModule } from "./modules/note/note.module";
 import { CategoryModule } from "./modules/category/category.module";
-import { ItemModule } from "./modules/item/item.module";
-import { MoneyUnitModule } from "./modules/money_unit/money_unit.module";
+import { BenefitModule } from "./modules/benefit/benefit.module";
 
 @Module({
   imports: [
@@ -24,8 +23,7 @@ import { MoneyUnitModule } from "./modules/money_unit/money_unit.module";
     DonateModule,
     NoteModule,
     CategoryModule,
-    ItemModule,
-    MoneyUnitModule,
+    BenefitModule,
   ],
 })
 export class AppModule {}

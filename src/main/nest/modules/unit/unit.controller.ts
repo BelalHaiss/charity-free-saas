@@ -25,9 +25,9 @@ export class UnitController {
     return this.unitService.findAll();
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.unitService.findOne(+id);
+  @Get("/money")
+  findAllMoneyUnits() {
+    return this.unitService.findAllMoneyUnits();
   }
 
   @Patch(":id")

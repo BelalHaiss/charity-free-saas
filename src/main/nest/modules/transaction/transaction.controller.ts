@@ -22,6 +22,11 @@ export class TransactionController {
     return this.transactionService.create(createTransactionDto);
   }
 
+  @Get("expenses/name/:branch_id")
+  getExpensesName(@Param("branch_id") branch_id: string) {
+    return this.transactionService.getExpensesName(+branch_id);
+  }
+
   @Get()
   findTransactionByType(
     @Query() query: CastQueryFieldsToStrings<TransactionQueryByType>,

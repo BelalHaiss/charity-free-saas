@@ -13,6 +13,12 @@ export class TransactionService {
     return "This action adds a new transaction";
   }
 
+  getExpensesName(branch_id: number) {
+    return this.prismaService.$queryRaw<
+      { label: string }[]
+    >`SELECT DISTINCT label  FROM transactions WHERE type = 'EXPENSE' AND branch_id=${branch_id}  LIMIT 100 `;
+  }
+
   findByType(query: CastQueryFieldsToStrings<TransactionQueryByType>) {
     return this.prismaService.transaction.findMany({
       where: {

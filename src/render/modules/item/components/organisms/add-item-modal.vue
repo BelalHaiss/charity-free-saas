@@ -42,7 +42,7 @@ const createItem = async () => {
     await itemRepository.createItem(newItemData.value);
     isSubmiting.value = true;
     successToast();
-    await sleep(500);
+    await sleep(1000);
     isVisible.value = false;
   } catch (error) {
     console.error({ error });

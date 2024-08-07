@@ -3,7 +3,10 @@ import { CreateNewItem } from "@shared/types/item/item.dto";
 
 class ItemRepository {
   createItem(newItem: CreateNewItem) {
-    return fetcher({ url: "item", config: { method: "POST", data: newItem } });
+    return fetcher({
+      url: `benefit/item`,
+      config: { method: "POST", data: newItem },
+    });
   }
 }
 

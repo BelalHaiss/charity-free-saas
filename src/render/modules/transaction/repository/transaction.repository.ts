@@ -14,6 +14,12 @@ class TransactionRepository implements TransactionRepositoryI {
       url: `transaction/?${queryString}`,
     });
   }
+
+  getExpensesName(branchId: number) {
+    return fetcher<{ label: string }[]>({
+      url: `transaction/expenses/name/${branchId}`,
+    });
+  }
 }
 
 export const transactionRepository = new TransactionRepository();

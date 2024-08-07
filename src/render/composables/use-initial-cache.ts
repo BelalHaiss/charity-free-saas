@@ -13,7 +13,7 @@ export const useInitialCacheHandler = (setCachedFetchedDone: () => void) => {
   });
 
   const { data: moneyUnits } = useQueryTyped({
-    queryKey: ["money_unit"],
+    queryKey: ["unit", ["money"]],
     queryFn: () => moneyUnitRepository.getAllUnits(),
   });
 

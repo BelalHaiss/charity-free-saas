@@ -1,23 +1,24 @@
 import { User, Unit, MoneyUnit } from "@prisma/client";
 import { NullableKeys } from "@render/types/util.types";
+import { devUser } from "@render/utils/dev.util";
 import { OrganizationAppModel } from "@shared/types/organization/organization.dto";
+import { CurrentUser } from "@shared/types/user/user.dto";
 import { createGlobalState, useStorage } from "@vueuse/core";
 
 type StateValues = {
   organization: OrganizationAppModel;
-  user: User;
+  user: CurrentUser;
   units: Unit[];
   moneyUnits: MoneyUnit[];
   branchId: number;
 };
 
 export const useGlobalState = createGlobalState(() => {
-  // state
   const initialState: NullableKeys<
     StateValues,
-    "branchId" | "units" | "moneyUnits"
+    "branchId" | "units" | "moneyUnits" | "user"
   > = {
-    user: null,
+    user: devUser,
     organization: null,
     units: [],
     branchId: 1,

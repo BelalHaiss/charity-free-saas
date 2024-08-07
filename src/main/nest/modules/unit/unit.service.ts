@@ -14,8 +14,8 @@ export class UnitService {
     return this.prismaService.unit.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} unit`;
+  findAllMoneyUnits() {
+    return this.prismaService.moneyUnit.findMany({});
   }
 
   update(id: number, updateUnitDto: UpdateUnitDto) {

@@ -15,9 +15,8 @@ export type ApiPaths =
   | "transaction"
   | "donate"
   | "note"
-  | "item"
-  | "category"
-  | "money_unit";
+  | "benefit"
+  | "category";
 
 export type FetcherArgs = {
   url: ApiPaths | `${ApiPaths}/${string}`;

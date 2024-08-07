@@ -7,21 +7,21 @@ export const useToast = () => {
     toast.add({
       summary: t('shared.toast.success'),
       severity: 'success',
-      life: 400
+      life: 700
     });
   const failedToast = () => {
     console.log('failed toast will fire');
     toast.add({
       summary: t('shared.toast.failed'),
       severity: 'error',
-      life: 400
+      life: 700
     });
   };
   const invalidDataToast = () => {
     toast.add({
       summary: t('shared.toast.invalid_data'),
       severity: 'error',
-      life: 400
+      life: 700
     });
   };
 
