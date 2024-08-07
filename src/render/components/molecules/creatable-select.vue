@@ -4,7 +4,7 @@ import { ref } from "vue";
 
 type Props = {
   options: SelectOptions[];
-  placeholder: string;
+  placeholder?: string;
   label: string;
   isLoading: boolean;
   handleNewItem(newVal: string): void;

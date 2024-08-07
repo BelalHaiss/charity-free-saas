@@ -74,5 +74,6 @@
   "notes": "Notes",
   "identity_card": "Identity Card",
   "category": "Category",
-  "unit": "Unit"
+  "unit": "Unit",
+  "expense": "Expense"
 }

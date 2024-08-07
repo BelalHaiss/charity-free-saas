@@ -9,17 +9,19 @@ import {
   Query,
 } from "@nestjs/common";
 import { TransactionService } from "./transaction.service";
-import { CreateTransactionDto } from "./dto/create-transaction.dto";
 import { UpdateTransactionDto } from "./dto/update-transaction.dto";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
-import type { TransactionQueryByType } from "@shared/types/transaction/transaction.dto";
+import type {
+  NewTransaction,
+  TransactionQueryByType,
+} from "@shared/types/transaction/transaction.dto";
 
 @Controller("transaction")
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
   @Post()
-  create(@Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionService.create(createTransactionDto);
+  create(@Body() newTransaction: NewTransaction) {
+    return this.transactionService.create(newTransaction);
   }
 
   @Get("expenses/name/:branch_id")

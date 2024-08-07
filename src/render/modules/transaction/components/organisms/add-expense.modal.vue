@@ -6,15 +6,16 @@ import { SelectOptions } from "@render/types/form.types";
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "@render/composables/use-toast";
-import TextInput from "@render/components/molecules/text-input.vue";
-import { sleep } from "@render/utils/dev.util";
 import { NewTransaction } from "@shared/types/transaction/transaction.dto";
+import MoneyInput from "../atoms/money-input.vue";
+import { MoneyUnit } from "@prisma/client";
+import ExpenseNameInput from "../atoms/expense-name-input.vue";
+import { newExpenseSchema } from "../../util/transaction.schema";
+import { transactionRepository } from "../../repository/transaction.repository";
 const isVisible = ref(true);
 const { t } = useI18n();
-const { storage } = useGlobalState();
-const unitValue = ref<SelectOptions<number>>();
-const itemName = ref("");
-const newItemData = ref<NewTransaction>({
+const { storage, getters } = useGlobalState();
+const newExpenseItem = ref<NewTransaction>({
   branch_id: storage.value.branchId,
   amount: 0,
   created_by: storage.value.user.username,
@@ -23,12 +24,37 @@ const newItemData = ref<NewTransaction>({
   label: "",
 });
 
-// watch([itemName, unitValue], (newVal) => {
-//   newItemData.value.name = newVal[1];
-//   newItemData.value.unit_id = newVal[2]?.value ?? 0;
-// });
+const expenseNameValue = ref<SelectOptions<string>>();
+const moneyUnit = ref<MoneyUnit>(getters.getMoneyUnitByEnCode("EGP")!);
+const amount = ref(0);
+
+watch([expenseNameValue, moneyUnit, amount], (newVal) => {
+  newExpenseItem.value.label = newVal[0]?.value ?? "";
+  newExpenseItem.value.unit_id = newVal[1]?.id ?? 0;
+  newExpenseItem.value.amount = newVal[2] ?? 0;
+});
+
 const { invalidDataToast, failedToast, successToast } = useToast();
 const isSubmiting = ref(false);
+
+const saveNewItem = async () => {
+  const { error } = newExpenseSchema.safeParse(newExpenseItem.value);
+  if (error) {
+    invalidDataToast();
+    return;
+  }
+  try {
+    await transactionRepository.createTransaction(newExpenseItem.value);
+    isSubmiting.value = true;
+    successToast();
+    isVisible.value = false;
+  } catch (error) {
+    console.error({ error });
+    failedToast();
+  } finally {
+    isSubmiting.value = true;
+  }
+};
 </script>
 <template>
   <Dialog
@@ -38,11 +64,8 @@ const isSubmiting = ref(false);
     :header="t('shared.add', { label: t('shared.item') })"
   >
     <div class="flex flex-col flex-center gap-3">
-      <TextInput
-        v-model="itemName"
-        :label="t('shared.name', { label: t('shared.item') })"
-        name="item_name"
-      />
+      <ExpenseNameInput v-model="expenseNameValue" class="w-[300px]" />
+      <MoneyInput v-model:value="amount" v-model:unit="moneyUnit" />
       <div class="flex mt-4 self-end gap-2">
         <Button
           type="button"
@@ -52,7 +75,7 @@ const isSubmiting = ref(false);
         >
           {{ t("shared.cancel") }}
         </Button>
-        <Button :loading="isSubmiting" type="button">
+        <Button :loading="isSubmiting" type="button" @click="saveNewItem">
           {{ t("shared.save") }}
         </Button>
       </div>

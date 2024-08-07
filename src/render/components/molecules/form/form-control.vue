@@ -7,6 +7,7 @@ import FormControlDate from "./form-control-date.vue";
 import FormControlNumber from "./form-control-number.vue";
 import FormControlPassword from "./form-control-password.vue";
 import FormControlCheckbox from "./form-control-checkbox.vue";
+
 const props = defineProps<FormField<string>>();
 
 const activeComponent: Record<FormFieldType, Component> = {
@@ -18,6 +19,7 @@ const activeComponent: Record<FormFieldType, Component> = {
   checkbox: FormControlCheckbox,
 };
 </script>
+
 <template>
   <component
     v-bind="props"

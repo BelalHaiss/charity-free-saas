@@ -10,7 +10,6 @@ import { newItemSchema } from "../../util/item.schema";
 import { useToast } from "@render/composables/use-toast";
 import TextInput from "@render/components/molecules/text-input.vue";
 import { itemRepository } from "../../repository/item.repository";
-import { sleep } from "@render/utils/dev.util";
 const isVisible = ref(true);
 const { t } = useI18n();
 const { storage } = useGlobalState();
@@ -42,7 +41,6 @@ const createItem = async () => {
     await itemRepository.createItem(newItemData.value);
     isSubmiting.value = true;
     successToast();
-    await sleep(1000);
     isVisible.value = false;
   } catch (error) {
     console.error({ error });

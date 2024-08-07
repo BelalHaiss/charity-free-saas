@@ -1,7 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { CreateTransactionDto } from "./dto/create-transaction.dto";
 import { UpdateTransactionDto } from "./dto/update-transaction.dto";
-import type { TransactionQueryByType } from "@shared/types/transaction/transaction.dto";
+import type {
+  NewTransaction,
+  TransactionQueryByType,
+} from "@shared/types/transaction/transaction.dto";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import { endOfTheDay, startOfTheDay } from "@main/nest/shared/utils/date.util";
@@ -9,14 +11,15 @@ import { endOfTheDay, startOfTheDay } from "@main/nest/shared/utils/date.util";
 @Injectable()
 export class TransactionService {
   constructor(private prismaService: PrismaService) {}
-  create(createTransactionDto: CreateTransactionDto) {
-    return "This action adds a new transaction";
+  create(newTransaction: NewTransaction) {
+    return this.prismaService.transaction.create({ data: newTransaction });
   }
 
-  getExpensesName(branch_id: number) {
-    return this.prismaService.$queryRaw<
+  async getExpensesName(branch_id: number) {
+    const res = await this.prismaService.$queryRaw<
       { label: string }[]
-    >`SELECT DISTINCT label  FROM transactions WHERE type = 'EXPENSE' AND branch_id=${branch_id}  LIMIT 100 `;
+    >`SELECT DISTINCT label  FROM transaction WHERE type = 'EXPENSE' AND branch_id=${branch_id}  LIMIT 100 `;
+    return res.map((item) => item.label);
   }
 
   findByType(query: CastQueryFieldsToStrings<TransactionQueryByType>) {
