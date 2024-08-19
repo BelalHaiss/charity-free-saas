@@ -16,8 +16,5 @@ const { value, errorMessage } = useField<string>(() => name);
       :feedback="false"
       toggle-mask
     />
-    <small v-if="errorMessage" :id="name + `-help`" class="text-red-500">{{
-      $t(errorMessage)
-    }}</small>
   </div>
 </template>

@@ -1,4 +1,8 @@
 import { User, Unit, MoneyUnit } from "@prisma/client";
+import {
+  GroupedUnits,
+  UnitCategoryOptions,
+} from "@render/modules/unit/types/unit.type";
 import { NullableKeys } from "@render/types/util.types";
 import { devUser } from "@render/utils/dev.util";
 import { OrganizationAppModel } from "@shared/types/organization/organization.dto";
@@ -46,6 +50,23 @@ export const useGlobalState = createGlobalState(() => {
       storage.value.units.find((unit) => unit.id === unitId),
     getMoneyUnitByEnCode: (enCode: string) =>
       storage.value.moneyUnits.find((unit) => unit.en_code === enCode),
+    getCurrentUser: (): CurrentUser => storage.value.user,
+    getBranchId: (): number => storage.value.branchId,
+    getGroupedUnits: (): GroupedUnits[] => {
+      const units = storage.value.units;
+      const groupedUnits: GroupedUnits[] = [];
+      units.forEach((unit) => {
+        const isCategoryInArray = groupedUnits.find(
+          (groupedUnit) => groupedUnit.category === unit.category_label,
+        );
+        if (isCategoryInArray) {
+          isCategoryInArray.units.push(unit);
+        } else {
+          groupedUnits.push({ category: unit.category_label, units: [unit] });
+        }
+      });
+      return groupedUnits;
+    },
   };
 
   return { actions, storage, getters };

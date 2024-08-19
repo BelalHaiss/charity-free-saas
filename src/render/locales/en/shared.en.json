@@ -63,10 +63,12 @@
   "select": "select {label} ",
   "beneficiary": "beneficiary",
   "code": "Code",
+  "search": "search by {label}",
   "name": "{label} name",
   "type": "{label} type",
   "date": "{label} Date",
   "item": "Item",
+  "value": "Value",
   "sponsorship": "sponsorship",
   "created_at": "Created At",
   "updated_at": "Updated At",
@@ -75,5 +77,10 @@
   "identity_card": "Identity Card",
   "category": "Category",
   "unit": "Unit",
-  "expense": "Expense"
+  "expense": "Expense",
+  "donate": "Donate",
+  "donor": "Donor",
+  "monetary-donation": "Monetary donation",
+  "products-donation": "Donation of products",
+  "no-results-found": "No results found"
 }

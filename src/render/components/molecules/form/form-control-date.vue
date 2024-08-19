@@ -11,14 +11,10 @@ const { value, errorMessage } = useField<Date>(() => props.name);
     <Calendar
       v-model="value"
       input-class="form-input"
+      dateFormat="dd/mm/yy"
       :input-id="props.name"
       :invalid="!!errorMessage"
       :aria-describedby="name + `-help`"
     />
-    <small
-      v-if="errorMessage"
-      :id="name + `-help`"
-      class="text-red-500 block"
-    >{{ $t(errorMessage) }}</small>
   </div>
 </template>

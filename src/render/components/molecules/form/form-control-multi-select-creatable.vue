@@ -83,9 +83,6 @@ watch(value, () => console.log({ value }));
         </Button>
       </template>
     </MultiSelect>
-    <small v-if="errorMessage" :id="name + `-help`" class="text-red-500">{{
-      $t(errorMessage)
-    }}</small>
   </div>
 </template>
 import { T } from 'node_modules/unplugin-vue-router/dist/options-yBvUhD_i.mjs';

@@ -2,7 +2,7 @@
 import { FormFieldProps } from "@render/types/form.types";
 import { useField } from "vee-validate";
 const { name, label } = defineProps<FormFieldProps>();
-const { value, errorMessage } = useField<string>(() => name);
+const { value, errorMessage } = useField<number>(() => name);
 </script>
 <template>
   <div>
@@ -15,8 +15,5 @@ const { value, errorMessage } = useField<string>(() => name);
       :invalid="!!errorMessage"
       :aria-describedby="name + `-help`"
     />
-    <small v-if="errorMessage" :id="name + `-help`" class="text-red-500">{{
-      $t(errorMessage)
-    }}</small>
   </div>
 </template>

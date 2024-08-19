@@ -77,6 +77,64 @@ const main = async () => {
     },
   ]);
 
+  await seed.category([
+    {
+      id: 1,
+      name: "ادوية",
+      Item: [
+        {
+          name: " دواء صداع",
+          unit_id: 3,
+          branch_id: 1,
+          benefit: { type: "ITEM" },
+        },
+        {
+          name: " دواء ضغط",
+          unit_id: 3,
+          branch_id: 1,
+          benefit: { type: "ITEM" },
+        },
+        {
+          name: " دواء برد",
+          unit_id: 3,
+          branch_id: 1,
+          benefit: { type: "ITEM" },
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: "سلع ",
+      Item: [
+        {
+          name: " سكر",
+          unit_id: 5,
+          branch_id: 1,
+          benefit: { type: "ITEM" },
+        },
+        {
+          name: " شاي",
+          unit_id: 3,
+          branch_id: 1,
+          benefit: { type: "ITEM" },
+        },
+        {
+          name: " دقيق",
+          unit_id: 3,
+          branch_id: 1,
+          benefit: { type: "ITEM" },
+        },
+        {
+          name: " رز",
+          unit_id: 3,
+          branch_id: 1,
+          benefit: { type: "ITEM" },
+        },
+      ],
+    },
+  ]);
+  // seed category
+
   await seed.moneyUnit(moneyUnits);
 
   // Type completion not working? You might want to reload your TypeScript Server to pick up the changes

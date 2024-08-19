@@ -17,10 +17,5 @@ const { value, errorMessage } = useField<boolean>(() => props.name);
       :binary="true"
       :aria-describedby="name + `-help`"
     />
-    <small
-      v-if="errorMessage"
-      :id="name + `-help`"
-      class="text-red-500 block"
-    >{{ $t(errorMessage) }}</small>
   </div>
 </template>

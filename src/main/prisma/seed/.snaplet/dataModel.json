@@ -669,11 +669,11 @@
           "hasDefaultValue": false
         },
         {
-          "name": "category_item",
-          "type": "category_item",
+          "name": "category",
+          "type": "category",
           "isRequired": false,
           "kind": "object",
-          "relationName": "category_itemTobranch",
+          "relationName": "categoryTobranch",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -762,13 +762,13 @@
         }
       ]
     },
-    "category_item": {
-      "id": "charity.category_item",
+    "category": {
+      "id": "charity.category",
       "schemaName": "charity",
-      "tableName": "category_item",
+      "tableName": "category",
       "fields": [
         {
-          "id": "charity.category_item.branch_id",
+          "id": "charity.category.branch_id",
           "name": "branch_id",
           "columnName": "branch_id",
           "type": "int",
@@ -782,7 +782,7 @@
           "maxLength": null
         },
         {
-          "id": "charity.category_item.id",
+          "id": "charity.category.id",
           "name": "id",
           "columnName": "id",
           "type": "int",
@@ -791,7 +791,7 @@
           "isList": false,
           "isGenerated": false,
           "sequence": {
-            "identifier": "charity.category_item.id",
+            "identifier": "charity.category.id",
             "increment": 1,
             "start": 1
           },
@@ -800,7 +800,7 @@
           "maxLength": null
         },
         {
-          "id": "charity.category_item.name",
+          "id": "charity.category.name",
           "name": "name",
           "columnName": "name",
           "type": "varchar",
@@ -814,7 +814,7 @@
           "maxLength": 191
         },
         {
-          "id": "charity.category_item.parent_category_id",
+          "id": "charity.category.parent_category_id",
           "name": "parent_category_id",
           "columnName": "parent_category_id",
           "type": "int",
@@ -832,7 +832,7 @@
           "type": "branch",
           "isRequired": true,
           "kind": "object",
-          "relationName": "category_itemTobranch",
+          "relationName": "categoryTobranch",
           "relationFromFields": [
             "branch_id"
           ],
@@ -846,11 +846,11 @@
           "hasDefaultValue": false
         },
         {
-          "name": "category_item",
-          "type": "category_item",
+          "name": "category",
+          "type": "category",
           "isRequired": false,
           "kind": "object",
-          "relationName": "category_itemTocategory_item",
+          "relationName": "categoryTocategory",
           "relationFromFields": [
             "parent_category_id"
           ],
@@ -864,11 +864,11 @@
           "hasDefaultValue": false
         },
         {
-          "name": "category_item",
-          "type": "category_item",
+          "name": "category",
+          "type": "category",
           "isRequired": false,
           "kind": "object",
-          "relationName": "category_itemTocategory_item",
+          "relationName": "categoryTocategory",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -882,7 +882,7 @@
           "type": "item",
           "isRequired": false,
           "kind": "object",
-          "relationName": "itemTocategory_item",
+          "relationName": "itemTocategory",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -894,7 +894,7 @@
       ],
       "uniqueConstraints": [
         {
-          "name": "charity.category_item.id",
+          "name": "charity.category.id",
           "fields": [
             "id"
           ]
@@ -1056,20 +1056,6 @@
       "tableName": "donate_item",
       "fields": [
         {
-          "id": "charity.donate_item.benefit_id",
-          "name": "benefit_id",
-          "columnName": "benefit_id",
-          "type": "int",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
           "id": "charity.donate_item.donate_id",
           "name": "donate_id",
           "columnName": "donate_id",
@@ -1102,9 +1088,9 @@
           "maxLength": null
         },
         {
-          "id": "charity.donate_item.unit_id",
-          "name": "unit_id",
-          "columnName": "unit_id",
+          "id": "charity.donate_item.item_id",
+          "name": "item_id",
+          "columnName": "item_id",
           "type": "int",
           "isRequired": true,
           "kind": "scalar",
@@ -1148,13 +1134,13 @@
           "hasDefaultValue": false
         },
         {
-          "name": "unit",
-          "type": "unit",
+          "name": "item",
+          "type": "item",
           "isRequired": true,
           "kind": "object",
-          "relationName": "donate_itemTounit",
+          "relationName": "donate_itemToitem",
           "relationFromFields": [
-            "unit_id"
+            "item_id"
           ],
           "relationToFields": [
             "id"
@@ -1450,11 +1436,11 @@
           "hasDefaultValue": false
         },
         {
-          "name": "category_item",
-          "type": "category_item",
+          "name": "category",
+          "type": "category",
           "isRequired": true,
           "kind": "object",
-          "relationName": "itemTocategory_item",
+          "relationName": "itemTocategory",
           "relationFromFields": [
             "category_id"
           ],
@@ -1480,6 +1466,20 @@
             "id"
           ],
           "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "donate_item",
+          "type": "donate_item",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "donate_itemToitem",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
           "isId": false,
           "isGenerated": false,
           "sequence": false,
@@ -2630,20 +2630,6 @@
           "hasDefaultValue": false,
           "isId": false,
           "maxLength": 191
-        },
-        {
-          "name": "donate_item",
-          "type": "donate_item",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "donate_itemTounit",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
         },
         {
           "name": "item",

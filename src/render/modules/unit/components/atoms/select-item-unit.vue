@@ -2,7 +2,7 @@
 import SelectInput from "@render/components/molecules/select-input.vue";
 import { useGlobalState } from "@render/composables/use-global-state";
 import { SelectOptions } from "@render/types/form.types";
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();

@@ -46,7 +46,7 @@ const isSetupPage = computed(() => route.fullPath === "/setup");
   <main
     v-if="isInitializing"
     class="w-full h-full p-1 flex-1"
-    :class="!isSetupPage ? 'page-container ms-[85px]' : ''"
+    :class="!isSetupPage ? 'page-container ms-[85px] ' : ''"
   >
     <RouterView />
   </main>

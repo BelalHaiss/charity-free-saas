@@ -1,6 +1,6 @@
 import { unitRepository } from "@render/modules/unit/repository/unit.repository";
 import { useQueryTyped } from "./use-query-typed";
-import { watchEffect } from "vue";
+import { ref, watchEffect } from "vue";
 import { useGlobalState } from "./use-global-state";
 import { moneyUnitRepository } from "@render/modules/unit/repository/money-unit.repository";
 

@@ -1,5 +1,6 @@
 import { Donate, Note } from "@prisma/client";
 import { useGlobalState } from "@render/composables/use-global-state";
+import { useQueryTyped } from "@render/composables/use-query-typed";
 import { useToast } from "@render/composables/use-toast";
 import { donateRepository } from "@render/modules/donate/repository/donate.repository";
 import { noteRepository } from "@render/modules/note/repository/note.repository";
@@ -28,6 +29,10 @@ export const useHomeSummary = () => {
   });
   const units = computed(() => storage.value.units);
 
+  const { data } = useQueryTyped<never[]>({
+    queryKey: ["transaction", [selectedDate, storage]],
+    queryFn: () => fetchDataByDate(),
+  });
   const fetchDataByDate = async () => {
     isLoading.value = true;
     try {
@@ -53,15 +58,19 @@ export const useHomeSummary = () => {
         expenses,
         incomes,
       };
+      return [];
     } catch (e) {
       console.error(e);
       failedToast();
+      return [];
     } finally {
       isLoading.value = false;
     }
   };
 
-  watch(selectedDate, fetchDataByDate, { immediate: true });
+  watch([selectedDate, () => storage.value.branchId], fetchDataByDate, {
+    immediate: true,
+  });
 
   return { dayData, isLoading, selectedDate };
 };

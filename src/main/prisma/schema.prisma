@@ -71,13 +71,13 @@ model FinancialBenefit {
 }
 
 model Benefit {
-  id                  Int @id @default(autoincrement())
-  beneficiaries_count Int @default(0)
+  id                  Int         @id @default(autoincrement())
+  beneficiaries_count Int         @default(0)
+  type                BenefitType
 
   FinancialBenefit FinancialBenefit?
   Item             Item?
 
-  type                 BenefitType
   visit_benefits       VisitBenefit[]
   beneficiary_benefits BeneficiaryBenefit[]
 
@@ -137,7 +137,7 @@ model Category {
   branch_id Int
   branch    Branch @relation(fields: [branch_id], references: [id])
 
-  @@map("category_item")
+  @@map("category")
 }
 
 model Item {
@@ -152,8 +152,9 @@ model Item {
   branch_id   Int
   branch      Branch   @relation(fields: [branch_id], references: [id])
 
-  benefit_id  Int     @unique()
-  ItemBenifit Benefit @relation(fields: [benefit_id], references: [id])
+  benefit_id  Int          @unique()
+  ItemBenifit Benefit      @relation(fields: [benefit_id], references: [id])
+  DonateItem  DonateItem[]
 
   @@map("item")
 }
@@ -172,16 +173,15 @@ model MoneyUnit {
 }
 
 model Unit {
-  id              Int          @id @default(autoincrement())
+  id              Int    @id @default(autoincrement())
   category_label  String
-  label           String       @unique()
+  label           String @unique()
   bg_unit_label   String
   bg_unit_abbr    String
   sm_unit_label   String
   sm_unit_abbr    String
   sm_to_bg_factor Int
   item            Item[]
-  DonateItem      DonateItem[]
 
   @@map("unit")
 }
@@ -257,14 +257,13 @@ model Donate {
 }
 
 model DonateItem {
-  id         Int @id @default(autoincrement())
-  unit_id    Int
-  benefit_id Int
-
+  id         Int    @id @default(autoincrement())
+  item_id    Int
   donate_id  Int
-  Donate     Donate @relation(fields: [donate_id], references: [id])
   unit_value Int
-  Unit       Unit   @relation(fields: [unit_id], references: [id])
+  Donate     Donate @relation(fields: [donate_id], references: [id])
+
+  Item Item @relation(fields: [item_id], references: [id])
 
   @@map("donate_item")
 }
