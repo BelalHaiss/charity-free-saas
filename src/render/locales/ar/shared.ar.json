@@ -31,7 +31,8 @@
   "toast": {
     "success": "تم الحفظ بنجاح",
     "failed": "حدث خطاء",
-    "invalid_data": "Invalid Data"
+    "invalid_data": "Invalid Data",
+    "please-fill-fields": "Please fill in the required fields"
   },
 
   "form": {

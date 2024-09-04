@@ -8,12 +8,17 @@ export type QueryDonateByDate = {
   branchId: number;
 };
 
+type FinancialDonateTransaction = Pick<
+  NewTransaction,
+  "amount" | "branch_id" | "unit_id"
+>;
+
 export type NewDonate = Pick<
   Donate,
   "branch_id" | "created_by" | "donor" | "donor_phone"
 > & {
-  financialTransaction: NewTransaction;
-  items: PartialDonateItem[];
+  financialTransaction: FinancialDonateTransaction;
+  items?: PartialDonateItem[];
   date: Date;
 };
 

@@ -14,20 +14,16 @@ export const newExpenseSchema = z.object({
   branch_id: z.number(),
 }) satisfies ZodType<NewTransaction>;
 
-const newDonateItemSchema = z.object({
+export const newFinancialDonateSchema = z.object({
+  unit_id: z.number(),
+  amount: z.number(),
+  branch_id: z.number(),
+}) satisfies ZodType<NewDonate["financialTransaction"]>;
+
+export const newDonateItemSchema = z.object({
   item_id: z.number(),
   unit_value: z.number(),
   tempId: z.number(),
   unitSize: z.enum(["LG", "SM"]),
   unitId: z.number(),
 }) satisfies ZodType<PartialDonateItem>;
-
-export const newDonateSchema = z.object({
-  donor: z.string().min(1),
-  donor_phone: z.coerce.string().min(1),
-  created_by: z.string().min(1),
-  branch_id: z.number().min(0),
-  financialTransaction: newExpenseSchema,
-  items: z.array(newDonateItemSchema),
-  date: z.date(),
-}) satisfies ZodType<NewDonate>;

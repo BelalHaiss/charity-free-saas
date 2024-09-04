@@ -17,8 +17,5 @@ const value = defineModel<string>();
       :invalid="!!errorMessage"
       :aria-describedby="name + `-help`"
     />
-    <small v-if="errorMessage" :id="name + `-help`" class="text-red-500">{{
-      $t(errorMessage)
-    }}</small>
   </div>
 </template>

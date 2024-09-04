@@ -12,5 +12,5 @@ export const formatDate = (
     .toFormat(format);
 };
 
-export const formatDateRefToIso = (date: Ref<Date>) =>
+export const formatDateRefToIsoDateOnly = (date: Ref<Date>) =>
   formatDate(date.value, "en", "yyyy-LL-dd");

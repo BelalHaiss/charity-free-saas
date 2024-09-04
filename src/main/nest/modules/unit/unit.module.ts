@@ -5,5 +5,6 @@ import { UnitController } from "./unit.controller";
 @Module({
   controllers: [UnitController],
   providers: [UnitService],
+  exports: [UnitService],
 })
 export class UnitModule {}

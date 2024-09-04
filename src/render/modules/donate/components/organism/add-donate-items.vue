@@ -14,11 +14,11 @@ const { t } = useI18n();
 const getEmptyItem = (): PartialDonateItem => ({
   item_id: undefined,
   tempId: Math.random(),
-  unit_value: undefined,
+  unit_value: 1,
   unitSize: undefined,
 });
 
-const addedItems = ref<PartialDonateItem[]>([getEmptyItem()]);
+const addedItems = ref<PartialDonateItem[]>([]);
 
 const addNewEmptyItem = () => addedItems.value.push(getEmptyItem());
 const emit = defineEmits<{
@@ -82,7 +82,7 @@ const removeItem = (tempId: number | string) => {
           <span
             v-for="head in tableHeader"
             :key="head.label"
-            class="bg-gray-200 text-black"
+            class="bg-gray-200 text-black rounded-md text-center"
             :style="head.styles"
           >
             {{ head.label }}
@@ -105,9 +105,10 @@ const removeItem = (tempId: number | string) => {
           <div class="flex-1 h-[35px] overflow-hidden">
             <SelectItemUnitSize
               class="max-w-full flex box-border max-h-full"
+              :unit-id="item.unitId"
               @set-unit-size="
-                (selectedUnit) =>
-                  onUpdateValue('unitSize', selectedUnit.size, item.tempId)
+                (selectedSize) =>
+                  onUpdateValue('unitSize', selectedSize, item.tempId)
               "
             />
           </div>
@@ -116,12 +117,13 @@ const removeItem = (tempId: number | string) => {
             <InputNumber
               class="max-w-full flex box-border max-h-full"
               input-class="w-full"
+              :invalid="addedItems[index].unit_value! <= 0"
               v-model="addedItems[index].unit_value"
               :use-grouping="false"
             />
           </div>
           <IconRepository
-            class="min-w-max text-red-500"
+            class="min-w-max text-red-500 cursor-pointer"
             @click="() => removeItem(item.tempId)"
             icon-name="filled-delete"
           />

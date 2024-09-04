@@ -55,6 +55,21 @@ export type CastQueryFieldsToStrings<T> =
         }
       : T; // Return the type unchanged if it's not an object or array
 
+export type CastDateFieldsToIsoDate<T> =
+  T extends Array<infer U> // Check if it's an array
+    ? Array<CastDateFieldsToIsoDate<U>> // Apply recursively to array elements
+    : T extends object // Check if it's an object
+      ? {
+          [P in keyof T]: T[P] extends Date // Check if the property is a date
+            ? ISO_8601_DateString // Convert date to string
+            : T[P] extends Date | undefined // Check if the property is an optional date
+              ? ISO_8601_DateString | undefined // Convert optional date to optional string
+              : CastDateFieldsToIsoDate<T[P]>; // Apply recursively to other properties
+        }
+      : T; // Return the type unchanged if it's not an object or array
+
 export type DateQueryString = string; // formatted as yyyy-mm-dd
+
+export type ISO_8601_DateString = string;
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };

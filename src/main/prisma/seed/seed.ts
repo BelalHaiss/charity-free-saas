@@ -114,19 +114,19 @@ const main = async () => {
         },
         {
           name: " شاي",
-          unit_id: 3,
+          unit_id: 5,
           branch_id: 1,
           benefit: { type: "ITEM" },
         },
         {
           name: " دقيق",
-          unit_id: 3,
+          unit_id: 5,
           branch_id: 1,
           benefit: { type: "ITEM" },
         },
         {
           name: " رز",
-          unit_id: 3,
+          unit_id: 5,
           branch_id: 1,
           benefit: { type: "ITEM" },
         },

@@ -1,8 +1,5 @@
 import { User, Unit, MoneyUnit } from "@prisma/client";
-import {
-  GroupedUnits,
-  UnitCategoryOptions,
-} from "@render/modules/unit/types/unit.type";
+import { GroupedUnits } from "@render/modules/unit/types/unit.type";
 import { NullableKeys } from "@render/types/util.types";
 import { devUser } from "@render/utils/dev.util";
 import { OrganizationAppModel } from "@shared/types/organization/organization.dto";

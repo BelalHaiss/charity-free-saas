@@ -6,7 +6,7 @@ import { donateRepository } from "@render/modules/donate/repository/donate.repos
 import { noteRepository } from "@render/modules/note/repository/note.repository";
 import { transactionRepository } from "@render/modules/transaction/repository/transaction.repository";
 import { ClientTransaction } from "@render/modules/transaction/types/transactions.types";
-import { formatDateRefToIso } from "@render/utils/date.util";
+import { formatDateRefToIsoDateOnly } from "@render/utils/date.util";
 import { computed, ref, watch } from "vue";
 
 export type DayData = {
@@ -38,7 +38,7 @@ export const useHomeSummary = () => {
     try {
       const sharedQueryParams = {
         branchId: storage.value.branchId,
-        date: formatDateRefToIso(selectedDate),
+        date: formatDateRefToIsoDateOnly(selectedDate),
       };
       const expenses = await transactionRepository.findTransactionByDateAndType(
         { ...sharedQueryParams, type: "EXPENSE" },

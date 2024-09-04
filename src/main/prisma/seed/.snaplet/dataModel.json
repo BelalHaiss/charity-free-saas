@@ -2315,20 +2315,6 @@
           "maxLength": 191
         },
         {
-          "id": "charity.transaction.desc",
-          "name": "desc",
-          "columnName": "desc",
-          "type": "varchar",
-          "isRequired": false,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": 191
-        },
-        {
           "id": "charity.transaction.donate_id",
           "name": "donate_id",
           "columnName": "donate_id",
@@ -2365,7 +2351,7 @@
           "name": "label",
           "columnName": "label",
           "type": "varchar",
-          "isRequired": true,
+          "isRequired": false,
           "kind": "scalar",
           "isList": false,
           "isGenerated": false,

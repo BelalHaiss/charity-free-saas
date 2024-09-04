@@ -25,5 +25,13 @@ export const useToast = () => {
     });
   };
 
-  return { successToast, failedToast, invalidDataToast };
+  const fieldMissingToast = () => {
+    toast.add({
+      summary: t('shared.toast.  please-fill-fields'),
+      severity: 'error',
+      life: 700
+    });
+  };
+
+  return { successToast, failedToast, invalidDataToast, fieldMissingToast };
 };

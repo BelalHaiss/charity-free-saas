@@ -7,20 +7,30 @@ import {
   Param,
   Delete,
   Query,
+  UsePipes,
 } from "@nestjs/common";
 import { DonateService } from "./donate.service";
 import { CreateDonateDto } from "./dto/create-donate.dto";
 import { UpdateDonateDto } from "./dto/update-donate.dto";
-import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
-import type { QueryDonateByDate } from "@shared/types/donates/donates.dto";
+import type {
+  CastDateFieldsToIsoDate,
+  CastQueryFieldsToStrings,
+} from "@shared/types/util.types";
+import type {
+  NewDonate,
+  QueryDonateByDate,
+} from "@shared/types/donates/donates.dto";
+import { ZodValidationPipe } from "@main/nest/shared/pipes/zod.pipe";
+import { newDonateSchema } from "@shared/services/schema/donate.schema";
 
 @Controller("donate")
 export class DonateController {
   constructor(private readonly donateService: DonateService) {}
 
   @Post()
-  create(@Body() createDonateDto: CreateDonateDto) {
-    return this.donateService.create(createDonateDto);
+  @UsePipes(new ZodValidationPipe(newDonateSchema))
+  create(@Body() newDonate: CastDateFieldsToIsoDate<NewDonate>) {
+    return this.donateService.create(newDonate);
   }
 
   @Get()
