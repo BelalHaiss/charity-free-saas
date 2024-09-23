@@ -1,37 +1,15 @@
 <script setup lang="ts">
 import { Donate } from "@prisma/client";
 import SmContainer from "@render/components/organisms/sm-container.vue";
-import { FormField } from "@render/types/form.types";
 import { TableHeader } from "@render/types/util.types";
 import { formatDate } from "@render/utils/date.util";
-import { NewDonate } from "@shared/types/donates/donates.dto";
+import { DonateWithRelations } from "@shared/types/donates/donates.dto";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
-const props = defineProps<Donate>();
-
-const donorFieldList: FormField<keyof NewDonate>[] = [
-  {
-    name: "donor",
-    label: t("shared.donor"),
-    type: "text",
-  },
-  {
-    name: "donor_phone",
-    label: t("shared.form.phone"),
-    type: "text",
-    inputProps: {
-      type: "number",
-    },
-  },
-  {
-    name: "date",
-    label: t("shared.date"),
-    type: "date",
-  },
-];
+const props = defineProps<{ donate: DonateWithRelations }>();
 
 const tableHeader = computed(
   (): ({ getter: (data: Donate) => string | number } & TableHeader)[] => [
@@ -71,7 +49,7 @@ const tableHeader = computed(
         >
           <span class="font-semibold"> {{ header.label }}</span>
 
-          <span> {{ header.getter(props) }} </span>
+          <span> {{ header.getter(props.donate) }} </span>
         </div>
       </div>
     </template>

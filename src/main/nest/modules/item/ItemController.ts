@@ -1,18 +1,18 @@
 import {
   Controller,
-  Get,
   Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
+  Get,
   Query,
+  Param,
+  Patch,
+  Delete,
+  Body,
 } from "@nestjs/common";
-import { ItemService } from "./item.service";
-import { CreateItemDto } from "./dto/create-item.dto";
-import { UpdateItemDto } from "./dto/update-item.dto";
 import { ItemQuery } from "@shared/types/item/item.dto";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
+import { CreateItemDto } from "./dto/create-item.dto";
+import { UpdateItemDto } from "./dto/update-item.dto";
+import { ItemService } from "./item.service";
 
 @Controller("item")
 export class ItemController {
@@ -23,7 +23,7 @@ export class ItemController {
     return this.itemService.create(createItemDto);
   }
 
-  @Get("name")
+  @Get("item")
   getItemByName(@Query() query: CastQueryFieldsToStrings<ItemQuery>) {
     return this.itemService.getItemByName(query);
   }

@@ -57,7 +57,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: object, host: ArgumentsHost) {
     const response: Response = host.switchToHttp().getResponse();
 
-    console.log("unhandeld error", exception);
+    console.error("unhandeld error", exception);
     response
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
       .json({ message: "Internal server error" });

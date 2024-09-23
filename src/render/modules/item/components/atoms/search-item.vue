@@ -22,7 +22,6 @@ watch(selectedItem, (newVal) => newVal && emit("setItem", newVal));
 const { failedToast } = useToast();
 
 const onFilter = useDebounceFn(async ({ value }: DropdownFilterEvent) => {
-  console.log({ value });
   // debounce
   try {
     // no value && reset items Ref

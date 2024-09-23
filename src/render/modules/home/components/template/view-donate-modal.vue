@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ViewDonateAmount from "@render/modules/donate/components/organism/view-donate-amount.vue";
+import ViewDonorDetails from "@render/modules/donate/components/organism/view-donor-details.vue";
 import { DonateWithRelations } from "@shared/types/donates/donates.dto";
 
 const props = defineProps<{ donate: DonateWithRelations }>();
@@ -7,8 +9,13 @@ const isVisible = defineModel<boolean>();
 </script>
 <template>
   <Dialog v-model:visible="isVisible" modal class="w-full max-w-[700px]">
-    <ViewDonorDetails v-bind="props" />
-    <!-- <VieAmount v-if="!!props.transaction" v-bind="props.transaction" /> -->
+    <div class="flex flex-col w-full">
+      <ViewDonorDetails :donate="props.donate" />
+      <ViewDonateAmount
+        :transaction="props.donate.transaction"
+        v-if="!!props.donate.transaction"
+      />
+    </div>
   </Dialog>
 </template>
 o

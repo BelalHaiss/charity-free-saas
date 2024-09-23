@@ -1,9 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { CreateBenefitDto } from "./dto/create-benefit.dto";
 import { UpdateBenefitDto } from "./dto/update-benefit.dto";
-import { CreateNewItem, ItemQuery } from "@shared/types/item/item.dto";
+import { CreateNewItem } from "@shared/types/item/item.dto";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
-import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
 
 @Injectable()
 export class BenefitService {
@@ -14,16 +12,6 @@ export class BenefitService {
         type: "ITEM",
         Item: {
           create: newItem,
-        },
-      },
-    });
-  }
-  async getItemByName(query: CastQueryFieldsToStrings<ItemQuery>) {
-    console.log({ query });
-    return this.prismaService.item.findMany({
-      where: {
-        name: {
-          contains: query.name,
         },
       },
     });

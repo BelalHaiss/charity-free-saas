@@ -14,7 +14,7 @@ class ItemRepository {
   getItemByName(name: string) {
     const nameQuery = qs.stringify({ name });
     return fetcher<Item[]>({
-      url: `benefit/item/?${nameQuery}`,
+      url: `item/name/?${nameQuery}`,
     });
   }
 }

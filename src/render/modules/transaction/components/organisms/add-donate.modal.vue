@@ -30,10 +30,6 @@ const { setValues, handleSubmit, isSubmitting, values } = useForm<NewDonate>({
   validationSchema: toTypedSchema(newDonateSchema),
 });
 
-watch(values, () => {
-  console.log({ values });
-});
-
 const submitDataToServer = async (isSubmitting: Ref<boolean>) => {
   try {
     isSubmitting.value = true;

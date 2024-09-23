@@ -6,33 +6,12 @@ import SmContainer from "@render/components/organisms/sm-container.vue";
 import SearchItem from "@render/modules/item/components/atoms/search-item.vue";
 import SelectItemUnitSize from "@render/modules/unit/components/atoms/select-item-unit-size.vue";
 import { TableHeader } from "@render/types/util.types";
-import { PartialDonateItem } from "@shared/types/donates/donates.dto";
-import { computed, ref, watch } from "vue";
+import { DonateWithRelations } from "@shared/types/donates/donates.dto";
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
-const getEmptyItem = (): PartialDonateItem => ({
-  item_id: undefined,
-  tempId: Math.random(),
-  unit_value: 1,
-  unitSize: undefined,
-});
-
-const addedItems = ref<PartialDonateItem[]>([]);
-
-const addNewEmptyItem = () => addedItems.value.push(getEmptyItem());
-
-const emit = defineEmits<{
-  (e: "setItems", items?: PartialDonateItem[]): void;
-}>();
-watch(
-  addedItems,
-  (newItems) => {
-    emit("setItems", newItems.length > 0 ? newItems : undefined);
-  },
-  { deep: true },
-);
-
+const { items } = defineProps<{ items: DonateWithRelations["donate_items"] }>();
 const tableHeader = computed((): TableHeader[] => [
   {
     label: t("shared.item"),
@@ -47,35 +26,6 @@ const tableHeader = computed((): TableHeader[] => [
     styles: { flex: 1 },
   },
 ]);
-
-const onUpdateValue = <K extends keyof PartialDonateItem>(
-  key: K,
-  updatedValue: PartialDonateItem[K],
-  tempId: string | number,
-) => {
-  addedItems.value = addedItems.value.map((oldItem) =>
-    oldItem.tempId === tempId ? { ...oldItem, [key]: updatedValue } : oldItem,
-  );
-};
-
-const onSelectItem = (selectedItem: Item, tempId: string | number) => {
-  addedItems.value = addedItems.value.map((oldItem) =>
-    oldItem.tempId === tempId
-      ? {
-          ...oldItem,
-          item_id: selectedItem.id,
-          unitSize: "LG",
-          unitId: selectedItem.unit_id,
-        }
-      : oldItem,
-  );
-};
-
-const removeItem = (tempId: number | string) => {
-  addedItems.value = addedItems.value.filter(
-    (oldItem) => oldItem.tempId !== tempId,
-  );
-};
 </script>
 <template>
   <SmContainer class="min-w-full">
@@ -99,16 +49,12 @@ const removeItem = (tempId: number | string) => {
 
         <div
           class="flex items-center gap-2"
-          v-for="(item, index) in addedItems"
-          :key="item.tempId"
+          v-for="item in items"
+          :key="item.id"
         >
-          <SearchItem
-            class="flex-[2] h-[35px]"
-            @set-item="
-              (selectedItem) => onSelectItem(selectedItem, item.tempId)
-            "
-          />
+          <span class="flex-[2]" />
 
+          <!-- 
           <div class="flex-1 h-[35px] overflow-hidden">
             <SelectItemUnitSize
               class="max-w-full flex box-border max-h-full"
@@ -118,25 +64,18 @@ const removeItem = (tempId: number | string) => {
                   onUpdateValue('unitSize', selectedSize, item.tempId)
               "
             />
-          </div>
+          </div> -->
 
           <div class="flex-1 h-[35px] overflow-hidden">
-            <InputNumber
+            <!-- <InputNumber
               class="max-w-full flex box-border max-h-full"
               input-class="w-full"
               :invalid="addedItems[index].unit_value! <= 0"
               v-model="addedItems[index].unit_value"
               :use-grouping="false"
-            />
+            /> -->
           </div>
-          <IconRepository
-            class="min-w-max text-red-500 cursor-pointer"
-            @click="() => removeItem(item.tempId)"
-            icon-name="filled-delete"
-          />
         </div>
-
-        <AddBtnIcon @click="addNewEmptyItem" />
       </div>
     </template>
   </SmContainer>

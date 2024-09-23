@@ -9,20 +9,20 @@ import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
-const transaction = defineProps<Transaction>();
+const { transaction } = defineProps<{ transaction: Transaction }>();
 const { getters } = useGlobalState();
 
 const unit = computed(() => getters.getMoneyUnitById(transaction.id)!);
 </script>
 
 <template>
-  <SmContainer>
+  <SmContainer class="w-max mx-auto">
     <template #header>
       {{ t("shared.monetary-donation") }}
     </template>
 
     <template #main>
-      <div class="flex font-bold p-2 items-center gap-1">
+      <div class="flex-center font-bold p-2 gap-2">
         <span> {{ transaction.amount }} </span>
         <span> {{ getCodeLabel(unit) }}</span>
       </div>

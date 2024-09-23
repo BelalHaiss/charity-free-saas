@@ -45,7 +45,6 @@ const allOptions = computed(
       newOptionsCreated.value,
     ) as CreatableSelectOptions[],
 );
-watch(value, () => console.log({ value }));
 </script>
 <template>
   <div>

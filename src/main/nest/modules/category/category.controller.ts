@@ -19,13 +19,7 @@ export class CategoryController {
 
   @Post()
   async create(@Body() newCategory: NewCategory) {
-    try {
-      console.log({ newCategory });
-      return await this.categoryService.create(newCategory);
-    } catch (error) {
-      console.log({ error });
-      throw error;
-    }
+    return this.categoryService.create(newCategory);
   }
 
   @Get(":branch_id")

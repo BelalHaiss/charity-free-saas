@@ -75,7 +75,7 @@ const openDonateDialog = (data?: DonateWithRelations) => {
   </DataTable>
 
   <ViewDonateModal
-    v-if="selectedDonate"
+    v-if="selectedDonate && isDonateModalVisible"
     :donate="selectedDonate"
     v-model="isDonateModalVisible"
   />
