@@ -1,5 +1,6 @@
 import { CalendarProps } from "primevue/calendar";
 import { CheckboxProps } from "primevue/checkbox";
+import { InputTextProps } from "primevue/inputtext";
 import { MultiSelectProps } from "primevue/multiselect";
 
 export type SelectOptions<T extends string | number = string | number> = {
@@ -23,7 +24,11 @@ export type FormFieldType =
   | "password"
   | "checkbox";
 
-type InputProps = MultiSelectProps | CalendarProps | CheckboxProps;
+type InputProps =
+  | MultiSelectProps
+  | CalendarProps
+  | CheckboxProps
+  | InputTextProps;
 export type FormField<K extends string> = {
   label: string;
   name: K;

@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ConfirmDialogProps } from "@render/composables/use-confirm";
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 const props = defineProps<ConfirmDialogProps>();
 
 const isSubmitting = computed(() => props.isSubmitting.value);
 const isVisible = computed(() => props.isVisible.value);
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -20,14 +23,14 @@ const isVisible = computed(() => props.isVisible.value);
     <div class="flex justify-content-end gap-2">
       <Button
         type="button"
-        :label="$t('shared.cancel')"
+        :label="t('shared.cancel')"
         :disabled="isSubmitting"
         severity="secondary"
         @click="props.onCancel"
       />
       <Button
         type="button"
-        :label="$t('shared.confirm')"
+        :label="t('shared.confirm')"
         :loading="isSubmitting"
         @click="props.onConfirm"
       />

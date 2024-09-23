@@ -39,7 +39,7 @@ const toggle = (event) => menuRef.value!.toggle(event);
   >
     <template #end>
       <Button text severity="danger" class="w-full p-1">
-        {{ $t("shared.logout") }}
+        {{ t("shared.logout") }}
         <IonIosCloseCircle class="ms-auto" />
       </Button>
     </template>

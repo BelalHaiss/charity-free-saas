@@ -16,7 +16,10 @@ const donorFieldList: FormField<keyof NewDonate>[] = [
   {
     name: "donor_phone",
     label: t("shared.form.phone"),
-    type: "number",
+    type: "text",
+    inputProps: {
+      type: "number",
+    },
   },
   {
     name: "date",

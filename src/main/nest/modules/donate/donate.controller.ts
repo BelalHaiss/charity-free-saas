@@ -21,14 +21,14 @@ import type {
   QueryDonateByDate,
 } from "@shared/types/donates/donates.dto";
 import { ZodValidationPipe } from "@main/nest/shared/pipes/zod.pipe";
-import { newDonateSchema } from "@shared/services/schema/donate.schema";
+import { newDonateServerSchema } from "@shared/services/schema/donate.schema";
 
 @Controller("donate")
 export class DonateController {
   constructor(private readonly donateService: DonateService) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(newDonateSchema))
+  @UsePipes(new ZodValidationPipe(newDonateServerSchema))
   create(@Body() newDonate: CastDateFieldsToIsoDate<NewDonate>) {
     return this.donateService.create(newDonate);
   }

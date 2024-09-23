@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useGlobalState } from "@render/composables/use-global-state";
-import { ref } from "vue";
+import { Ref, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "@render/composables/use-toast";
 import { useForm } from "vee-validate";
@@ -11,11 +11,13 @@ import AddFinancialDonate from "@render/modules/donate/components/organism/add-f
 import AddDonateItems from "@render/modules/donate/components/organism/add-donate-items.vue";
 import { newDonateSchema } from "@shared/services/schema/donate.schema";
 import { donateRepository } from "@render/modules/donate/repository/donate.repository";
+import ConfirmDialog from "@render/components/organisms/confirm-dialog.vue";
+import { useConfirm } from "@render/composables/use-confirm";
 
 const isVisible = ref(true);
 const { t } = useI18n();
 const { getters } = useGlobalState();
-const { setValues, handleSubmit, isSubmitting } = useForm<NewDonate>({
+const { setValues, handleSubmit, isSubmitting, values } = useForm<NewDonate>({
   initialValues: {
     branch_id: getters.getBranchId(),
     created_by: getters.getCurrentUser().username,
@@ -28,20 +30,33 @@ const { setValues, handleSubmit, isSubmitting } = useForm<NewDonate>({
   validationSchema: toTypedSchema(newDonateSchema),
 });
 
-const submitDataToServer = async (values: NewDonate) => {
-  try {
-    await donateRepository.createNewDonate(values);
-    successToast();
-  } catch (error) {
-    failedToast();
-  }
-};
-const onSubmit = handleSubmit(submitDataToServer, (error) => {
-  fieldMissingToast();
+watch(values, () => {
+  console.log({ values });
 });
 
-const { invalidDataToast, failedToast, successToast, fieldMissingToast } =
-  useToast();
+const submitDataToServer = async (isSubmitting: Ref<boolean>) => {
+  try {
+    isSubmitting.value = true;
+    await donateRepository.createNewDonate(values);
+    successToast();
+    isVisible.value = false;
+  } catch (error) {
+    failedToast();
+  } finally {
+    isSubmitting.value = false;
+  }
+};
+
+const onSubmit = handleSubmit(
+  () => confirmProps.showDialog(),
+  (error) => {
+    console.error("new donate error", error);
+    fieldMissingToast();
+  },
+);
+
+const { failedToast, successToast, fieldMissingToast } = useToast();
+const confirmProps = useConfirm(submitDataToServer);
 </script>
 <template>
   <Dialog
@@ -72,5 +87,6 @@ const { invalidDataToast, failedToast, successToast, fieldMissingToast } =
         </Button>
       </div>
     </form>
+    <ConfirmDialog v-bind="confirmProps" />
   </Dialog>
 </template>

@@ -1,6 +1,7 @@
 import { Donate } from "@prisma/client";
 import { fetcher } from "@render/utils/api.util";
 import {
+  DonateWithRelations,
   NewDonate,
   QueryDonateByDate,
 } from "@shared/types/donates/donates.dto";
@@ -8,10 +9,10 @@ import { CastDateFieldsToIsoDate } from "@shared/types/util.types";
 import qs from "qs";
 
 class DonateRepository {
-  getDonatesByDate(query: QueryDonateByDate): Promise<Donate[]> {
+  getDonatesByDate(query: QueryDonateByDate): Promise<DonateWithRelations[]> {
     const queryString = qs.stringify(query);
 
-    return fetcher<Donate[]>({ url: `donate/?${queryString}` });
+    return fetcher<DonateWithRelations[]>({ url: `donate/?${queryString}` });
   }
 
   createNewDonate(data: NewDonate) {

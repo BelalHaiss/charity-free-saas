@@ -10,6 +10,7 @@ import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
 import { Locale } from "./config/i18n";
 import { useInitialCacheHandler } from "./composables/use-initial-cache";
 import SpinnerFullPage from "./components/molecules/spinner-full-page.vue";
+import { Settings } from "luxon";
 
 const { locale } = useI18n<object, Locale>();
 const primevue = usePrimeVue();
@@ -32,6 +33,7 @@ watchEffect(() => {
   document.documentElement.lang = locale.value;
   document.documentElement.dir = locale.value === "ar" ? "rtl" : "ltr";
   primevue.config.locale = getPrimeLocale(locale.value);
+  Settings.defaultLocale = locale.value;
 });
 
 const isSetupPage = computed(() => route.fullPath === "/setup");

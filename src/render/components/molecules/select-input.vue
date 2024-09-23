@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { SelectOptions } from "@render/types/form.types";
+import { useI18n } from "vue-i18n";
 
 type Props = {
   options: SelectOptions[];
@@ -10,6 +11,7 @@ type Props = {
 
 const selectedValue = defineModel<SelectOptions>();
 const { options, placeholder, label, isLoading } = defineProps<Props>();
+const { t } = useI18n();
 </script>
 <template>
   <div class="flex flex-col">
@@ -31,7 +33,7 @@ const { options, placeholder, label, isLoading } = defineProps<Props>();
     >
       <template #option="slotProps">
         <div class="flex align-items-center ms-2">
-          <span>{{ $t(slotProps.option.label) }}</span>
+          <span>{{ t(slotProps.option.label) }}</span>
         </div>
       </template>
     </Dropdown>

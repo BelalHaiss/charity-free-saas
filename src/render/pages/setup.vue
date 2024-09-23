@@ -5,7 +5,10 @@ import { useInitialSetup } from "@render/modules/initial-setup/ViewModel/use-ini
 import InitialMessage from "@render/modules/initial-setup/components/atoms/initial-message.vue";
 import AdminForm from "@render/modules/initial-setup/components/organism/admin-form.vue";
 import OrganizationTemplate from "@render/modules/initial-setup/components/template/organization-template.vue";
+import { useI18n } from "vue-i18n";
 const { confirmProps, isFormsValid } = useInitialSetup();
+
+const { t } = useI18n();
 </script>
 <template>
   <div class="p-2 md:p-4 flex flex-col page-content relative">
@@ -18,13 +21,13 @@ const { confirmProps, isFormsValid } = useInitialSetup();
     <div class="flex-1 w-full flex justify-content-center">
       <Stepper linear class="w-full">
         <StepperPanel
-          :header="$t('shared.details', { label: $t(`shared.organization`) })"
+          :header="t('shared.details', { label: t(`shared.organization`) })"
         >
           <template #content="{ nextCallback }">
             <OrganizationTemplate />
             <div class="flex pt-4 justify-content-end">
               <Button
-                :label="$t('shared.next')"
+                :label="t('shared.next')"
                 :disabled="!isFormsValid.organization"
                 icon="pi pi-arrow-right"
                 icon-pos="right"
@@ -35,20 +38,20 @@ const { confirmProps, isFormsValid } = useInitialSetup();
         </StepperPanel>
 
         <StepperPanel
-          :header="$t('shared.details', { label: $t('shared.admin') })"
+          :header="t('shared.details', { label: t('shared.admin') })"
         >
           <template #content="{ prevCallback }">
             <AdminForm />
             <div class="flex pt-4 justify-between">
               <Button
-                :label="$t('shared.next')"
+                :label="t('shared.next')"
                 icon="pi pi-arrow-right"
                 :disabled="!isFormsValid.admin"
                 icon-pos="right"
                 @click="confirmProps.showDialog"
               />
               <Button
-                :label="$t('shared.back')"
+                :label="t('shared.back')"
                 severity="secondary"
                 icon="pi pi-arrow-left"
                 @click="prevCallback"

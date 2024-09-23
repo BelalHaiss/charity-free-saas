@@ -33,14 +33,22 @@ CREATE TABLE `person` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `financial_benefit` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `amount` DECIMAL(10, 2) NOT NULL,
+    `unit_id` INTEGER NOT NULL,
+    `benefit_id` INTEGER NOT NULL,
+
+    UNIQUE INDEX `financial_benefit_benefit_id_key`(`benefit_id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `benefit` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `beneficiaries_count` INTEGER NOT NULL DEFAULT 0,
-    `item_id` INTEGER NULL,
-    `financial_sponsorship_name` VARCHAR(191) NULL,
-    `financial_sponsorship_value` DECIMAL(10, 2) NULL,
-    `financial_sponsorship_unit_id` INTEGER NULL,
-    `financial_sponsorship_unit_size` ENUM('SM', 'LG') NULL,
+    `type` ENUM('FINANCIAL', 'ITEM') NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -78,7 +86,7 @@ CREATE TABLE `visit` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `category_item` (
+CREATE TABLE `category` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
     `parent_category_id` INTEGER NULL,
@@ -95,7 +103,9 @@ CREATE TABLE `item` (
     `category_id` INTEGER NOT NULL,
     `unit_id` INTEGER NOT NULL,
     `branch_id` INTEGER NOT NULL,
+    `benefit_id` INTEGER NOT NULL,
 
+    UNIQUE INDEX `item_benefit_id_key`(`benefit_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -186,8 +196,7 @@ CREATE TABLE `donate` (
 -- CreateTable
 CREATE TABLE `donate_item` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `unit_id` INTEGER NOT NULL,
-    `benefit_id` INTEGER NOT NULL,
+    `item_id` INTEGER NOT NULL,
     `donate_id` INTEGER NOT NULL,
     `unit_value` INTEGER NOT NULL,
 
@@ -201,9 +210,8 @@ CREATE TABLE `transaction` (
     `created_by` VARCHAR(191) NOT NULL,
     `unit_id` INTEGER NOT NULL,
     `amount` DECIMAL(10, 2) NOT NULL,
-    `label` VARCHAR(191) NOT NULL,
+    `label` VARCHAR(191) NULL,
     `type` ENUM('DONATE', 'EXPENSE') NOT NULL,
-    `desc` VARCHAR(191) NULL,
     `branch_id` INTEGER NOT NULL,
     `donate_id` INTEGER NULL,
     `visit_benefit_id` INTEGER NULL,
@@ -245,7 +253,10 @@ ALTER TABLE `person` ADD CONSTRAINT `person_sponsorship_case_id_fkey` FOREIGN KE
 ALTER TABLE `person` ADD CONSTRAINT `person_beneficiary_id_fkey` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiary`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `benefit` ADD CONSTRAINT `benefit_item_id_fkey` FOREIGN KEY (`item_id`) REFERENCES `item`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `financial_benefit` ADD CONSTRAINT `financial_benefit_unit_id_fkey` FOREIGN KEY (`unit_id`) REFERENCES `money_unit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `financial_benefit` ADD CONSTRAINT `financial_benefit_benefit_id_fkey` FOREIGN KEY (`benefit_id`) REFERENCES `benefit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `beneficiary_benefit` ADD CONSTRAINT `beneficiary_benefit_beneficiary_id_fkey` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiary`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -263,19 +274,22 @@ ALTER TABLE `visit_benefit` ADD CONSTRAINT `visit_benefit_benefit_id_fkey` FOREI
 ALTER TABLE `visit` ADD CONSTRAINT `visit_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `category_item` ADD CONSTRAINT `category_item_parent_category_id_fkey` FOREIGN KEY (`parent_category_id`) REFERENCES `category_item`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `category` ADD CONSTRAINT `category_parent_category_id_fkey` FOREIGN KEY (`parent_category_id`) REFERENCES `category`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `category_item` ADD CONSTRAINT `category_item_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `category` ADD CONSTRAINT `category_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `item` ADD CONSTRAINT `item_category_id_fkey` FOREIGN KEY (`category_id`) REFERENCES `category_item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `item` ADD CONSTRAINT `item_category_id_fkey` FOREIGN KEY (`category_id`) REFERENCES `category`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `item` ADD CONSTRAINT `item_unit_id_fkey` FOREIGN KEY (`unit_id`) REFERENCES `unit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `item` ADD CONSTRAINT `item_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `item` ADD CONSTRAINT `item_benefit_id_fkey` FOREIGN KEY (`benefit_id`) REFERENCES `benefit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `sponsorship_case` ADD CONSTRAINT `sponsorship_case_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -290,16 +304,13 @@ ALTER TABLE `user` ADD CONSTRAINT `user_role_id_fkey` FOREIGN KEY (`role_id`) RE
 ALTER TABLE `donate` ADD CONSTRAINT `donate_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `donate_item` ADD CONSTRAINT `donate_item_benefit_id_fkey` FOREIGN KEY (`benefit_id`) REFERENCES `benefit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `donate_item` ADD CONSTRAINT `donate_item_donate_id_fkey` FOREIGN KEY (`donate_id`) REFERENCES `donate`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `donate_item` ADD CONSTRAINT `donate_item_unit_id_fkey` FOREIGN KEY (`unit_id`) REFERENCES `unit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `donate_item` ADD CONSTRAINT `donate_item_item_id_fkey` FOREIGN KEY (`item_id`) REFERENCES `item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `transaction` ADD CONSTRAINT `transaction_unit_id_fkey` FOREIGN KEY (`unit_id`) REFERENCES `unit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `transaction` ADD CONSTRAINT `transaction_unit_id_fkey` FOREIGN KEY (`unit_id`) REFERENCES `money_unit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `transaction` ADD CONSTRAINT `transaction_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

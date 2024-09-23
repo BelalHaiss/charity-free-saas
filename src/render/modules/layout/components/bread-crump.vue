@@ -2,8 +2,10 @@
 import { MenuItem } from "primevue/menuitem";
 import { RouteNamedMap } from "unplugin-vue-router/types";
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 
 type Path = keyof RouteNamedMap;
+const { t } = useI18n();
 
 type PathProp = { path: Path; actualPath: string; customLabel?: string };
 const props = defineProps<{
@@ -40,7 +42,7 @@ const activePaths = computed<(MenuItem & PathProp)[]>(() =>
     <Breadcrumb :model="activePaths">
       <template #item="{ item }">
         <RouterLink class="" :to="item.actualPath">
-          {{ $t(item.label as string) }}
+          {{ t(item.label as string) }}
         </RouterLink>
       </template>
     </Breadcrumb>

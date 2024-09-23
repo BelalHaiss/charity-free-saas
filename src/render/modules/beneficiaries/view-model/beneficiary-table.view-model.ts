@@ -13,7 +13,7 @@ import { useRouter } from "vue-router/auto";
 import { beneficiaryRepository } from "../repository/beneficiary.repository";
 
 export const useBeneficiaryTable = () => {
-  const { t, locale } = useI18n<object, Locale>();
+  const { t } = useI18n<object, Locale>();
   const headers = computed<TableColumns<BeneficiaryTableDTO["data"][number]>[]>(
     () => [
       {
@@ -41,15 +41,13 @@ export const useBeneficiaryTable = () => {
       },
       {
         field: "created_at",
-        dataGetter: (data) =>
-          formatDate(data.created_at, locale.value, "d / L / y"),
+        dataGetter: (data) => formatDate(data.created_at, "d / L / y"),
 
         header: t("shared.created_at"),
         fieldType: "date",
       },
       {
-        dataGetter: (data) =>
-          formatDate(data.updated_at, locale.value, "d / L / y"),
+        dataGetter: (data) => formatDate(data.updated_at, "d / L / y"),
         header: t("shared.updated_at"),
         field: "updated_at",
         fieldType: "date",

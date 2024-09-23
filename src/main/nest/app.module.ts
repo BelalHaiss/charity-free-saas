@@ -10,6 +10,7 @@ import { DonateModule } from "./modules/donate/donate.module";
 import { NoteModule } from "./modules/note/note.module";
 import { CategoryModule } from "./modules/category/category.module";
 import { BenefitModule } from "./modules/benefit/benefit.module";
+import { ItemModule } from "./modules/item/item.module";
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { BenefitModule } from "./modules/benefit/benefit.module";
     NoteModule,
     CategoryModule,
     BenefitModule,
+    ItemModule,
   ],
 })
 export class AppModule {}

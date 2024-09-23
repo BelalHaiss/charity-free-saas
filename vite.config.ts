@@ -19,7 +19,7 @@ export default defineConfig({
     Icons({
       compiler: "vue3",
     }),
-    vue({}),
+    vue(),
     VitePluginDoubleshot({
       type: "electron",
       main: "dist/main/index.js",

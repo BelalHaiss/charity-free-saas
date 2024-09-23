@@ -6,6 +6,8 @@ import { TreeNode } from "primevue/treenode";
 import { TreeExpandedKeys } from "primevue/tree";
 import { useSideNav } from "../viewModel/useSideNav";
 import LangMenu from "@render/components/atoms/lang-menu.vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const { navItems } = useSideNav();
 const toggleNodeExpand = (node: TreeNode) => {
@@ -24,7 +26,7 @@ const expandedItems = ref<TreeExpandedKeys>({});
       <span
         class="text-primary-color font-bold text-lg max-w-min text-center [word-spacing:100px] hidden group-hover:block"
       >
-        {{ $t("shared.app_name") }}
+        {{ t("shared.app_name") }}
       </span>
     </div>
 

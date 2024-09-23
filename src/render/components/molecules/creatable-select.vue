@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { SelectOptions } from "@render/types/form.types";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 type Props = {
   options: SelectOptions[];
@@ -14,6 +15,7 @@ const selectedValue = defineModel<SelectOptions>();
 const { options, placeholder, label, isLoading, handleNewItem } =
   defineProps<Props>();
 
+const { t } = useI18n();
 const currentFilterValue = ref();
 </script>
 <template>
@@ -37,7 +39,7 @@ const currentFilterValue = ref();
     >
       <template #option="slotProps">
         <div class="flex align-items-center ms-2">
-          <span>{{ $t(slotProps.option.label) }}</span>
+          <span>{{ t(slotProps.option.label) }}</span>
         </div>
       </template>
       <template #emptyfilter>
@@ -46,7 +48,7 @@ const currentFilterValue = ref();
           class="py-1 max-w-[300px] overflow-hidden"
           @click="() => handleNewItem(currentFilterValue)"
         >
-          {{ $t("shared.form.add_item") + " " + currentFilterValue }}
+          {{ t("shared.form.add_item") + " " + currentFilterValue }}
         </Button>
       </template>
     </Dropdown>

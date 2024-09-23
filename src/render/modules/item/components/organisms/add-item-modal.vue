@@ -64,6 +64,7 @@ const createItem = async () => {
         v-model="itemName"
         :label="t('shared.name', { label: t('shared.item') })"
         name="item_name"
+        :input-props="{}"
       />
       <SelectItemUnit v-model="unitValue" class="w-[300px]" />
       <div class="flex mt-4 self-end gap-2">

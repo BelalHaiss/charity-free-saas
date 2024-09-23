@@ -7,12 +7,13 @@ import { noteRepository } from "@render/modules/note/repository/note.repository"
 import { transactionRepository } from "@render/modules/transaction/repository/transaction.repository";
 import { ClientTransaction } from "@render/modules/transaction/types/transactions.types";
 import { formatDateRefToIsoDateOnly } from "@render/utils/date.util";
-import { computed, ref, watch } from "vue";
+import { DonateWithRelations } from "@shared/types/donates/donates.dto";
+import { computed, provide, ref, watch } from "vue";
 
 export type DayData = {
   expenses: ClientTransaction[];
   incomes: ClientTransaction[];
-  donates: Donate[];
+  donates: DonateWithRelations[];
   notes: Note[];
 };
 export const useHomeSummary = () => {
@@ -27,6 +28,8 @@ export const useHomeSummary = () => {
     incomes: [],
     notes: [],
   });
+
+  provide("dayData", dayData);
   const units = computed(() => storage.value.units);
 
   const { data } = useQueryTyped<never[]>({

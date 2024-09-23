@@ -7,9 +7,11 @@ import { computed, ref, watch } from "vue";
 
 import { useField } from "vee-validate";
 import { MultiSelectProps } from "primevue/multiselect";
+import { useI18n } from "vue-i18n";
 
 const newOptionsCreated = ref<CreatableSelectOptions[]>([]);
 const props = defineProps<FormFieldProps<MultiSelectProps>>();
+const { t } = useI18n();
 
 const { value, errorMessage, setValue } = useField<CreatableSelectOptions[]>(
   () => props.name,
@@ -55,7 +57,7 @@ watch(value, () => console.log({ value }));
       option-label="label"
       :placeholder="props.inputProps.placeholder"
       :selected-items-label="
-        $t('shared.form.max_selected', {
+        t('shared.form.max_selected', {
           count: value.length,
         })
       "
@@ -70,7 +72,7 @@ watch(value, () => console.log({ value }));
     >
       <template #option="slotProps">
         <div class="flex align-items-center ms-2">
-          <span>{{ $t(slotProps.option.label) }}</span>
+          <span>{{ t(slotProps.option.label) }}</span>
         </div>
       </template>
       <template #emptyfilter>
@@ -79,7 +81,7 @@ watch(value, () => console.log({ value }));
           class="py-1 max-w-[300px] overflow-hidden"
           @click="handleNewItem"
         >
-          {{ $t("shared.form.add_item") + " " + currentFilterValue }}
+          {{ t("shared.form.add_item") + " " + currentFilterValue }}
         </Button>
       </template>
     </MultiSelect>

@@ -69,7 +69,7 @@ watch(items, () => console.log({ items }));
     >
       <template #option="slotProps">
         <div class="flex align-items-center ms-2">
-          <span>{{ $t(slotProps.option.name) }}</span>
+          <span>{{ t(slotProps.option.name) }}</span>
         </div>
       </template>
     </Dropdown>

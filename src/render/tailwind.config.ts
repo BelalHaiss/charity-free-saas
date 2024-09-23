@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 import { brand } from "./theme";
 
 const config: Config = {
-  content: ["./index.html", "./**/*.{vue,js,ts,jsx,tsx}"],
+  content: ["./index.html", "./**/*.{vue,jsx,tsx}"],
   theme: {
     extend: {
       colors: {

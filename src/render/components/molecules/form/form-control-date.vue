@@ -12,6 +12,7 @@ const { value, errorMessage } = useField<Date>(() => props.name);
       v-model="value"
       input-class="form-input"
       dateFormat="dd/mm/yy"
+      :max-date="new Date()"
       :input-id="props.name"
       :invalid="!!errorMessage"
       :aria-describedby="name + `-help`"

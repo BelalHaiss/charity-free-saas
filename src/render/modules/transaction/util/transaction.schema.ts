@@ -22,7 +22,7 @@ export const newFinancialDonateSchema = z.object({
 
 export const newDonateItemSchema = z.object({
   item_id: z.number(),
-  unit_value: z.number(),
+  unit_value: z.number().min(1),
   tempId: z.number(),
   unitSize: z.enum(["LG", "SM"]),
   unitId: z.number(),

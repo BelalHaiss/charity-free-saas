@@ -21,10 +21,18 @@ const getEmptyItem = (): PartialDonateItem => ({
 const addedItems = ref<PartialDonateItem[]>([]);
 
 const addNewEmptyItem = () => addedItems.value.push(getEmptyItem());
+
 const emit = defineEmits<{
-  (e: "setItems", items: PartialDonateItem[]): void;
+  (e: "setItems", items?: PartialDonateItem[]): void;
 }>();
-watch(addedItems, (newItems) => emit("setItems", newItems));
+watch(
+  addedItems,
+  (newItems) => {
+    console.log(newItems, newItems.length > 0 ? newItems : undefined);
+    emit("setItems", newItems.length > 0 ? newItems : undefined);
+  },
+  { deep: true },
+);
 
 const tableHeader = computed((): TableHeader[] => [
   {
@@ -49,9 +57,11 @@ const onUpdateValue = <K extends keyof PartialDonateItem>(
   addedItems.value = addedItems.value.map((oldItem) =>
     oldItem.tempId === tempId ? { ...oldItem, [key]: updatedValue } : oldItem,
   );
+  console.log(addedItems.value, "after update unit value");
 };
 
 const onSelectItem = (selectedItem: Item, tempId: string | number) => {
+  console.log({ selectedItem });
   addedItems.value = addedItems.value.map((oldItem) =>
     oldItem.tempId === tempId
       ? {
@@ -62,6 +72,7 @@ const onSelectItem = (selectedItem: Item, tempId: string | number) => {
         }
       : oldItem,
   );
+  console.log({ addedItems: addedItems.value });
 };
 
 const removeItem = (tempId: number | string) => {

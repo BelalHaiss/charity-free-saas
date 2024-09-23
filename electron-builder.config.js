@@ -8,7 +8,7 @@ const config = {
   },
   publish: null,
   npmRebuild: false,
-  files: ['dist/main/**/*', 'dist/render/**/*']
+  files: ['dist/main/**/*', 'dist/render/**/*', 'dist/shared/**/*']
 };
 
 // eslint-disable-next-line no-undef

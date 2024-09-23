@@ -1,7 +1,7 @@
-import { Donate, Prisma, UNIT_SIZE } from "@prisma/client";
 import { DateQueryString } from "../util.types";
 import { NewTransaction } from "../transaction/transaction.dto";
 import { WithTempId } from "@render/types/util.types";
+import { Donate, Prisma, UNIT_SIZE } from "@prisma/client";
 
 export type QueryDonateByDate = {
   date: DateQueryString;
@@ -28,3 +28,9 @@ type NewDonateItem = Omit<
 > & { unitSize: UNIT_SIZE; unitId: number };
 
 export type PartialDonateItem = WithTempId<Partial<NewDonateItem>>;
+export type DonateWithRelations = Prisma.DonateGetPayload<{
+  include: {
+    transaction: true;
+    donate_items: true;
+  };
+}>;

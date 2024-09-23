@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { CreateDonateDto } from "./dto/create-donate.dto";
 import { UpdateDonateDto } from "./dto/update-donate.dto";
 import type {
+  DonateWithRelations,
   NewDonate,
   PartialDonateItem,
   QueryDonateByDate,
@@ -14,14 +15,25 @@ import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import { endOfTheDay, startOfTheDay } from "@main/nest/shared/utils/date.util";
 import { Prisma } from "@prisma/client";
 import { UnitService } from "../unit/unit.service";
+import { ItemService } from "../item/item.service";
+import { ItemChangeQty } from "@shared/types/item/item.dto";
 
 @Injectable()
 export class DonateService {
   constructor(
     private prismaService: PrismaService,
     private unitService: UnitService,
+    private itemService: ItemService,
   ) {}
   async create(newDonate: CastDateFieldsToIsoDate<NewDonate>) {
+    let donateItems: Prisma.DonateItemCreateManyDonateInput[] = [];
+    let itemsQtyChanges: ItemChangeQty[] = [];
+    if (newDonate.items) {
+      const mappedItems = await this.mapDonateItems(newDonate.items);
+      donateItems = mappedItems.donateItems;
+      itemsQtyChanges = mappedItems.itemChangeQty;
+    }
+
     const donateData: Prisma.DonateCreateArgs["data"] = {
       branch_id: newDonate.branch_id,
       created_at: newDonate.date,
@@ -43,26 +55,45 @@ export class DonateService {
     }
     if (newDonate.items) {
       donateData.donate_items = {
-        createMany: { data: await this.mapDonateItems(newDonate.items) },
+        createMany: { data: donateItems },
       };
     }
-    return this.prismaService.donate.create({ data: donateData });
+
+    return this.prismaService.$transaction(async (tx) => {
+      await tx.donate.create({ data: donateData });
+
+      if (newDonate.items && newDonate.items.length) {
+        await this.itemService.updateMultipleItemsQty(itemsQtyChanges, tx);
+      }
+    });
   }
 
-  private async mapDonateItems(
-    items: PartialDonateItem[],
-  ): Promise<Prisma.DonateItemCreateManyDonateInput[]> {
+  private async mapDonateItems(items: PartialDonateItem[]): Promise<{
+    donateItems: Prisma.DonateItemCreateManyDonateInput[];
+    itemChangeQty: ItemChangeQty[];
+  }> {
     const convertedItemsPromises = items.map(async (item) => ({
-      item_id: item.unitId!,
+      item_id: item.item_id!,
       unit_value: await this.unitService.convertToSmUnit(
         item.unitId!,
         item.unitSize!,
         item.unit_value!,
       )!,
     }));
-    return Promise.all(convertedItemsPromises);
+    const donateItems = await Promise.all(convertedItemsPromises);
+
+    const itemChangeQty = donateItems.map(
+      (item): ItemChangeQty => ({
+        itemId: item.item_id,
+        change: item.unit_value,
+      }),
+    );
+    return { donateItems, itemChangeQty };
   }
-  findByDate(query: CastQueryFieldsToStrings<QueryDonateByDate>) {
+
+  findByDate(
+    query: CastQueryFieldsToStrings<QueryDonateByDate>,
+  ): Promise<DonateWithRelations[]> {
     return this.prismaService.donate.findMany({
       where: {
         branch_id: +query.branchId,
@@ -70,6 +101,10 @@ export class DonateService {
           gte: startOfTheDay(query.date),
           lte: endOfTheDay(query.date),
         },
+      },
+      include: {
+        transaction: true,
+        donate_items: true,
       },
     });
   }

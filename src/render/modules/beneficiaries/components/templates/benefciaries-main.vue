@@ -3,6 +3,8 @@ import Column from "primevue/column";
 import TableFilterControl from "@render/components/molecules/table-filters/table-filter-control.vue";
 import { RouterLink } from "vue-router/auto";
 import { useBeneficiaryTable } from "../../view-model/beneficiary-table.view-model";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const {
   apiRes,
@@ -65,7 +67,7 @@ const {
       <template #header>
         <RouterLink to="/beneficiaries/create">
           <Button>
-            {{ $t("shared.add", { label: $t("shared.beneficiary") }) }}
+            {{ t("shared.add", { label: t("shared.beneficiary") }) }}
           </Button>
         </RouterLink>
       </template>

@@ -45,6 +45,9 @@ export const useGlobalState = createGlobalState(() => {
       ),
     getUnitById: (unitId: number) =>
       storage.value.units.find((unit) => unit.id === unitId),
+    getMoneyUnitById: (unitId: number) =>
+      storage.value.moneyUnits.find((unit) => unit.id === unitId),
+
     getMoneyUnitByEnCode: (enCode: string) =>
       storage.value.moneyUnits.find((unit) => unit.en_code === enCode),
     getCurrentUser: (): CurrentUser => storage.value.user,
