@@ -23,7 +23,7 @@ export type FetcherArgs = {
   url: ApiPaths | `${ApiPaths}/${string}`;
   config?: AxiosRequestConfig;
 };
-export const fetcher = async <T extends object = never>({
+export const fetcher = async <T = never>({
   url,
   config,
 }: FetcherArgs): Promise<T> => {

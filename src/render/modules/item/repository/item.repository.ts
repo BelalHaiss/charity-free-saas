@@ -17,6 +17,12 @@ class ItemRepository {
       url: `item/name/?${nameQuery}`,
     });
   }
+
+  getItemById(id: number) {
+    return fetcher<Item | null>({
+      url: `item/${id}`,
+    });
+  }
 }
 
 export const itemRepository = new ItemRepository();

@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { Item } from "@prisma/client";
-import AddBtnIcon from "@render/components/atoms/add-btn-icon.vue";
-import IconRepository from "@render/components/atoms/icon-repository.vue";
 import SmContainer from "@render/components/organisms/sm-container.vue";
-import SearchItem from "@render/modules/item/components/atoms/search-item.vue";
-import SelectItemUnitSize from "@render/modules/unit/components/atoms/select-item-unit-size.vue";
+import ViewItemWithUnit from "@render/modules/item/components/organisms/view-item-with-unit.vue";
 import { TableHeader } from "@render/types/util.types";
 import { DonateWithRelations } from "@shared/types/donates/donates.dto";
 import { computed } from "vue";
@@ -44,37 +40,19 @@ const tableHeader = computed((): TableHeader[] => [
           >
             {{ head.label }}
           </span>
-          <IconRepository icon-name="filled-delete" />
         </div>
 
         <div
-          class="flex items-center gap-2"
+          class="flex gap-2 font-semibold"
           v-for="item in items"
           :key="item.id"
         >
-          <span class="flex-[2]" />
-
-          <!-- 
-          <div class="flex-1 h-[35px] overflow-hidden">
-            <SelectItemUnitSize
-              class="max-w-full flex box-border max-h-full"
-              :unit-id="item.unitId"
-              @set-unit-size="
-                (selectedSize) =>
-                  onUpdateValue('unitSize', selectedSize, item.tempId)
-              "
-            />
-          </div> -->
-
-          <div class="flex-1 h-[35px] overflow-hidden">
-            <!-- <InputNumber
-              class="max-w-full flex box-border max-h-full"
-              input-class="w-full"
-              :invalid="addedItems[index].unit_value! <= 0"
-              v-model="addedItems[index].unit_value"
-              :use-grouping="false"
-            /> -->
-          </div>
+          <ViewItemWithUnit
+            class="w-full flex-[3] flex"
+            :unit-size="item.user_unit_size"
+            :item-id="item.item_id"
+          />
+          <span class="text-center flex-1">{{ item.unit_value }}</span>
         </div>
       </div>
     </template>

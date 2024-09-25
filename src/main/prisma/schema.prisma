@@ -257,13 +257,15 @@ model Donate {
 }
 
 model DonateItem {
-  id         Int    @id @default(autoincrement())
-  item_id    Int
-  donate_id  Int
-  unit_value Int
-  Donate     Donate @relation(fields: [donate_id], references: [id])
+  id              Int       @id @default(autoincrement())
+  item_id         Int
+  donate_id       Int
+  unit_value      Int // The  stored small value
+  user_unit_size  UNIT_SIZE // the unit that user select when he add item
+  user_unit_value Int // the value that user typed when add item
 
-  Item Item @relation(fields: [item_id], references: [id])
+  Donate Donate @relation(fields: [donate_id], references: [id])
+  Item   Item   @relation(fields: [item_id], references: [id])
 
   @@map("donate_item")
 }

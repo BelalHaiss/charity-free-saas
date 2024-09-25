@@ -28,7 +28,6 @@
     "reports_donates": "Donates Report",
     "settings": "Settings",
     "settings_org": "organization details",
-
     "settings_user": "Users",
     "settings_user_roles": "Roles",
     "settings_unit": "Units"
@@ -85,5 +84,6 @@
   "monetary-donation": "Monetary donation",
   "products-donation": "Donation of products",
   "no-results-found": "No results found",
-  "user": "User"
+  "user": "User",
+  "item-deleted": "Item Is Deleted"
 }

@@ -55,7 +55,7 @@ export class ItemService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} item`;
+    return this.prismaService.item.findUnique({ where: { id } });
   }
 
   update(id: number, updateItemDto: UpdateItemDto) {

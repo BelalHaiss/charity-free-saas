@@ -1116,6 +1116,34 @@
           "maxLength": null
         },
         {
+          "id": "charity.donate_item.user_unit_size",
+          "name": "user_unit_size",
+          "columnName": "user_unit_size",
+          "type": "enum_charity_donate_item_user_unit_size",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 2
+        },
+        {
+          "id": "charity.donate_item.user_unit_value",
+          "name": "user_unit_value",
+          "columnName": "user_unit_value",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
           "name": "donate",
           "type": "donate",
           "isRequired": true,
@@ -3141,6 +3169,17 @@
         },
         {
           "name": "EXPENSE"
+        }
+      ]
+    },
+    "enum_charity_donate_item_user_unit_size": {
+      "schemaName": "charity",
+      "values": [
+        {
+          "name": "SM"
+        },
+        {
+          "name": "LG"
         }
       ]
     }

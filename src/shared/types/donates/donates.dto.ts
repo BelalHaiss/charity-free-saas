@@ -28,6 +28,7 @@ type NewDonateItem = Omit<
 > & { unitSize: UNIT_SIZE; unitId: number };
 
 export type PartialDonateItem = WithTempId<Partial<NewDonateItem>>;
+
 export type DonateWithRelations = Prisma.DonateGetPayload<{
   include: {
     transaction: true;

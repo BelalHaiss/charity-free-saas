@@ -72,16 +72,19 @@ export class DonateService {
     donateItems: Prisma.DonateItemCreateManyDonateInput[];
     itemChangeQty: ItemChangeQty[];
   }> {
-    const convertedItemsPromises = items.map(async (item) => ({
-      item_id: item.item_id!,
-      unit_value: await this.unitService.convertToSmUnit(
-        item.unitId!,
-        item.unitSize!,
-        item.unit_value!,
-      )!,
-    }));
+    const convertedItemsPromises = items.map(
+      async (item): Promise<Prisma.DonateItemCreateManyDonateInput> => ({
+        item_id: item.item_id!,
+        unit_value: await this.unitService.convertToSmUnit(
+          item.unitId!,
+          item.unitSize!,
+          item.unit_value!,
+        )!,
+        user_unit_size: item.unitSize!,
+        user_unit_value: item.unit_value!,
+      }),
+    );
     const donateItems = await Promise.all(convertedItemsPromises);
-
     const itemChangeQty = donateItems.map(
       (item): ItemChangeQty => ({
         itemId: item.item_id,
