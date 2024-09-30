@@ -13,6 +13,8 @@ import {
 } from "@render/modules/transaction/util/transaction.util";
 import { computed, ref } from "vue";
 import { Locale } from "@render/config/i18n";
+import AddExpenseModal from "@render/modules/transaction/components/organisms/add-expense.modal.vue";
+import AddDonateModal from "@render/modules/transaction/components/organisms/add-donate.modal.vue";
 
 const { expenses, incomes, notes } = defineProps<DayData>();
 
@@ -45,6 +47,8 @@ moneyTotals.value = {
   net: convertTransactionGroupToArray(net),
 };
 
+const isExpenseModalVisible = ref(false);
+const isDonateModalVisible = ref(false);
 const { t } = useI18n();
 </script>
 <template>
@@ -58,13 +62,27 @@ const { t } = useI18n();
       class="bg-red-500"
       :label="t('shared.expenses')"
       :money-items="moneyTotals.expenses"
+      :on-click="
+        () => {
+          isExpenseModalVisible = true;
+        }
+      "
     />
     <MoneyBox
+      :on-click="
+        () => {
+          isDonateModalVisible = true;
+        }
+      "
       class="bg-primary-color"
       :label="t('shared.donates')"
       :money-items="moneyTotals.incomes"
     />
 
     <NoteBox :on-click="() => {}" :notes="notes" />
+
+    <AddExpenseModal v-model="isExpenseModalVisible" />
+
+    <AddDonateModal v-model="isDonateModalVisible" />
   </div>
 </template>

@@ -14,7 +14,7 @@ import { donateRepository } from "@render/modules/donate/repository/donate.repos
 import ConfirmDialog from "@render/components/organisms/confirm-dialog.vue";
 import { useConfirm } from "@render/composables/use-confirm";
 
-const isVisible = ref(true);
+const isVisible = defineModel<boolean>();
 const { t } = useI18n();
 const { getters } = useGlobalState();
 const { setValues, handleSubmit, isSubmitting, values } = useForm<NewDonate>({

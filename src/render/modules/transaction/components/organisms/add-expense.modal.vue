@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { useGlobalState } from "@render/composables/use-global-state";
-import CategorySelect from "@render/modules/category/components/atoms/category-select.vue";
-import SelectItemUnit from "@render/modules/unit/components/atoms/select-item-unit.vue";
 import { SelectOptions } from "@render/types/form.types";
 import { ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
@@ -12,7 +10,7 @@ import { MoneyUnit } from "@prisma/client";
 import ExpenseNameInput from "../atoms/expense-name-input.vue";
 import { newExpenseSchema } from "../../util/transaction.schema";
 import { transactionRepository } from "../../repository/transaction.repository";
-const isVisible = ref(true);
+const isVisible = defineModel<boolean>();
 const { t } = useI18n();
 const { storage, getters } = useGlobalState();
 const newExpenseItem = ref<NewTransaction>({

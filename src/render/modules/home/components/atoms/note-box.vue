@@ -14,13 +14,13 @@ const { t } = useI18n();
 </script>
 <template>
   <div
-    class="size-[100px] text-white bg-yellow-500 shadow-xl rounded-lg flex-center justify-between p-2 flex-col gap-4"
+    class="size-[120px] text-white bg-yellow-500 shadow-xl rounded-lg flex-center justify-between p-2 flex-col gap-4"
   >
     <span class="font-bold"> {{ t("shared.notes") }}</span>
 
     <span class="font-bold text-lg"> {{ notes.length }}</span>
 
-    <Button rounded @click="onClick">
+    <Button severity="secondary" rounded @click="onClick">
       <MaterialSymbolsLightStylusNote />
     </Button>
   </div>
