@@ -12,7 +12,8 @@
     "migrate": "prisma migrate dev  --skip-seed",
     "postmigrate": "npx @snaplet/seed sync && prisma db seed",
     "type-check": "vue-tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "initial-setup":"pnpm install && docker compose up -d && npm run migrate"
   },
   "prisma": {
     "seed": "tsx ./src/main/prisma/seed/seed.ts",
