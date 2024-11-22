@@ -5,6 +5,7 @@
     "lib": ["esnext", "dom"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "Bundler",

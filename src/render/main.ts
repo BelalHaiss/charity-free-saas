@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import { createRouter, createWebHistory } from "vue-router/auto";
-import PrimeVue from "primevue/config";
+import PrimeVue, { PrimeVueConfiguration } from "primevue/config";
 import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
 import "@fontsource/tajawal/300.css";
@@ -20,7 +20,7 @@ const router = createRouter({
 
 const app = createApp(App);
 app.use(router);
-app.use(PrimeVue, {
+app.use<PrimeVueConfiguration>(PrimeVue, {
   ripple: true,
 });
 app.use(ToastService);

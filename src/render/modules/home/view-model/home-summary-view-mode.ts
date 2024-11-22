@@ -1,4 +1,4 @@
-import { Donate, Note } from "@prisma/client";
+import { Note } from "@prisma/client";
 import { useGlobalState } from "@render/composables/use-global-state";
 import { useQueryTyped } from "@render/composables/use-query-typed";
 import { useToast } from "@render/composables/use-toast";
@@ -30,12 +30,12 @@ export const useHomeSummary = () => {
   });
 
   provide("dayData", dayData);
-  const units = computed(() => storage.value.units);
 
-  const { data } = useQueryTyped<never[]>({
-    queryKey: ["transaction", [selectedDate, storage]],
+  const { refetch } = useQueryTyped<never[]>({
+    queryKey: ["transaction", [selectedDate]],
     queryFn: () => fetchDataByDate(),
   });
+
   const fetchDataByDate = async () => {
     isLoading.value = true;
     try {
@@ -71,9 +71,7 @@ export const useHomeSummary = () => {
     }
   };
 
-  watch([selectedDate, () => storage.value.branchId], fetchDataByDate, {
-    immediate: true,
-  });
+  watch([selectedDate, () => storage.value.branchId], () => refetch());
 
   return { dayData, isLoading, selectedDate };
 };

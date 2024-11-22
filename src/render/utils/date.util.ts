@@ -1,4 +1,3 @@
-import { Locale } from "@render/config/i18n";
 import { DateTime } from "luxon";
 import { Ref } from "vue";
 type DateFormats = "d / L / y" | "yyyy-LL-dd" | "tt";

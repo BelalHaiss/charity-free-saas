@@ -4,6 +4,7 @@ import { useGlobalState } from "@render/composables/use-global-state";
 import { Locale } from "@render/config/i18n";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
+import { getCodeLabel, getLabel } from "../../utils/money-unit-utils";
 
 const { t, locale } = useI18n<object, Locale>();
 
@@ -11,12 +12,6 @@ const { storage } = useGlobalState();
 const unitsOptions = computed((): MoneyUnit[] => storage.value.moneyUnits);
 
 const selectedUnit = defineModel<MoneyUnit>();
-
-const getCodeLabel = (unit: MoneyUnit) =>
-  locale.value === "ar" ? unit["ar_code"] : unit["en_code"];
-
-const getLabel = (unit: MoneyUnit) =>
-  locale.value === "ar" ? unit["ar_name"] : unit["en_name"];
 </script>
 
 <template>

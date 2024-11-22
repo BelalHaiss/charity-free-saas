@@ -42,6 +42,7 @@ body {
   --sb-track-color: #aeb4b7d1;
   --sb-thumb-color: #6baf8d;
   --sb-size: 7px;
+  --text-black: #0f1419;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -81,4 +82,14 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+/*  */
+.p-datatable th {
+  background-color: var(--primary-300);
+  color: var(--text-black);
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  text-align: initial;
 }

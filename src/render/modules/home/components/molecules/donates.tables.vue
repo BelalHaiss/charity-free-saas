@@ -28,7 +28,7 @@ const headers = computed<TableColumns<Donate>[]>(() => [
   {
     field: "created_at",
     dataGetter: (donate) => formatDate(donate.created_at, "yyyy-LL-dd"),
-    header: t("shared.phone"),
+    header: t("shared.date"),
   },
 ]);
 
@@ -56,7 +56,6 @@ const openDonateDialog = (data?: DonateWithRelations) => {
         class: 'cursor-pointer   transition-all hover:bg-gray-100 ',
       },
     }"
-    filter-display="row"
     paginator
     @row-click="(event) => openDonateDialog(event.data)"
   >

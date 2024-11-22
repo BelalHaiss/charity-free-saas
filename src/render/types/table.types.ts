@@ -3,11 +3,13 @@ import { DataTableFilterMetaData } from "primevue/datatable";
 import { SelectOptions } from "./form.types";
 import { InputTextProps } from "primevue/inputtext";
 import { InputNumberProps } from "primevue/inputnumber";
+import { Primitive } from "zod";
 
 export type FilterFieldType = "text" | "date" | "number" | "select";
 export type TableColumns<T extends object> = {
-  field: keyof T;
-  dataGetter: (data: T) => string | number;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  field: keyof T | (string & {}); // Add a branded `string` type
+  dataGetter: (data: T) => Primitive;
   fieldType?: FilterFieldType;
   options?: SelectOptions[];
 } & Omit<ColumnProps, "field">;

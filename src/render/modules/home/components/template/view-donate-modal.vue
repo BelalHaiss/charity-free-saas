@@ -14,12 +14,12 @@ const isVisible = defineModel<boolean>();
       <ViewDonorDetails :donate="props.donate" />
       <ViewDonateAmount
         :transaction="props.donate.transaction"
-        v-if="!!props.donate.transaction"
+        v-if="props.donate.transaction"
       />
 
       <ViewDonateItems
         :items="props.donate.donate_items"
-        v-if="!!props.donate.donate_items"
+        v-if="props.donate.donate_items.length"
       />
     </div>
   </Dialog>
