@@ -264,7 +264,7 @@ model DonateItem {
   user_unit_size  UNIT_SIZE // the unit that user select when he add item
   user_unit_value Int // the value that user typed when add item
 
-  Donate Donate @relation(fields: [donate_id], references: [id])
+  Donate Donate @relation(fields: [donate_id], references: [id],onDelete: Cascade)
   Item   Item   @relation(fields: [item_id], references: [id])
 
   @@map("donate_item")

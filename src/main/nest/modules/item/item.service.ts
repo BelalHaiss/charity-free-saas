@@ -38,7 +38,7 @@ export class ItemService {
 
       if (newQty < 0) {
         throw new CustomException({
-          message: "item qty can be less than 0",
+          message: "item qty can`t be less than 0",
           status: HttpStatus.BAD_REQUEST,
         });
       }

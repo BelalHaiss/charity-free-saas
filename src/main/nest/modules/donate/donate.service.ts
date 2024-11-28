@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpStatus, Injectable } from "@nestjs/common";
 import { CreateDonateDto } from "./dto/create-donate.dto";
 import { UpdateDonateDto } from "./dto/update-donate.dto";
 import type {
@@ -17,6 +17,7 @@ import { Prisma } from "@prisma/client";
 import { UnitService } from "../unit/unit.service";
 import { ItemService } from "../item/item.service";
 import { ItemChangeQty } from "@shared/types/item/item.dto";
+import { CustomException } from "@main/nest/shared/exception/CustomException";
 
 @Injectable()
 export class DonateService {
@@ -121,6 +122,30 @@ export class DonateService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} donate`;
+    return this.prismaService.$transaction(async (tx) => {
+      const donate = await tx.donate.findUnique({
+        where: { id },
+        include: { donate_items: true }, // Include associated donate_items
+      });
+
+      if (!donate) {
+        throw new CustomException({
+          message: "Donation not found",
+          status: HttpStatus.NOT_FOUND,
+        });
+      }
+
+      await tx.donate.delete({ where: { id } });
+
+      if (donate.donate_items.length > 0) {
+        await this.itemService.updateMultipleItemsQty(
+          donate.donate_items.map((donateItem) => ({
+            change: -donateItem.unit_value,
+            itemId: donateItem.id,
+          })),
+          tx,
+        );
+      }
+    });
   }
 }
