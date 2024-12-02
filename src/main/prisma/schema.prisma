@@ -285,7 +285,7 @@ model Transaction {
   branch    Branch @relation(fields: [branch_id], references: [id])
 
   donate_id          Int?          @unique
-  donate             Donate?       @relation(fields: [donate_id], references: [id])
+  donate             Donate?       @relation(fields: [donate_id], references: [id],onDelete: Cascade)
   visit_benefit_id   Int?          @unique
   visit_benefit_item VisitBenefit? @relation(fields: [visit_benefit_id], references: [id])
 

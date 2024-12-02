@@ -7,7 +7,27 @@ import { DayData } from "../../view-model/home-summary-view-mode";
 import { ClientTransaction } from "@render/modules/transaction/types/transactions.types";
 import { useGlobalState } from "@render/composables/use-global-state";
 import { getCodeLabel } from "@render/modules/unit/utils/money-unit-utils";
+import IconRepository from "@render/components/atoms/icon-repository.vue";
+import DeleteItemWithConfirmDialog from "@render/components/molecules/delete-item-with-confirm-dialog.vue";
+import { transactionRepository } from "@render/modules/transaction/repository/transaction.repository";
+import { useToast } from "@render/composables/use-toast";
+import {
+  QUERY_KEYS,
+  useQueryHelper,
+} from "@render/composables/use-query-typed";
 
+const { successToast, failedToast } = useToast();
+const { invalidateQueries } = useQueryHelper();
+const selectedDate = inject<Ref<Date, Date>>("currentSelectedDate");
+const handleDeleteExpense = async (expenseId: number) => {
+  try {
+    await transactionRepository.deleteExpense(expenseId);
+    await invalidateQueries(QUERY_KEYS.TRANSACTION(selectedDate!));
+    successToast();
+  } catch (e) {
+    failedToast();
+  }
+};
 const { getters } = useGlobalState();
 const { t } = useI18n();
 const headers = computed<TableColumns<ClientTransaction>[]>(() => [
@@ -32,6 +52,19 @@ const headers = computed<TableColumns<ClientTransaction>[]>(() => [
     field: "created_at",
     dataGetter: (expense) => formatDate(expense.created_at, "yyyy-LL-dd"),
     header: t("shared.date"),
+  },
+  {
+    field: "delete",
+    headerComponent: {
+      component: IconRepository,
+      props: { iconName: "filled-delete" },
+    },
+    bodyComponent: {
+      component: DeleteItemWithConfirmDialog,
+      props: (expense) => ({
+        handleDelete: () => handleDeleteExpense(expense.id),
+      }),
+    },
   },
 ]);
 
@@ -64,8 +97,19 @@ const expenses = computed<ClientTransaction[]>(
       :show-filter-menu="false"
       :header="column.header"
     >
+      <template v-if="column.headerComponent" #header>
+        <component
+          :is="column.headerComponent.component"
+          v-bind="column.headerComponent.props"
+        />
+      </template>
       <template #body="{ data }">
-        <span class="block"> {{ column.dataGetter(data) }} </span>
+        <span v-if="column.dataGetter">{{ column.dataGetter!(data) }} </span>
+        <component
+          v-if="column.bodyComponent"
+          :is="column.bodyComponent.component"
+          v-bind="column.bodyComponent.props!(data)"
+        />
       </template>
     </Column>
   </DataTable>

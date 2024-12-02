@@ -60,7 +60,7 @@ const {
         </template>
 
         <template #body="{ data }">
-          <span> {{ column.dataGetter(data) }} </span>
+          <span v-if="column.dataGetter"> {{ column.dataGetter(data) }} </span>
         </template>
       </Column>
 

@@ -25,6 +25,13 @@ class DonateRepository {
       config: { method: "POST", data: newDonateServerDto },
     });
   }
+
+  deleteDonateById(id: number) {
+    return fetcher({
+      url: `donate/${id}`,
+      config: { method: "DELETE" },
+    });
+  }
 }
 
 export const donateRepository = new DonateRepository();

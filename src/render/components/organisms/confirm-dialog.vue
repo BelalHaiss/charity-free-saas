@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ConfirmDialogProps } from "@render/composables/use-confirm";
+import { ConfirmReturn } from "@render/composables/use-confirm";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-const props = defineProps<ConfirmDialogProps>();
+const props = defineProps<ConfirmReturn>();
 
 const isSubmitting = computed(() => props.isSubmitting.value);
 const isVisible = computed(() => props.isVisible.value);
@@ -32,6 +32,7 @@ const { t } = useI18n();
         type="button"
         :label="t('shared.confirm')"
         :loading="isSubmitting"
+        :severity="props.confirmButtonSeverity"
         @click="props.onConfirm"
       />
     </div>

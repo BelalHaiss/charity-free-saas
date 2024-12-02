@@ -10,9 +10,8 @@ import "@fontsource/tajawal/700.css";
 import "@fontsource/tajawal/800.css";
 import "@fontsource/tajawal/900.css";
 import { VueQueryPlugin } from "@tanstack/vue-query";
-
-import App from "./App.vue";
 import { i18nConfig } from "./config/i18n";
+import App from "./App.vue";
 const router = createRouter({
   history: createWebHistory(),
   // the routes property is handled by the plugin

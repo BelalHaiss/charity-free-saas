@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { useQueryTyped } from "@render/composables/use-query-typed";
+import { QUERY_KEYS } from "@render/composables/use-query-typed";
 import { itemRepository } from "../../repository/item.repository";
 import ItemDeleted from "@render/components/atoms/item-deleted.vue";
 import { computed, watch } from "vue";
 import { useGlobalState } from "@render/composables/use-global-state";
 import { UNIT_SIZE } from "@prisma/client";
+import { useQuery } from "@tanstack/vue-query";
 
 const { itemId, unitSize } = defineProps<{
   itemId: number;
@@ -12,8 +13,8 @@ const { itemId, unitSize } = defineProps<{
 }>();
 
 const { getters } = useGlobalState();
-const { data, error, isLoading } = useQueryTyped({
-  queryKey: ["item", itemId],
+const { data, error, isLoading } = useQuery({
+  queryKey: QUERY_KEYS.ITEM_ID(itemId),
   queryFn: () => itemRepository.getItemById(itemId),
 });
 

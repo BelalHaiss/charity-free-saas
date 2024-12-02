@@ -1,6 +1,6 @@
 import { Note } from "@prisma/client";
 import { useGlobalState } from "@render/composables/use-global-state";
-import { useQueryTyped } from "@render/composables/use-query-typed";
+import { QUERY_KEYS } from "@render/composables/use-query-typed";
 import { useToast } from "@render/composables/use-toast";
 import { donateRepository } from "@render/modules/donate/repository/donate.repository";
 import { noteRepository } from "@render/modules/note/repository/note.repository";
@@ -8,6 +8,7 @@ import { transactionRepository } from "@render/modules/transaction/repository/tr
 import { ClientTransaction } from "@render/modules/transaction/types/transactions.types";
 import { formatDateRefToIsoDateOnly } from "@render/utils/date.util";
 import { DonateWithRelations } from "@shared/types/donates/donates.dto";
+import { useQuery } from "@tanstack/vue-query";
 import { computed, provide, ref, watch } from "vue";
 
 export type DayData = {
@@ -30,9 +31,9 @@ export const useHomeSummary = () => {
   });
 
   provide("dayData", dayData);
-
-  const { refetch } = useQueryTyped<never[]>({
-    queryKey: ["transaction", [selectedDate]],
+  provide("currentSelectedDate", selectedDate);
+  const { refetch } = useQuery({
+    queryKey: QUERY_KEYS.TRANSACTION(selectedDate),
     queryFn: () => fetchDataByDate(),
   });
 

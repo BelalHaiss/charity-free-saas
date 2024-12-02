@@ -1,3 +1,4 @@
+import { ButtonProps } from "primevue/button";
 import { Ref, ref } from "vue";
 import { Locale, useI18n } from "vue-i18n";
 
@@ -6,14 +7,19 @@ export type ConfirmDialogProps = {
   isSubmitting: Ref<boolean>;
   header?: string;
   description?: string;
-  onConfirm(): void;
   onCancel(): void;
+  confirmButtonSeverity?: ButtonProps["severity"];
+};
+
+export type ConfirmReturn = ConfirmDialogProps & {
+  onConfirm(): Promise<unknown>;
+  showDialog(): void;
 };
 
 export const useConfirm = (
-  onConfirm: (isSubmitting: Ref<boolean>) => void,
+  onConfirm: () => Promise<unknown>,
   customProps?: Partial<ConfirmDialogProps>,
-) => {
+): ConfirmReturn => {
   const { t } = useI18n<object, Locale>();
   const isVisible = ref(false);
   const isSubmitting = ref(false);
@@ -27,11 +33,22 @@ export const useConfirm = (
     customProps?.description ?? t("shared.actions.confirm-msg");
 
   const onCancel = customProps?.onCancel ?? hideDialog;
+  const handleConfirm = async () => {
+    try {
+      isSubmitting.value = true;
+      await onConfirm();
+      hideDialog();
+    } catch (e) {
+      console.error(`error inside confirm dialog ${e}`);
+    } finally {
+      isSubmitting.value = false;
+    }
+  };
   return {
     isVisible,
     isSubmitting,
     onCancel,
-    onConfirm: () => onConfirm(isSubmitting),
+    onConfirm: handleConfirm,
     header,
     description,
     showDialog,

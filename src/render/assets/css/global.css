@@ -19,7 +19,7 @@
     @apply w-full overflow-hidden relative bg-zinc-100 flex mx-auto max-w-[1500px]  h-dvh;
   }
   .page-container {
-    @apply flex  flex-col flex-1 gap-2 [&>div]:rounded-2xl [&>div]:shadow-md;
+    @apply flex  overflow-hidden flex-col flex-1 gap-2 [&>div]:rounded-2xl [&>div]:shadow-md;
   }
   .page-content {
     @apply flex-1 w-full mx-auto  overflow-y-auto overflow-x-hidden;

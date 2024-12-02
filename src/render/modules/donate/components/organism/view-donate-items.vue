@@ -52,7 +52,7 @@ const tableHeader = computed((): TableHeader[] => [
             :unit-size="item.user_unit_size"
             :item-id="item.item_id"
           />
-          <span class="text-center flex-1">{{ item.unit_value }}</span>
+          <span class="text-center flex-1">{{ item.user_unit_value }}</span>
         </div>
       </div>
     </template>

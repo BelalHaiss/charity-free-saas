@@ -1,12 +1,29 @@
-import { FetcherArgs } from "@render/utils/api.util";
-import { useQuery } from "@tanstack/vue-query";
+import { BeneficiaryTableQuery } from "@shared/types/beneficiaries/beneficiaries.dto";
+import { QueryKey, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { Ref } from "vue";
 
-type QueryOptions<T> = Parameters<typeof useQuery<T>>[0];
-type TypedQueryArg<T> = {
-  queryKey: [FetcherArgs["url"], unknown?];
-  queryFn: () => Promise<T>;
-} & QueryOptions<T>;
+export const QUERY_KEYS = {
+  UNITS: ["unit"],
+  MONEY_UNITS: ["money_units"],
+  BENEFICIARY_TABLE: (tableQuery: Ref<BeneficiaryTableQuery>) => [
+    "beneficiary",
+    tableQuery,
+  ],
+  CATEGORY: (branchId: Ref<number>) => ["category", branchId],
+  TRANSACTION: (selectedDate: Ref<Date, Date>) => ["transaction", selectedDate],
+  ITEM_ID: (itemId: number) => ["item", itemId],
+  EXPENSES_NAME: (branchId: Ref<number>) => [
+    "transaction",
+    "expenses_name",
+    branchId,
+  ],
+};
 
-export const useQueryTyped = <T>({ queryKey, queryFn }: TypedQueryArg<T>) => {
-  return useQuery({ queryKey, queryFn });
+export const useQueryHelper = <T>() => {
+  const queryClient = useQueryClient();
+
+  const invalidateQueries = (key: QueryKey) =>
+    queryClient.invalidateQueries({ queryKey: key });
+
+  return { invalidateQueries, useQuery };
 };

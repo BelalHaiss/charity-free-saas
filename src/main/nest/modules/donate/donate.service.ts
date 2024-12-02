@@ -125,7 +125,7 @@ export class DonateService {
     return this.prismaService.$transaction(async (tx) => {
       const donate = await tx.donate.findUnique({
         where: { id },
-        include: { donate_items: true }, // Include associated donate_items
+        include: { donate_items: true, transaction: true }, // Include associated donate_items
       });
 
       if (!donate) {

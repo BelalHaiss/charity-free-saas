@@ -32,6 +32,14 @@ class TransactionRepository implements TransactionRepositoryI {
       },
     });
   }
+  deleteExpense(transactionId: number) {
+    return fetcher({
+      url: `transaction/${transactionId}`,
+      config: {
+        method: "DELETE",
+      },
+    });
+  }
 }
 
 export const transactionRepository = new TransactionRepository();

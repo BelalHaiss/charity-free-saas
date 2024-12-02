@@ -7,8 +7,30 @@ import { useI18n } from "vue-i18n";
 import { DayData } from "../../view-model/home-summary-view-mode";
 import { DonateWithRelations } from "@shared/types/donates/donates.dto";
 import ViewDonateModal from "../template/view-donate-modal.vue";
+import IconRepository from "@render/components/atoms/icon-repository.vue";
+import DeleteItemWithConfirmDialog from "@render/components/molecules/delete-item-with-confirm-dialog.vue";
+import { donateRepository } from "@render/modules/donate/repository/donate.repository";
+import { useToast } from "@render/composables/use-toast";
+import {
+  QUERY_KEYS,
+  useQueryHelper,
+} from "@render/composables/use-query-typed";
 
 const { t } = useI18n();
+const { successToast, failedToast } = useToast();
+const { invalidateQueries } = useQueryHelper();
+const selectedDate = inject<Ref<Date, Date>>("currentSelectedDate");
+
+const handleDeleteDonate = async (donate: Donate) => {
+  try {
+    await donateRepository.deleteDonateById(donate.id);
+    await invalidateQueries(QUERY_KEYS.TRANSACTION(selectedDate!));
+
+    successToast();
+  } catch (e) {
+    failedToast();
+  }
+};
 const headers = computed<TableColumns<Donate>[]>(() => [
   {
     field: "donor",
@@ -30,6 +52,19 @@ const headers = computed<TableColumns<Donate>[]>(() => [
     dataGetter: (donate) => formatDate(donate.created_at, "yyyy-LL-dd"),
     header: t("shared.date"),
   },
+  {
+    field: "delete",
+    headerComponent: {
+      component: IconRepository,
+      props: { iconName: "filled-delete" },
+    },
+    bodyComponent: {
+      component: DeleteItemWithConfirmDialog,
+      props: (donate) => ({
+        handleDelete: () => handleDeleteDonate(donate),
+      }),
+    },
+  },
 ]);
 
 const dayData = inject<Ref<DayData>>("dayData");
@@ -50,6 +85,7 @@ const openDonateDialog = (data?: DonateWithRelations) => {
     :rows="donates.length"
     :value="donates"
     showGridlines
+    class=""
     lazy
     :pt="{
       bodyRow: {
@@ -67,8 +103,19 @@ const openDonateDialog = (data?: DonateWithRelations) => {
       :show-filter-menu="false"
       :header="column.header"
     >
+      <template v-if="column.headerComponent" #header>
+        <component
+          :is="column.headerComponent.component"
+          v-bind="column.headerComponent.props"
+        />
+      </template>
       <template #body="{ data }">
-        <span> {{ column.dataGetter(data) }} </span>
+        <span v-if="column.dataGetter">{{ column.dataGetter!(data) }} </span>
+        <component
+          v-if="column.bodyComponent"
+          :is="column.bodyComponent.component"
+          v-bind="column.bodyComponent.props!(data)"
+        />
       </template>
     </Column>
   </DataTable>

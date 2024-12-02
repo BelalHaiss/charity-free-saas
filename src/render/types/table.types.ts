@@ -4,14 +4,34 @@ import { SelectOptions } from "./form.types";
 import { InputTextProps } from "primevue/inputtext";
 import { InputNumberProps } from "primevue/inputnumber";
 import { Primitive } from "zod";
+import { Component } from "vue";
 
+type DynamicComponentWithProps = {
+  component: Component;
+  props?: Record<string, unknown>; // Props to be passed to the custom component
+};
 export type FilterFieldType = "text" | "date" | "number" | "select";
-export type TableColumns<T extends object> = {
+export type TableColumns<T extends object> = (
+  | {
+      bodyComponent: {
+        component: Component;
+        props?: (data: T) => Record<string, unknown>;
+      };
+      dataGetter?: never; // Ensures `dataGetter` is not present
+    }
+  | {
+      dataGetter: (data: T) => Primitive;
+      bodyComponent?: never; // Ensures `bodyComponent` is not present
+    }
+) & {
   // eslint-disable-next-line @typescript-eslint/ban-types
   field: keyof T | (string & {}); // Add a branded `string` type
-  dataGetter: (data: T) => Primitive;
   fieldType?: FilterFieldType;
   options?: SelectOptions[];
+  headerComponent?: {
+    component: Component;
+    props?: Record<string, unknown>;
+  };
 } & Omit<ColumnProps, "field">;
 
 export type TableFilter<T extends object> = {

@@ -54,8 +54,7 @@ export const useInitialSetup = () => {
 
   const { successToast, failedToast } = useToast();
   // const { actions } = useGlobalState();
-  const onConfirmSubmit = async (isSubmitting: Ref<boolean>) => {
-    isSubmitting.value = true;
+  const onConfirmSubmit = async () => {
     try {
       await sleep(2000);
       successToast();
@@ -71,8 +70,6 @@ export const useInitialSetup = () => {
       console.log({ error }, "failed errro");
       failedToast();
       return;
-    } finally {
-      isSubmitting.value = false;
     }
   };
   const confirmProps = useConfirm(onConfirmSubmit);

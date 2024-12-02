@@ -8,7 +8,7 @@ const { isLoading, dayData, selectedDate } = useHomeSummary();
 </script>
 <template>
   <SpinnerFullPage v-if="isLoading" />
-  <div v-else class="flex flex-col gap-4 p-4 page-content">
+  <div v-else class="flex flex-col gap-4 p-4 page-content flex-wrap">
     <HomeHeader v-model="selectedDate" v-bind="dayData" />
 
     <!-- tabs -->

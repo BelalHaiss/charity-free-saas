@@ -30,16 +30,13 @@ const { setValues, handleSubmit, isSubmitting, values } = useForm<NewDonate>({
   validationSchema: toTypedSchema(newDonateSchema),
 });
 
-const submitDataToServer = async (isSubmitting: Ref<boolean>) => {
+const submitDataToServer = async () => {
   try {
-    isSubmitting.value = true;
     await donateRepository.createNewDonate(values);
     successToast();
     isVisible.value = false;
   } catch (error) {
     failedToast();
-  } finally {
-    isSubmitting.value = false;
   }
 };
 

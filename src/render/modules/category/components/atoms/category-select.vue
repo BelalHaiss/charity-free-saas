@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import CreatableSelect from "@render/components/molecules/creatable-select.vue";
-import { useQueryTyped } from "@render/composables/use-query-typed";
+import { QUERY_KEYS } from "@render/composables/use-query-typed";
 import { useI18n } from "vue-i18n";
 import { categoryRepository } from "../../repository/category.repository";
 import { useGlobalState } from "@render/composables/use-global-state";
-import { computed, ref, watch } from "vue";
+import { computed } from "vue";
 import { SelectOptions } from "@render/types/form.types";
+import { useQuery } from "@tanstack/vue-query";
 const { t } = useI18n();
 
 const { storage } = useGlobalState();
 const branchId = computed(() => storage.value.branchId);
-
 const {
   data: categories,
   isRefetching,
   refetch,
-} = useQueryTyped({
-  queryKey: ["category", branchId],
+} = useQuery({
+  queryKey: QUERY_KEYS.CATEGORY(branchId),
   queryFn: () => categoryRepository.findAll(branchId.value),
   initialData: [],
 });

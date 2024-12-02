@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { useQueryTyped } from "@render/composables/use-query-typed";
+import { QUERY_KEYS } from "@render/composables/use-query-typed";
 import { transactionRepository } from "../../repository/transaction.repository";
 import { useGlobalState } from "@render/composables/use-global-state";
 import { computed, ref } from "vue";
 import { SelectOptions } from "@render/types/form.types";
 import CreatableSelect from "@render/components/molecules/creatable-select.vue";
 import { useI18n } from "vue-i18n";
+import { useQuery } from "@tanstack/vue-query";
 
 const { t } = useI18n();
 const { storage } = useGlobalState();
 const branch = computed(() => storage.value.branchId);
-const { data: expensesNames, isLoading } = useQueryTyped({
-  queryKey: ["transaction", ["expenses_name", branch.value]],
+const { data: expensesNames, isLoading } = useQuery({
+  queryKey: QUERY_KEYS.EXPENSES_NAME(branch),
   queryFn: () => transactionRepository.getExpensesName(branch.value),
   initialData: [],
 });

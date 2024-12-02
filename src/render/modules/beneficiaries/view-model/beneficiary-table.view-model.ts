@@ -1,4 +1,4 @@
-import { useQueryTyped } from "@render/composables/use-query-typed";
+import { QUERY_KEYS } from "@render/composables/use-query-typed";
 import type { Locale } from "@render/config/i18n";
 import { TableColumns, TableFilter } from "@render/types/table.types";
 import { formatDate } from "@render/utils/date.util";
@@ -11,6 +11,7 @@ import { useI18n } from "vue-i18n";
 import { DataTableFilterEvent, DataTablePageEvent } from "primevue/datatable";
 import { useRouter } from "vue-router/auto";
 import { beneficiaryRepository } from "../repository/beneficiary.repository";
+import { useQuery } from "@tanstack/vue-query";
 
 export const useBeneficiaryTable = () => {
   const { t } = useI18n<object, Locale>();
@@ -76,8 +77,8 @@ export const useBeneficiaryTable = () => {
     filter: {},
   });
 
-  const { data: apiRes, isFetching } = useQueryTyped({
-    queryKey: ["beneficiary", tableQuery],
+  const { data: apiRes, isFetching } = useQuery({
+    queryKey: QUERY_KEYS.BENEFICIARY_TABLE(tableQuery),
     queryFn: () => beneficiaryRepository.getBeneficiariesTableData(tableQuery),
   });
   const onPageChanged = (e: DataTablePageEvent) => {
