@@ -12,12 +12,12 @@ import type {
   CastQueryFieldsToStrings,
 } from "@shared/types/util.types";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
-import { endOfTheDay, startOfTheDay } from "@main/nest/shared/utils/date.util";
 import { Prisma } from "@prisma/client";
 import { UnitService } from "../unit/unit.service";
 import { ItemService } from "../item/item.service";
 import { ItemChangeQty } from "@shared/types/item/item.dto";
 import { CustomException } from "@main/nest/shared/exception/CustomException";
+import { UtilsService } from "../utils/utils.service";
 
 @Injectable()
 export class DonateService {
@@ -25,6 +25,7 @@ export class DonateService {
     private prismaService: PrismaService,
     private unitService: UnitService,
     private itemService: ItemService,
+    private utilService: UtilsService,
   ) {}
   async create(newDonate: CastDateFieldsToIsoDate<NewDonate>) {
     let donateItems: Prisma.DonateItemCreateManyDonateInput[] = [];
@@ -97,14 +98,12 @@ export class DonateService {
 
   findByDate(
     query: CastQueryFieldsToStrings<QueryDonateByDate>,
+    timeZone: string,
   ): Promise<DonateWithRelations[]> {
     return this.prismaService.donate.findMany({
       where: {
         branch_id: +query.branchId,
-        created_at: {
-          gte: startOfTheDay(query.date),
-          lte: endOfTheDay(query.date),
-        },
+        created_at: this.utilService.getFullDayDateFilter(query.date, timeZone),
       },
       include: {
         transaction: true,

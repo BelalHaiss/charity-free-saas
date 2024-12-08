@@ -22,6 +22,7 @@ import type {
 } from "@shared/types/donates/donates.dto";
 import { ZodValidationPipe } from "@main/nest/shared/pipes/zod.pipe";
 import { newDonateServerSchema } from "@shared/services/schema/donate.schema";
+import { Timezone } from "@main/nest/decrator/timezone.decrator";
 
 @Controller("donate")
 export class DonateController {
@@ -34,8 +35,11 @@ export class DonateController {
   }
 
   @Get()
-  findByDate(@Query() query: CastQueryFieldsToStrings<QueryDonateByDate>) {
-    return this.donateService.findByDate(query);
+  findByDate(
+    @Query() query: CastQueryFieldsToStrings<QueryDonateByDate>,
+    @Timezone() timeZone: string,
+  ) {
+    return this.donateService.findByDate(query, timeZone);
   }
 
   @Get(":id")

@@ -53,6 +53,7 @@
     "@snaplet/copycat": "^5.0.0",
     "@snaplet/seed": "0.97.20",
     "@tanstack/eslint-plugin-query": "^5.56.1",
+    "@types/express": "^5.0.0",
     "@types/luxon": "^3.4.2",
     "@types/qs": "^6.9.16",
     "@vitejs/plugin-vue": "5.0.4",

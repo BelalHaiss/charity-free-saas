@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGlobalState } from "@render/composables/use-global-state";
 import { SelectOptions } from "@render/types/form.types";
-import { ref, watch } from "vue";
+import { inject, Ref, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "@render/composables/use-toast";
 import { NewTransaction } from "@shared/types/transaction/transaction.dto";
@@ -10,6 +10,10 @@ import { MoneyUnit } from "@prisma/client";
 import ExpenseNameInput from "../atoms/expense-name-input.vue";
 import { newExpenseSchema } from "../../util/transaction.schema";
 import { transactionRepository } from "../../repository/transaction.repository";
+import {
+  useQueryHelper,
+  QUERY_KEYS,
+} from "@render/composables/use-query-typed";
 const isVisible = defineModel<boolean>();
 const { t } = useI18n();
 const { storage, getters } = useGlobalState();
@@ -25,6 +29,10 @@ const newExpenseItem = ref<NewTransaction>({
 const expenseNameValue = ref<SelectOptions<string>>();
 const moneyUnit = ref<MoneyUnit>(getters.getMoneyUnitByEnCode("EGP")!);
 const amount = ref(0);
+
+const { invalidateQueries } = useQueryHelper();
+
+const selectedDate = inject<Ref<Date, Date>>("currentSelectedDate");
 
 watch([expenseNameValue, moneyUnit, amount], (newVal) => {
   newExpenseItem.value.label = newVal[0]?.value ?? "";
@@ -43,8 +51,10 @@ const saveNewItem = async () => {
   }
   try {
     await transactionRepository.createTransaction(newExpenseItem.value);
+    await invalidateQueries(QUERY_KEYS.TRANSACTION(selectedDate!));
     isSubmiting.value = true;
     successToast();
+
     isVisible.value = false;
   } catch (error) {
     console.error({ error });

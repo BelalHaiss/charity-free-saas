@@ -4,23 +4,27 @@ import { UpdateNoteDto } from "./dto/update-note.dto";
 import type { QueryNoteByDate } from "@shared/types/note/note.dto";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
-import { endOfTheDay, startOfTheDay } from "@main/nest/shared/utils/date.util";
+import { UtilsService } from "../utils/utils.service";
 
 @Injectable()
 export class NoteService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private utilService: UtilsService,
+  ) {}
+
   create(createNoteDto: CreateNoteDto) {
     return "This action adds a new note";
   }
 
-  getDayNotes(query: CastQueryFieldsToStrings<QueryNoteByDate>) {
+  getDayNotes(
+    query: CastQueryFieldsToStrings<QueryNoteByDate>,
+    timeZone: string,
+  ) {
     return this.prismaService.note.findMany({
       where: {
         branch_id: +query.branchId,
-        created_at: {
-          lte: endOfTheDay(query.date),
-          gte: startOfTheDay(query.date),
-        },
+        created_at: this.utilService.getFullDayDateFilter(query.date, timeZone),
       },
     });
   }

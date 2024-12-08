@@ -6,11 +6,14 @@ import type {
 } from "@shared/types/transaction/transaction.dto";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
-import { endOfTheDay, startOfTheDay } from "@main/nest/shared/utils/date.util";
+import { UtilsService } from "../utils/utils.service";
 
 @Injectable()
 export class TransactionService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private utilService: UtilsService,
+  ) {}
   create(newTransaction: NewTransaction) {
     return this.prismaService.transaction.create({ data: newTransaction });
   }
@@ -22,14 +25,14 @@ export class TransactionService {
     return res.map((item) => item.label);
   }
 
-  findByType(query: CastQueryFieldsToStrings<TransactionQueryByType>) {
+  findByType(
+    query: CastQueryFieldsToStrings<TransactionQueryByType>,
+    timeZone: string,
+  ) {
     return this.prismaService.transaction.findMany({
       where: {
         type: query.type,
-        created_at: {
-          lte: endOfTheDay(query.date),
-          gte: startOfTheDay(query.date),
-        },
+        created_at: this.utilService.getFullDayDateFilter(query.date, timeZone),
         branch_id: +query.branchId,
       },
     });

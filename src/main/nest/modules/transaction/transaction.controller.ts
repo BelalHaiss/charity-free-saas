@@ -15,6 +15,7 @@ import type {
   NewTransaction,
   TransactionQueryByType,
 } from "@shared/types/transaction/transaction.dto";
+import { Timezone } from "@main/nest/decrator/timezone.decrator";
 
 @Controller("transaction")
 export class TransactionController {
@@ -32,8 +33,9 @@ export class TransactionController {
   @Get()
   findTransactionByType(
     @Query() query: CastQueryFieldsToStrings<TransactionQueryByType>,
+    @Timezone() timeZone: string,
   ) {
-    return this.transactionService.findByType(query);
+    return this.transactionService.findByType(query, timeZone);
   }
 
   @Get(":id")

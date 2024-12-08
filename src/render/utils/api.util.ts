@@ -7,6 +7,20 @@ const axiosInstance = axios.create({
   baseURL: "http://localhost:4000/api/v1/",
 });
 
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    config.headers["Time-Zone"] = timezone;
+
+    return config;
+  },
+  (error) => {
+    console.error("Request Interceptor Error:", error);
+    return Promise.reject(error); // Allow the error to propagate
+  },
+);
+
 import qs from "qs";
 export type ApiPaths =
   | "beneficiary"

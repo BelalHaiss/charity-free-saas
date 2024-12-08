@@ -11,6 +11,7 @@ import { NoteModule } from "./modules/note/note.module";
 import { CategoryModule } from "./modules/category/category.module";
 import { BenefitModule } from "./modules/benefit/benefit.module";
 import { ItemModule } from "./modules/item/item.module";
+import { UtilsModule } from "./modules/utils/utils.module";
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ItemModule } from "./modules/item/item.module";
     CategoryModule,
     BenefitModule,
     ItemModule,
+    UtilsModule,
   ],
 })
 export class AppModule {}
