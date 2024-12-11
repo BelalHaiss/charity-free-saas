@@ -47,9 +47,17 @@
     "username": "username",
     "max_selected": "selected items count {count} ",
     "errors": {
-      "short_field": "value is too short",
-      "date": "Enter The Date",
-      "min_selected": "select more values"
+      "required": "This field is required",
+      "email": "Please enter a valid email",
+      "min": "Must be at least {min} characters",
+      "max": "Must be no more than {max} characters",
+      "minNumber": "Must be at least {min}",
+      "maxNumber": "Must be no more than {max}",
+      "invalidDate": "Please enter a valid date",
+      "positiveNumber": "Must be a positive number",
+      "integer": "Please enter a valid integer",
+      "arrayMin": "select at least {min} items",
+      "arrayMax": "don`t select  more than {max} items"
     }
   },
   "actions": {

@@ -9,10 +9,12 @@ import {
   Query,
 } from "@nestjs/common";
 import { NoteService } from "./note.service";
-import { CreateNoteDto } from "./dto/create-note.dto";
-import { UpdateNoteDto } from "./dto/update-note.dto";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
-import type { QueryNoteByDate } from "@shared/types/note/note.dto";
+import type {
+  CreateNote,
+  QueryNoteByDate,
+  UpdateNotePayload,
+} from "@shared/types/note/note.dto";
 import { BranchID, Timezone } from "@main/nest/decorator/headers.decorator";
 
 @Controller("note")
@@ -20,7 +22,7 @@ export class NoteController {
   constructor(private readonly noteService: NoteService) {}
 
   @Post()
-  create(@Body() createNoteDto: CreateNoteDto) {
+  create(@Body() createNoteDto: CreateNote) {
     return this.noteService.create(createNoteDto);
   }
 
@@ -39,7 +41,7 @@ export class NoteController {
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateNoteDto: UpdateNoteDto) {
+  update(@Param("id") id: string, @Body() updateNoteDto: UpdateNotePayload) {
     return this.noteService.update(+id, updateNoteDto);
   }
 

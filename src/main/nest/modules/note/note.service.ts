@@ -1,7 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { CreateNoteDto } from "./dto/create-note.dto";
-import { UpdateNoteDto } from "./dto/update-note.dto";
-import type { QueryNoteByDate } from "@shared/types/note/note.dto";
+import type {
+  CreateNote,
+  QueryNoteByDate,
+  UpdateNotePayload,
+} from "@shared/types/note/note.dto";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import { UtilsService } from "../utils/utils.service";
@@ -13,8 +15,8 @@ export class NoteService {
     private utilService: UtilsService,
   ) {}
 
-  create(createNoteDto: CreateNoteDto) {
-    return "This action adds a new note";
+  create(createNoteDto: CreateNote) {
+    return this.prismaService.note.create({ data: createNoteDto });
   }
 
   getDayNotes(
@@ -34,7 +36,7 @@ export class NoteService {
     return `This action returns a #${id} note`;
   }
 
-  update(id: number, updateNoteDto: UpdateNoteDto) {
+  update(id: number, updateNoteDto: UpdateNotePayload) {
     return `This action updates a #${id} note`;
   }
 
