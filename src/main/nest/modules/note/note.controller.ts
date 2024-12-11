@@ -13,7 +13,7 @@ import { CreateNoteDto } from "./dto/create-note.dto";
 import { UpdateNoteDto } from "./dto/update-note.dto";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
 import type { QueryNoteByDate } from "@shared/types/note/note.dto";
-import { Timezone } from "@main/nest/decrator/timezone.decrator";
+import { BranchID, Timezone } from "@main/nest/decorator/headers.decorator";
 
 @Controller("note")
 export class NoteController {
@@ -28,8 +28,9 @@ export class NoteController {
   getDayNotes(
     @Query() query: CastQueryFieldsToStrings<QueryNoteByDate>,
     @Timezone() timeZone: string,
+    @BranchID() branchId: number,
   ) {
-    return this.noteService.getDayNotes(query, timeZone);
+    return this.noteService.getDayNotes(query, timeZone, branchId);
   }
 
   @Get(":id")

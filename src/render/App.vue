@@ -11,9 +11,11 @@ import { Locale } from "./config/i18n";
 import { useInitialCacheHandler } from "./composables/use-initial-cache";
 import SpinnerFullPage from "./components/molecules/spinner-full-page.vue";
 import { Settings } from "luxon";
+import { useGlobalState } from "./composables/use-global-state";
 
 const { locale } = useI18n<object, Locale>();
 const primevue = usePrimeVue();
+
 const isFirstRouteHandled = ref(false);
 // const { storage } = useGlobalState();
 const route = useRoute();

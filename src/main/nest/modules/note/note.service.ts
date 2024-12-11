@@ -20,10 +20,11 @@ export class NoteService {
   getDayNotes(
     query: CastQueryFieldsToStrings<QueryNoteByDate>,
     timeZone: string,
+    branchId: number,
   ) {
     return this.prismaService.note.findMany({
       where: {
-        branch_id: +query.branchId,
+        branch_id: branchId,
         created_at: this.utilService.getFullDayDateFilter(query.date, timeZone),
       },
     });

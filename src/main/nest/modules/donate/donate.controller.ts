@@ -22,7 +22,7 @@ import type {
 } from "@shared/types/donates/donates.dto";
 import { ZodValidationPipe } from "@main/nest/shared/pipes/zod.pipe";
 import { newDonateServerSchema } from "@shared/services/schema/donate.schema";
-import { Timezone } from "@main/nest/decrator/timezone.decrator";
+import { Timezone } from "@main/nest/decorator/headers.decorator";
 
 @Controller("donate")
 export class DonateController {

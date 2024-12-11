@@ -1,3 +1,4 @@
+import { useGlobalState } from "@render/composables/use-global-state";
 import type {
   ApiPaginationQueryParams,
   ApiQueryParams,
@@ -6,13 +7,13 @@ import axios, { AxiosRequestConfig } from "axios";
 const axiosInstance = axios.create({
   baseURL: "http://localhost:4000/api/v1/",
 });
-
+const { getters } = useGlobalState();
 axiosInstance.interceptors.request.use(
   (config) => {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
+    console.log(getters.getBranchId(), "axios interceptor ");
     config.headers["Time-Zone"] = timezone;
-
+    config.headers["Branch-ID"] = getters.getBranchId();
     return config;
   },
   (error) => {

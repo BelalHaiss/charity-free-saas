@@ -15,7 +15,7 @@ import type {
   NewTransaction,
   TransactionQueryByType,
 } from "@shared/types/transaction/transaction.dto";
-import { Timezone } from "@main/nest/decrator/timezone.decrator";
+import { Timezone } from "@main/nest/decorator/headers.decorator";
 
 @Controller("transaction")
 export class TransactionController {

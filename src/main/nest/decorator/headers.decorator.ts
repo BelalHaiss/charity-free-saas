@@ -7,3 +7,10 @@ export const Timezone = createParamDecorator(
     return request.header("time-zone");
   },
 );
+
+export const BranchID = createParamDecorator(
+  (data: never, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest<Request>();
+    return Number(request.header("branch-id"));
+  },
+);
