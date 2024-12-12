@@ -3,7 +3,7 @@ import { MenuItem } from "primevue/menuitem";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import langItem from "./lang-item.vue";
-import { Locale } from "@render/config/i18n";
+import { Locale } from "@shared/types/util.types";
 const { locale } = useI18n();
 
 const items = ref<MenuItem[]>([

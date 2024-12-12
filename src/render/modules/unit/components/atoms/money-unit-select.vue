@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MoneyUnit } from "@prisma/client";
 import { useGlobalState } from "@render/composables/use-global-state";
-import { Locale } from "@render/config/i18n";
+import { Locale } from "@shared/types/util.types";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { getCodeLabel, getLabel } from "../../utils/money-unit-utils";

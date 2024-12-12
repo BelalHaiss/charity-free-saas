@@ -7,11 +7,11 @@ import { getPrimeLocale } from "./locales/locale.util";
 import { useRoute } from "vue-router/auto";
 import SideNav from "./modules/layout/components/side-nav.vue";
 import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
-import { Locale } from "./config/i18n";
 import { useInitialCacheHandler } from "./composables/use-initial-cache";
 import SpinnerFullPage from "./components/molecules/spinner-full-page.vue";
 import { Settings } from "luxon";
 import { useGlobalState } from "./composables/use-global-state";
+import { Locale } from "@shared/types/util.types";
 
 const { locale } = useI18n<object, Locale>();
 const primevue = usePrimeVue();

@@ -7,6 +7,7 @@ import FormControlDate from "./form-control-date.vue";
 import FormControlNumber from "./form-control-number.vue";
 import FormControlPassword from "./form-control-password.vue";
 import FormControlCheckbox from "./form-control-checkbox.vue";
+import { useField } from "vee-validate";
 
 const props = defineProps<FormField<string>>();
 
@@ -18,12 +19,19 @@ const activeComponent: Record<FormFieldType, Component> = {
   password: FormControlPassword,
   checkbox: FormControlCheckbox,
 };
+const { errorMessage } = useField<string>(() => props.name);
 </script>
 
 <template>
-  <component
-    v-bind="props"
-    :is="activeComponent[props.type]"
-    class="flex gap-1 flex-col w-[250px] sm:w-[300px] [&>label]:capitalize"
-  />
+  <div class="flex flex-col">
+    <label :for="props.name">{{ props.label }}</label>
+    <component
+      v-bind="props"
+      :is="activeComponent[props.type]"
+      class="flex gap-1 flex-col w-[250px] sm:w-[300px] [&>label]:capitalize"
+    />
+    <InlineMessage v-if="!!errorMessage">
+      {{ errorMessage }}
+    </InlineMessage>
+  </div>
 </template>

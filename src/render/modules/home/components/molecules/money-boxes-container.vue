@@ -12,7 +12,7 @@ import {
   convertTransactionGroupToArray,
 } from "@render/modules/transaction/util/transaction.util";
 import { computed, ref } from "vue";
-import { Locale } from "@render/config/i18n";
+import { Locale } from "@shared/types/util.types";
 import AddExpenseModal from "@render/modules/transaction/components/organisms/add-expense.modal.vue";
 import AddDonateModal from "@render/modules/transaction/components/organisms/add-donate.modal.vue";
 

@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { Locale } from "@render/config/i18n";
+import { Locale } from "@shared/types/util.types";
 
 export type InitialAdmin = Pick<User, "username" | "password"> & {
   branches: number[];

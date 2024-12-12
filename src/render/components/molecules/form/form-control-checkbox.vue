@@ -7,15 +7,12 @@ const props = defineProps<FormFieldProps<CheckboxProps>>();
 const { value, errorMessage } = useField<boolean>(() => props.name);
 </script>
 <template>
-  <div class="!flex-row items-center gap-2">
-    <label :for="props.name">{{ label }}</label>
-    <Checkbox
-      v-bind="props"
-      v-model="value"
-      :input-id="props.name"
-      :invalid="!!errorMessage"
-      :binary="true"
-      :aria-describedby="name + `-help`"
-    />
-  </div>
+  <Checkbox
+    v-bind="props"
+    v-model="value"
+    :input-id="props.name"
+    :invalid="!!errorMessage"
+    :binary="true"
+    :aria-describedby="name + `-help`"
+  />
 </template>

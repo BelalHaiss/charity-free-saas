@@ -1,23 +1,20 @@
-import { formErrorsMsgs } from "@render/locales/locale.util";
+import { Locale } from "@shared/types/util.types";
 import {
   CreatableSelectOptions,
   SelectOptions,
 } from "@render/types/form.types";
-import { ZodArray, ZodType, ZodTypeAny, z } from "zod";
+import { ValidationSchemas } from "@shared/services/schema/schema.util";
+import { ZodType, z } from "zod";
 
-export const selectStringSchema = z.object({
-  label: z.string(),
-  value: z.string(),
-}) satisfies ZodType<SelectOptions<string>>;
+export const selectStringSchema = (locale: Locale) =>
+  z.object({
+    label: ValidationSchemas.getStringSchema(locale),
+    value: ValidationSchemas.getStringSchema(locale),
+  }) satisfies ZodType<SelectOptions<string>>;
 
-export const creatableSelectStringSchema = z.object({
-  label: z.string(),
-  value: z.string(),
-  isCreated: z.boolean().optional(),
-}) satisfies ZodType<CreatableSelectOptions<string>>;
-
-export const minStringWithShortErrorMSG = (count = 2) =>
-  z.string().min(count, { message: formErrorsMsgs.shortName });
-
-export const moreThanValue = (z: ZodArray<ZodTypeAny>, count = 2) =>
-  z.min(count, { message: formErrorsMsgs.minSelected });
+export const creatableSelectStringSchema = (locale: Locale) =>
+  z.object({
+    label: ValidationSchemas.getStringSchema(locale),
+    value: ValidationSchemas.getStringSchema(locale),
+    isCreated: ValidationSchemas.getBooleanSchema(locale).optional(),
+  }) satisfies ZodType<CreatableSelectOptions<string>>;

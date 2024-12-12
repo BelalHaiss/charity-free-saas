@@ -1,5 +1,4 @@
 import { QUERY_KEYS } from "@render/composables/use-query-typed";
-import type { Locale } from "@render/config/i18n";
 import { TableColumns, TableFilter } from "@render/types/table.types";
 import { formatDate } from "@render/utils/date.util";
 import {
@@ -7,7 +6,7 @@ import {
   BeneficiaryTableQuery,
 } from "@shared/types/beneficiaries/beneficiaries.dto";
 import { computed, ref } from "vue";
-import { useI18n } from "vue-i18n";
+import { Locale, useI18n } from "vue-i18n";
 import { DataTableFilterEvent, DataTablePageEvent } from "primevue/datatable";
 import { useRouter } from "vue-router/auto";
 import { beneficiaryRepository } from "../repository/beneficiary.repository";

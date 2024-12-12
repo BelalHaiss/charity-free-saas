@@ -1,11 +1,16 @@
 import { ZodType, z } from "zod";
-import { minStringWithShortErrorMSG } from "@render/utils/schemas/utils.schema";
 import { InitialAdmin } from "@shared/types/user/user.dto";
-const initialAdminWithBranches = z.object({
-  username: minStringWithShortErrorMSG(),
-  password: minStringWithShortErrorMSG(),
-  branches: z.array(z.number()),
-}) satisfies ZodType<InitialAdmin>;
+import { Locale } from "@shared/types/util.types";
+import { ValidationSchemas } from "./schema.util";
+const initialAdminWithBranches = (locale: Locale) =>
+  z.object({
+    username: ValidationSchemas.getStringSchema(locale),
+    password: ValidationSchemas.getStringSchema(locale),
+    branches: ValidationSchemas.getArraySchema(
+      locale,
+      ValidationSchemas.getNumberSchema(locale),
+    ),
+  }) satisfies ZodType<InitialAdmin>;
 
 export const userSchema = {
   initialAdminWithBranches,

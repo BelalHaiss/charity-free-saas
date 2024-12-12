@@ -5,7 +5,7 @@ import {
   TransactionGroup,
   TransactionItem,
 } from "../types/transactions.types";
-import { Locale } from "@render/config/i18n";
+import { Locale } from "@shared/types/util.types";
 
 export function groupAndSumTransactions(
   transactions: ClientTransaction[],

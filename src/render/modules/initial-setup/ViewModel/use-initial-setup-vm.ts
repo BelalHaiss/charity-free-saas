@@ -8,10 +8,10 @@ import { useToast } from "@render/composables/use-toast";
 // import { useGlobalState } from '@render/composables/use-global-state';
 import { sleep } from "@render/utils/dev.util";
 import { useI18n } from "vue-i18n";
-import type { Locale } from "@render/config/i18n";
+import { Locale } from "@shared/types/util.types";
 
 export const useInitialSetup = () => {
-  const { locale } = useI18n<NonNullable<unknown>, Locale>();
+  const { locale } = useI18n<object, Locale>();
   const { values, errors, isFieldDirty, isFieldValid, setFieldValue } =
     useForm<InitialSetupClient>({
       initialValues: {
@@ -23,7 +23,7 @@ export const useInitialSetup = () => {
         },
         lang: locale.value,
       },
-      validationSchema: toTypedSchema(initialSetupSchema),
+      validationSchema: toTypedSchema(initialSetupSchema(locale.value)),
     });
 
   const isFormsValid = ref({

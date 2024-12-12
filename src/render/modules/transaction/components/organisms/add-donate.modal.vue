@@ -13,9 +13,11 @@ import { newDonateSchema } from "@shared/services/schema/donate.schema";
 import { donateRepository } from "@render/modules/donate/repository/donate.repository";
 import ConfirmDialog from "@render/components/organisms/confirm-dialog.vue";
 import { useConfirm } from "@render/composables/use-confirm";
+import { Locale } from "@shared/types/util.types";
 
 const isVisible = defineModel<boolean>();
-const { t } = useI18n();
+const { t, locale } = useI18n<object, Locale>();
+
 const { getters } = useGlobalState();
 const { setValues, handleSubmit, isSubmitting, values } = useForm<NewDonate>({
   initialValues: {
@@ -27,7 +29,7 @@ const { setValues, handleSubmit, isSubmitting, values } = useForm<NewDonate>({
       amount: 0,
     },
   },
-  validationSchema: toTypedSchema(newDonateSchema),
+  validationSchema: toTypedSchema(newDonateSchema(locale.value)),
 });
 
 const submitDataToServer = async () => {

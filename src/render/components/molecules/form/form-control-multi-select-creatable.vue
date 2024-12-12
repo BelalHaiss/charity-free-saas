@@ -47,44 +47,39 @@ const allOptions = computed(
 );
 </script>
 <template>
-  <div>
-    <label :for="name">{{ label }}</label>
-    <MultiSelect
-      v-model="value"
-      :options="allOptions"
-      filter
-      option-label="label"
-      :placeholder="props.inputProps.placeholder"
-      :selected-items-label="
-        t('shared.form.max_selected', {
-          count: value.length,
-        })
-      "
-      :max-selected-labels="maxSelectedCount"
-      class="max-w-[300px] form-input"
-      :pt="{
-        filterContainer: {
-          class: 'max-w-[300px] overflow-hidden',
-        },
-      }"
-      @filter="(ev) => (currentFilterValue = ev.value)"
-    >
-      <template #option="slotProps">
-        <div class="flex align-items-center ms-2">
-          <span>{{ t(slotProps.option.label) }}</span>
-        </div>
-      </template>
-      <template #emptyfilter>
-        <Button
-          :outlined="true"
-          class="py-1 max-w-[300px] overflow-hidden"
-          @click="handleNewItem"
-        >
-          {{ t("shared.form.add_item") + " " + currentFilterValue }}
-        </Button>
-      </template>
-    </MultiSelect>
-  </div>
+  <MultiSelect
+    v-model="value"
+    :options="allOptions"
+    filter
+    option-label="label"
+    :placeholder="props.inputProps.placeholder"
+    :selected-items-label="
+      t('shared.form.max_selected', {
+        count: value.length,
+      })
+    "
+    :max-selected-labels="maxSelectedCount"
+    class="max-w-[300px] form-input"
+    :pt="{
+      filterContainer: {
+        class: 'max-w-[300px] overflow-hidden',
+      },
+    }"
+    @filter="(ev) => (currentFilterValue = ev.value)"
+  >
+    <template #option="slotProps">
+      <div class="flex align-items-center ms-2">
+        <span>{{ t(slotProps.option.label) }}</span>
+      </div>
+    </template>
+    <template #emptyfilter>
+      <Button
+        :outlined="true"
+        class="py-1 max-w-[300px] overflow-hidden"
+        @click="handleNewItem"
+      >
+        {{ t("shared.form.add_item") + " " + currentFilterValue }}
+      </Button>
+    </template>
+  </MultiSelect>
 </template>
-import { T } from 'node_modules/unplugin-vue-router/dist/options-yBvUhD_i.mjs';
-import { MultiSelectProps } from 'primevue/multiselect';

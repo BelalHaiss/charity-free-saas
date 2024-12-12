@@ -1,5 +1,5 @@
-import { Locale } from "@render/config/i18n";
-import { z } from "zod";
+import { Locale } from "@shared/types/util.types";
+import { z, ZodType } from "zod";
 type TranslatedTypeObject = {
   required: () => string;
   email: () => string;
@@ -12,9 +12,10 @@ type TranslatedTypeObject = {
   integer: () => string;
   arrayMin: (min: number) => string;
   arrayMax: (max: number) => string;
+  singleDonateRequired: () => string;
 };
 
-const validationMessages: Record<Locale, TranslatedTypeObject> = {
+export const validationMessages: Record<Locale, TranslatedTypeObject> = {
   en: {
     required: () => "This field is required",
     email: () => "Please enter a valid email",
@@ -27,6 +28,8 @@ const validationMessages: Record<Locale, TranslatedTypeObject> = {
     integer: () => "Please enter a valid integer",
     arrayMin: (min: number) => `Select at least ${min} items`,
     arrayMax: (max: number) => `Don't select more than ${max} items`,
+    singleDonateRequired: () =>
+      "You must add either a financial transaction amount or at least one item.",
   },
   ar: {
     required: () => "هذا الحقل مطلوب",
@@ -40,17 +43,28 @@ const validationMessages: Record<Locale, TranslatedTypeObject> = {
     integer: () => "يرجى إدخال رقم صحيح",
     arrayMin: (min: number) => `حدد على الأقل ${min} عنصرًا`,
     arrayMax: (max: number) => `لا تحدد أكثر من ${max} عنصرًا`,
+    singleDonateRequired: () => "يجب إضافة مبلغ مالي أو عنصر واحد على الأقل.",
   },
 };
 
-export class ValidationSchemas {
+export abstract class ValidationSchemas {
   static getStringSchema(lang: Locale, min?: number, max?: number) {
     const messages = validationMessages[lang];
     return z
       .string({
         required_error: messages.required(),
       })
-      .min(min || 0, { message: messages.min?.(min || 0) })
+      .min(min || 1, { message: messages.min?.(min || 1) })
+      .max(max || Infinity, { message: messages.max?.(max || Infinity) });
+  }
+
+  static getCoerceStringSchema(lang: Locale, min?: number, max?: number) {
+    const messages = validationMessages[lang];
+    return z.coerce
+      .string({
+        required_error: messages.required(),
+      })
+      .min(min || 1, { message: messages.min?.(min || 1) })
       .max(max || Infinity, { message: messages.max?.(max || Infinity) });
   }
 
@@ -60,33 +74,56 @@ export class ValidationSchemas {
       .number({
         required_error: messages.required(),
       })
-      .min(min || -Infinity, { message: messages.minNumber?.(min || 0) })
-      .max(max || Infinity, { message: messages.maxNumber?.(max || 0) })
+      .min(min || -Infinity, { message: messages.minNumber(min || 0) })
+      .max(max || Infinity, { message: messages.maxNumber(max || 0) })
       .positive({ message: messages.positiveNumber() })
       .int({ message: messages.integer() });
   }
 
-  static getArraySchema(lang: Locale, min?: number, max?: number) {
+  static getArraySchema<T>(
+    lang: Locale,
+    itemSchema: ZodType<T>,
+    min?: number,
+    max?: number,
+  ) {
     const messages = validationMessages[lang];
     return z
-      .array(z.any(), {
-        required_error: messages.required(),
-      })
+      .array(itemSchema)
       .min(min || 0, { message: messages.arrayMin?.(min || 0) })
       .max(max || Infinity, { message: messages.arrayMax?.(max || Infinity) });
   }
 
   static getDateSchema(lang: Locale) {
     const messages = validationMessages[lang];
-    return z.date({
+    return z.coerce.date({
       required_error: messages.required(),
       invalid_type_error: messages.invalidDate(),
     });
   }
+
   static getBooleanSchema(lang: Locale) {
     const messages = validationMessages[lang];
     return z.boolean({
       required_error: messages.required(),
     });
+  }
+
+  static getEnumSchema<T extends string>(
+    lang: Locale,
+    validValues: readonly T[],
+  ) {
+    const messages = validationMessages[lang];
+    return z.enum(validValues as [T, ...T[]], {
+      required_error: messages.required(),
+    });
+  }
+
+  static getEmailSchema(lang: Locale) {
+    const messages = validationMessages[lang];
+    return z
+      .string({
+        required_error: messages.required(),
+      })
+      .email({ message: messages.email() });
   }
 }

@@ -1,3 +1,5 @@
+import { Locale } from "@shared/types/util.types";
+import { ValidationSchemas } from "@shared/services/schema/schema.util";
 import {
   NewDonate,
   PartialDonateItem,
@@ -14,16 +16,18 @@ export const newExpenseSchema = z.object({
   branch_id: z.number(),
 }) satisfies ZodType<NewTransaction>;
 
-export const newFinancialDonateSchema = z.object({
-  unit_id: z.number(),
-  amount: z.number(),
-  branch_id: z.number(),
-}) satisfies ZodType<NewDonate["financialTransaction"]>;
+export const newFinancialDonateSchema = (locale: Locale) =>
+  z.object({
+    unit_id: ValidationSchemas.getNumberSchema(locale),
+    amount: ValidationSchemas.getNumberSchema(locale),
+    branch_id: ValidationSchemas.getNumberSchema(locale),
+  }) satisfies ZodType<NewDonate["financialTransaction"]>;
 
-export const newDonateItemSchema = z.object({
-  item_id: z.number(),
-  unit_value: z.number().min(1),
-  tempId: z.number(),
-  unitSize: z.enum(["LG", "SM"]),
-  unitId: z.number(),
-}) satisfies ZodType<PartialDonateItem>;
+export const newDonateItemSchema = (locale: Locale) =>
+  z.object({
+    item_id: ValidationSchemas.getNumberSchema(locale),
+    unit_value: ValidationSchemas.getNumberSchema(locale, 1),
+    tempId: ValidationSchemas.getNumberSchema(locale),
+    unitSize: ValidationSchemas.getEnumSchema(locale, ["LG", "SM"] as const),
+    unitId: ValidationSchemas.getNumberSchema(locale),
+  }) satisfies ZodType<PartialDonateItem>;

@@ -7,30 +7,39 @@ import {
   Param,
   Delete,
   Query,
-  UsePipes,
+  UseInterceptors,
 } from "@nestjs/common";
 import { DonateService } from "./donate.service";
-import { CreateDonateDto } from "./dto/create-donate.dto";
 import { UpdateDonateDto } from "./dto/update-donate.dto";
 import type {
   CastDateFieldsToIsoDate,
   CastQueryFieldsToStrings,
+  Locale,
 } from "@shared/types/util.types";
 import type {
   NewDonate,
   QueryDonateByDate,
 } from "@shared/types/donates/donates.dto";
-import { ZodValidationPipe } from "@main/nest/shared/pipes/zod.pipe";
-import { newDonateServerSchema } from "@shared/services/schema/donate.schema";
-import { Timezone } from "@main/nest/decorator/headers.decorator";
-
+import { newDonateSchema } from "@shared/services/schema/donate.schema";
+import { Language, Timezone } from "@main/nest/decorator/headers.decorator";
+import { ZodValidationService } from "../utils/zod-validation.service";
 @Controller("donate")
 export class DonateController {
-  constructor(private readonly donateService: DonateService) {}
+  constructor(
+    private readonly donateService: DonateService,
+    private readonly zodValidationService: ZodValidationService,
+  ) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(newDonateServerSchema))
-  create(@Body() newDonate: CastDateFieldsToIsoDate<NewDonate>) {
+  create(
+    @Body() newDonate: CastDateFieldsToIsoDate<NewDonate>,
+    @Language() locale: Locale,
+  ) {
+    const parsedBody = this.zodValidationService.validate(
+      newDonate,
+      newDonateSchema,
+      locale,
+    );
     return this.donateService.create(newDonate);
   }
 

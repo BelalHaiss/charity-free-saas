@@ -1,6 +1,6 @@
 import { Branch, SponsorshipCase } from "@prisma/client";
-import { Locale } from "@render/config/i18n";
 import { CreatableSelectOptions } from "@render/types/form.types";
+import { Locale } from "@shared/types/util.types";
 
 export type NewBranchData = Pick<
   Branch,

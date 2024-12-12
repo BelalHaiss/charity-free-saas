@@ -5,6 +5,7 @@ import {
 } from "@nestjs/common";
 import { Request } from "express";
 import { CustomException } from "../shared/exception/CustomException";
+import { Locale } from "@shared/types/util.types";
 
 export const Timezone = createParamDecorator(
   (data: never, ctx: ExecutionContext) => {
@@ -32,5 +33,12 @@ export const BranchID = createParamDecorator(
       });
     }
     return branchId;
+  },
+);
+
+export const Language = createParamDecorator(
+  (defaultLanguage: string = "en", ctx: ExecutionContext): Locale => {
+    const request = ctx.switchToHttp().getRequest();
+    return request.headers["accept-language"] || defaultLanguage;
   },
 );

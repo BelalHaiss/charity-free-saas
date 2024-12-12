@@ -5,7 +5,7 @@ import {
   OrganizationToServer,
 } from "../organization/organization.dto";
 import { NewBranchData, NewBranchDataToServer } from "../branch/brach.dto";
-import { Locale } from "@render/config/i18n";
+import { Locale } from "@shared/types/util.types";
 
 export interface InitialSetupClient {
   branch: NewBranchData;

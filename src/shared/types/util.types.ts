@@ -73,3 +73,4 @@ export type DateQueryString = string; // formatted as yyyy-mm-dd
 export type ISO_8601_DateString = string;
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
+export type Locale = "ar" | "en";

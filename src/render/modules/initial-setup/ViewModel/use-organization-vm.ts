@@ -1,4 +1,4 @@
-import { Locale } from "@render/config/i18n";
+import { Locale } from "@shared/types/util.types";
 import { FormField } from "@render/types/form.types";
 import { useI18n } from "vue-i18n";
 
