@@ -101,6 +101,24 @@ export abstract class ValidationSchemas {
     });
   }
 
+  static dateString(lang: Locale) {
+    const messages = validationMessages[lang];
+
+    return z
+      .string({
+        required_error: messages.required(),
+        invalid_type_error: messages.invalidDate(),
+      })
+      .refine(
+        (value) => {
+          return !isNaN(Date.parse(value));
+        },
+        {
+          message: messages.invalidDate(),
+        },
+      );
+  }
+
   static getBooleanSchema(lang: Locale) {
     const messages = validationMessages[lang];
     return z.boolean({

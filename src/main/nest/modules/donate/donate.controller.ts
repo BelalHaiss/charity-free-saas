@@ -20,7 +20,7 @@ import type {
   NewDonate,
   QueryDonateByDate,
 } from "@shared/types/donates/donates.dto";
-import { newDonateSchema } from "@shared/services/schema/donate.schema";
+import { newDonateServerSchema } from "@shared/services/schema/donate.schema";
 import { Language, Timezone } from "@main/nest/decorator/headers.decorator";
 import { ZodValidationService } from "../utils/zod-validation.service";
 @Controller("donate")
@@ -37,10 +37,10 @@ export class DonateController {
   ) {
     const parsedBody = this.zodValidationService.validate(
       newDonate,
-      newDonateSchema,
+      newDonateServerSchema,
       locale,
     );
-    return this.donateService.create(newDonate);
+    return this.donateService.create(parsedBody);
   }
 
   @Get()
