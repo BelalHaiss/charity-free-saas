@@ -7,27 +7,28 @@ import {
 import { NewTransaction } from "@shared/types/transaction/transaction.dto";
 import { z, ZodType } from "zod";
 
-export const newExpenseSchema = z.object({
-  created_by: z.string().min(1),
-  unit_id: z.number(),
-  amount: z.number().min(0.1),
-  label: z.string().min(1),
-  type: z.enum(["EXPENSE"]),
-  branch_id: z.number(),
-}) satisfies ZodType<NewTransaction>;
+export const newExpenseSchema = (locale: Locale) =>
+  z.object({
+    created_by: ValidationSchemas.getStringSchema(locale),
+    unit_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+    amount: ValidationSchemas.getNumberSchema(locale, 0.1),
+    label: ValidationSchemas.getStringSchema(locale),
+    type: ValidationSchemas.getEnumSchema(locale, ["EXPENSE"] as const),
+    branch_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+  }) satisfies ZodType<NewTransaction>;
 
 export const newFinancialDonateSchema = (locale: Locale) =>
   z.object({
-    unit_id: ValidationSchemas.getNumberSchema(locale),
-    amount: ValidationSchemas.getNumberSchema(locale),
-    branch_id: ValidationSchemas.getNumberSchema(locale),
+    unit_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+    amount: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+    branch_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
   }) satisfies ZodType<NewDonate["financialTransaction"]>;
 
 export const newDonateItemSchema = (locale: Locale) =>
   z.object({
-    item_id: ValidationSchemas.getNumberSchema(locale),
-    unit_value: ValidationSchemas.getNumberSchema(locale, 1),
-    tempId: ValidationSchemas.getNumberSchema(locale),
+    item_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+    unit_value: ValidationSchemas.getPositiveIntegerNumberSchema(locale, 1),
+    tempId: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
     unitSize: ValidationSchemas.getEnumSchema(locale, ["LG", "SM"] as const),
-    unitId: ValidationSchemas.getNumberSchema(locale),
+    unitId: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
   }) satisfies ZodType<PartialDonateItem>;

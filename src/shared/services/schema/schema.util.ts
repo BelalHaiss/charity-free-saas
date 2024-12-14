@@ -3,6 +3,8 @@ import { z, ZodType } from "zod";
 type TranslatedTypeObject = {
   required: () => string;
   email: () => string;
+  typeNumber: () => string;
+  typeString: () => string;
   min: (min: number) => string;
   max: (max: number) => string;
   minNumber: (min: number) => string;
@@ -18,6 +20,8 @@ type TranslatedTypeObject = {
 export const validationMessages: Record<Locale, TranslatedTypeObject> = {
   en: {
     required: () => "This field is required",
+    typeNumber: () => "Value must be a number",
+    typeString: () => "Value must be a text",
     email: () => "Please enter a valid email",
     min: (min: number) => `Must be at least ${min} characters`,
     max: (max: number) => `Must be no more than ${max} characters`,
@@ -34,6 +38,8 @@ export const validationMessages: Record<Locale, TranslatedTypeObject> = {
   ar: {
     required: () => "هذا الحقل مطلوب",
     email: () => "يرجى إدخال بريد إلكتروني صالح",
+    typeNumber: () => "القيمة يجب ان تكون رقم",
+    typeString: () => "القيمة يجب ان تكون كلم",
     min: (min: number) => `يجب أن يكون على الأقل ${min} حرفًا`,
     max: (max: number) => `يجب ألا يزيد عن ${max} حرفًا`,
     minNumber: (min: number) => `يجب أن يكون على الأقل ${min}`,
@@ -53,6 +59,7 @@ export abstract class ValidationSchemas {
     return z
       .string({
         required_error: messages.required(),
+        invalid_type_error: messages.typeString(),
       })
       .min(min || 1, { message: messages.min?.(min || 1) })
       .max(max || Infinity, { message: messages.max?.(max || Infinity) });
@@ -63,9 +70,27 @@ export abstract class ValidationSchemas {
     return z.coerce
       .string({
         required_error: messages.required(),
+        invalid_type_error: messages.typeString(),
       })
       .min(min || 1, { message: messages.min?.(min || 1) })
       .max(max || Infinity, { message: messages.max?.(max || Infinity) });
+  }
+
+  static getPositiveIntegerNumberSchema(
+    lang: Locale,
+    min?: number,
+    max?: number,
+  ) {
+    const messages = validationMessages[lang];
+    return z
+      .number({
+        required_error: messages.required(),
+        invalid_type_error: messages.typeNumber(),
+      })
+      .min(min || -Infinity, { message: messages.minNumber(min || 0) })
+      .max(max || Infinity, { message: messages.maxNumber(max || 0) })
+      .positive({ message: messages.positiveNumber() })
+      .int({ message: messages.integer() });
   }
 
   static getNumberSchema(lang: Locale, min?: number, max?: number) {
@@ -73,11 +98,10 @@ export abstract class ValidationSchemas {
     return z
       .number({
         required_error: messages.required(),
+        invalid_type_error: messages.typeNumber(),
       })
       .min(min || -Infinity, { message: messages.minNumber(min || 0) })
-      .max(max || Infinity, { message: messages.maxNumber(max || 0) })
-      .positive({ message: messages.positiveNumber() })
-      .int({ message: messages.integer() });
+      .max(max || Infinity, { message: messages.maxNumber(max || 0) });
   }
 
   static getArraySchema<T>(

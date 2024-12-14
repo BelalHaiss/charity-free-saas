@@ -32,7 +32,7 @@ watch(moneyUnit, (newVal) => {
 
     <template #main>
       <div class="flex p-2 items-center gap-2">
-        <MoneyInput v-model:unit="moneyUnit" v-model:value="amount as number" />
+        <!-- <MoneyInput v-model:unit="moneyUnit" v-model:value="amount as number" /> -->
       </div>
     </template>
   </SmContainer>

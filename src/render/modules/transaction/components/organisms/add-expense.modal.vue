@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { useGlobalState } from "@render/composables/use-global-state";
-import { SelectOptions } from "@render/types/form.types";
-import { inject, Ref, ref, watch } from "vue";
+import { inject, Ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "@render/composables/use-toast";
 import { NewTransaction } from "@shared/types/transaction/transaction.dto";
 import MoneyInput from "../atoms/money-input.vue";
-import { MoneyUnit } from "@prisma/client";
 import ExpenseNameInput from "../atoms/expense-name-input.vue";
 import { newExpenseSchema } from "../../util/transaction.schema";
 import { transactionRepository } from "../../repository/transaction.repository";
@@ -14,55 +12,42 @@ import {
   useQueryHelper,
   QUERY_KEYS,
 } from "@render/composables/use-query-typed";
+import { useForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import { Locale } from "@shared/types/util.types";
 const isVisible = defineModel<boolean>();
-const { t } = useI18n();
-const { storage, getters } = useGlobalState();
-const newExpenseItem = ref<NewTransaction>({
-  branch_id: storage.value.branchId,
-  amount: 0,
-  created_by: storage.value.user.username,
-  type: "EXPENSE",
-  unit_id: 0,
-  label: "",
-});
-
-const expenseNameValue = ref<SelectOptions<string>>();
-const moneyUnit = ref<MoneyUnit>(getters.getMoneyUnitByEnCode("EGP")!);
-const amount = ref(0);
+const { t, locale } = useI18n<object, Locale>();
+const { storage } = useGlobalState();
 
 const { invalidateQueries } = useQueryHelper();
 
 const selectedDate = inject<Ref<Date, Date>>("currentSelectedDate");
 
-watch([expenseNameValue, moneyUnit, amount], (newVal) => {
-  newExpenseItem.value.label = newVal[0]?.value ?? "";
-  newExpenseItem.value.unit_id = newVal[1]?.id ?? 0;
-  newExpenseItem.value.amount = newVal[2] ?? 0;
+const { handleSubmit, isSubmitting, isFieldDirty } = useForm<NewTransaction>({
+  validationSchema: toTypedSchema(newExpenseSchema(locale.value)),
+  initialValues: {
+    branch_id: storage.value.branchId,
+    created_by: storage.value.user.username,
+    type: "EXPENSE",
+  },
 });
+const { failedToast, successToast } = useToast();
 
-const { invalidDataToast, failedToast, successToast } = useToast();
-const isSubmiting = ref(false);
-
-const saveNewItem = async () => {
-  const { error } = newExpenseSchema.safeParse(newExpenseItem.value);
-  if (error) {
-    invalidDataToast();
-    return;
-  }
+const saveNewItem = async (newTransaction: NewTransaction) => {
   try {
-    await transactionRepository.createTransaction(newExpenseItem.value);
+    await transactionRepository.createTransaction(newTransaction);
     await invalidateQueries(QUERY_KEYS.TRANSACTION(selectedDate!));
-    isSubmiting.value = true;
     successToast();
 
     isVisible.value = false;
   } catch (error) {
     console.error({ error });
     failedToast();
-  } finally {
-    isSubmiting.value = true;
   }
 };
+const onSubmit = handleSubmit(saveNewItem, (erro) => {
+  console.log(erro.errors);
+});
 </script>
 <template>
   <Dialog
@@ -71,22 +56,26 @@ const saveNewItem = async () => {
     class="w-full max-w-[600px]"
     :header="t('shared.add', { label: t('shared.item') })"
   >
-    <div class="flex flex-col flex-center gap-3">
-      <ExpenseNameInput v-model="expenseNameValue" class="w-[300px]" />
-      <MoneyInput v-model:value="amount" v-model:unit="moneyUnit" />
+    <form @submit="onSubmit" class="flex flex-col flex-center gap-3">
+      <ExpenseNameInput formFieldName="label" class="w-[300px]" />
+      <MoneyInput amountFieldName="amount" moneyUnitFieldName="unit_id" />
       <div class="flex mt-4 self-end gap-2">
         <Button
           type="button"
-          :disabled="isSubmiting"
+          :disabled="isSubmitting"
           severity="secondary"
           @click="isVisible = false"
         >
           {{ t("shared.cancel") }}
         </Button>
-        <Button :loading="isSubmiting" type="button" @click="saveNewItem">
+        <Button
+          :loading="isSubmitting"
+          :disabled="!isFieldDirty('label') || !isFieldDirty('amount')"
+          type="submit"
+        >
           {{ t("shared.save") }}
         </Button>
       </div>
-    </div>
+    </form>
   </Dialog>
 </template>

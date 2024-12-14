@@ -8,7 +8,7 @@ const initialAdminWithBranches = (locale: Locale) =>
     password: ValidationSchemas.getStringSchema(locale),
     branches: ValidationSchemas.getArraySchema(
       locale,
-      ValidationSchemas.getNumberSchema(locale),
+      ValidationSchemas.getPositiveIntegerNumberSchema(locale),
     ),
   }) satisfies ZodType<InitialAdmin>;
 

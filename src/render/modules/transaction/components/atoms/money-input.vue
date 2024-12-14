@@ -1,19 +1,46 @@
 <script setup lang="ts">
 import { MoneyUnit } from "@prisma/client";
+import FormControlWrapper from "@render/components/molecules/form/form-control-wrapper.vue";
+import { useGlobalState } from "@render/composables/use-global-state";
 import MoneyUnitSelect from "@render/modules/unit/components/atoms/money-unit-select.vue";
+import { useField } from "vee-validate";
+import { ref, watch } from "vue";
 
-const moneyUnit = defineModel<MoneyUnit>("unit");
-const value = defineModel<number>("value");
+const { getters } = useGlobalState();
+const props = defineProps<{
+  moneyUnitFieldName: string;
+  amountFieldName: string;
+}>();
+
+const { value: amountValue } = useField<number>(() => props.amountFieldName);
+
+const { setValue: setMoneyUnitValue } = useField<number>(
+  () => props.moneyUnitFieldName,
+);
+
+const moneyUnit = ref<MoneyUnit>(getters.getMoneyUnitByEnCode("EGP")!);
+
+watch(moneyUnit, (newMoneyUnit) => setMoneyUnitValue(newMoneyUnit.id), {
+  immediate: true,
+});
 </script>
-
 <template>
   <div class="flex w-[300px]">
-    <InputNumber
-      v-model="value"
-      inputId="withoutgrouping"
-      inputClass="border-e-0 rounded-e-none  "
-      :useGrouping="false"
-    />
-    <MoneyUnitSelect v-model="moneyUnit" />
+    <FormControlWrapper :name="props.amountFieldName" hideLabel label="amount">
+      <template #input>
+        <InputNumber
+          v-model="amountValue"
+          :inputId="props.amountFieldName"
+          inputClass="border-e-0 rounded-e-none"
+          :useGrouping="false"
+        />
+      </template>
+    </FormControlWrapper>
+
+    <FormControlWrapper :name="props.moneyUnitFieldName" hideLabel label="Unit">
+      <template #input>
+        <MoneyUnitSelect v-model="moneyUnit" />
+      </template>
+    </FormControlWrapper>
   </div>
 </template>

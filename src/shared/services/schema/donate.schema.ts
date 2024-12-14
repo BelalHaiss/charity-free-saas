@@ -13,7 +13,7 @@ export const newDonateSchema = (locale: Locale) =>
       donor: ValidationSchemas.getStringSchema(locale),
       donor_phone: ValidationSchemas.getCoerceStringSchema(locale, 1),
       created_by: ValidationSchemas.getStringSchema(locale),
-      branch_id: ValidationSchemas.getNumberSchema(locale, 0),
+      branch_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale, 0),
       financialTransaction: newFinancialDonateSchema(locale),
       items: ValidationSchemas.getArraySchema(
         locale,
@@ -38,7 +38,7 @@ export const newDonateServerSchema = (locale: Locale) =>
       donor: ValidationSchemas.getStringSchema(locale),
       donor_phone: ValidationSchemas.getCoerceStringSchema(locale, 1),
       created_by: ValidationSchemas.getStringSchema(locale),
-      branch_id: ValidationSchemas.getNumberSchema(locale, 0),
+      branch_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale, 0),
       financialTransaction: newFinancialDonateSchema(locale),
       items: ValidationSchemas.getArraySchema(
         locale,

@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { MoneyUnit } from "@prisma/client";
 import { useGlobalState } from "@render/composables/use-global-state";
-import { Locale } from "@shared/types/util.types";
 import { computed } from "vue";
-import { useI18n } from "vue-i18n";
 import { getCodeLabel, getLabel } from "../../utils/money-unit-utils";
-
-const { t, locale } = useI18n<object, Locale>();
 
 const { storage } = useGlobalState();
 const unitsOptions = computed((): MoneyUnit[] => storage.value.moneyUnits);
@@ -19,7 +15,7 @@ const selectedUnit = defineModel<MoneyUnit>();
     v-model="selectedUnit"
     :options="unitsOptions"
     :optionLabel="getCodeLabel"
-    class="flex-1 p-0 border-s-2 rounded-s-none"
+    class="flex-1 p-0 border-s-2 rounded-s-none max-h-[40px]"
   >
     <template #value="slotProps">
       <span v-if="slotProps.value" class="block w-full font-bold">{{

@@ -25,7 +25,7 @@ class TransactionRepository implements TransactionRepositoryI {
   }
   createTransaction(newTransaction: NewTransaction) {
     return fetcher({
-      url: "transaction",
+      url: "transaction/expense",
       config: {
         method: "POST",
         data: newTransaction,
