@@ -11,7 +11,7 @@ export const newDonateSchema = (locale: Locale) =>
   z
     .object({
       donor: ValidationSchemas.getStringSchema(locale),
-      donor_phone: ValidationSchemas.getCoerceStringSchema(locale, 1),
+      donor_phone: ValidationSchemas.getPhoneNumberSchema(locale),
       created_by: ValidationSchemas.getStringSchema(locale),
       branch_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale, 0),
       financialTransaction: newFinancialDonateSchema(locale),
@@ -36,7 +36,7 @@ export const newDonateServerSchema = (locale: Locale) =>
   z
     .object({
       donor: ValidationSchemas.getStringSchema(locale),
-      donor_phone: ValidationSchemas.getCoerceStringSchema(locale, 1),
+      donor_phone: ValidationSchemas.getPhoneNumberSchema(locale),
       created_by: ValidationSchemas.getStringSchema(locale),
       branch_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale, 0),
       financialTransaction: newFinancialDonateSchema(locale),

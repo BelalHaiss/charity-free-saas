@@ -36,7 +36,7 @@
     "success": "تم الإرسال بنجاح",
     "failed": "فشل الإرسال",
     "invalid_data": "بيانات غير صالحة",
-    "please-fill-fields": "يرجى ملء الحقول المطلوبة"
+    "please_fill_fields": "يرجى ملء الحقول المطلوبة"
   },
   "form": {
     "empty_error": "هذا الحقل مطلوب",

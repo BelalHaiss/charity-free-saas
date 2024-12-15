@@ -9,7 +9,7 @@ export const newBranchSchema = (locale: Locale) =>
     name: ValidationSchemas.getStringSchema(locale),
     address: ValidationSchemas.getStringSchema(locale),
     scheduled_visits: ValidationSchemas.getBooleanSchema(locale),
-    phone: ValidationSchemas.getCoerceStringSchema(locale),
+    phone: ValidationSchemas.getPhoneNumberSchema(locale),
     sponsorships_cases: ValidationSchemas.getArraySchema(
       locale,
       creatableSelectStringSchema(locale),

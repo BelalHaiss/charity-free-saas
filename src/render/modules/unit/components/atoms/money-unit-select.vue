@@ -15,7 +15,7 @@ const selectedUnit = defineModel<MoneyUnit>();
     v-model="selectedUnit"
     :options="unitsOptions"
     :optionLabel="getCodeLabel"
-    class="flex-1 p-0 border-s-2 rounded-s-none max-h-[40px]"
+    class="flex-1 p-0 border-s-2 rounded-s-none max-h-[45px]"
   >
     <template #value="slotProps">
       <span v-if="slotProps.value" class="block w-full font-bold">{{

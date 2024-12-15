@@ -9,6 +9,9 @@ type TranslatedTypeObject = {
   max: (max: number) => string;
   minNumber: (min: number) => string;
   maxNumber: (max: number) => string;
+  minPhoneNumber: (min: number) => string;
+  maxPhoneNumber: (max: number) => string;
+  invalidPhoneNumber: () => string;
   invalidDate: () => string;
   positiveNumber: () => string;
   integer: () => string;
@@ -27,6 +30,12 @@ export const validationMessages: Record<Locale, TranslatedTypeObject> = {
     max: (max: number) => `Must be no more than ${max} characters`,
     minNumber: (min: number) => `Must be at least ${min}`,
     maxNumber: (max: number) => `Must be no more than ${max}`,
+    minPhoneNumber: (min: number) =>
+      `The phone number must be at least ${min} characters.`,
+    maxPhoneNumber: (max: number) =>
+      `The phone number must be at most ${max} characters.`,
+    invalidPhoneNumber: () => "Invalid phone number format.",
+
     invalidDate: () => "Please enter a valid date",
     positiveNumber: () => "Must be a positive number",
     integer: () => "Please enter a valid integer",
@@ -44,6 +53,11 @@ export const validationMessages: Record<Locale, TranslatedTypeObject> = {
     max: (max: number) => `يجب ألا يزيد عن ${max} حرفًا`,
     minNumber: (min: number) => `يجب أن يكون على الأقل ${min}`,
     maxNumber: (max: number) => `يجب ألا يزيد عن ${max}`,
+    minPhoneNumber: (min: number) =>
+      `يجب أن يحتوي رقم الهاتف على ${min} أحرف على الأقل.`,
+    maxPhoneNumber: (max: number) => `يجب ألا يزيد رقم الهاتف عن ${max} أحرف.`,
+    invalidPhoneNumber: () => "تنسيق رقم الهاتف غير صالح.",
+
     invalidDate: () => "يرجى إدخال تاريخ صالح",
     positiveNumber: () => "يجب أن يكون رقمًا موجبًا",
     integer: () => "يرجى إدخال رقم صحيح",
@@ -65,15 +79,15 @@ export abstract class ValidationSchemas {
       .max(max || Infinity, { message: messages.max?.(max || Infinity) });
   }
 
-  static getCoerceStringSchema(lang: Locale, min?: number, max?: number) {
+  static getPhoneNumberSchema(lang: Locale, min?: number, max?: number) {
     const messages = validationMessages[lang];
-    return z.coerce
+    return z
       .string({
         required_error: messages.required(),
-        invalid_type_error: messages.typeString(),
+        invalid_type_error: messages.invalidPhoneNumber(),
       })
-      .min(min || 1, { message: messages.min?.(min || 1) })
-      .max(max || Infinity, { message: messages.max?.(max || Infinity) });
+      .min(min || 5, { message: messages.minPhoneNumber(min || 5) })
+      .max(max || Infinity, { message: messages.maxPhoneNumber(max || 0) });
   }
 
   static getPositiveIntegerNumberSchema(

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useGlobalState } from "@render/composables/use-global-state";
-import { Ref, ref, watch } from "vue";
+import { inject, Ref, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "@render/composables/use-toast";
 import { useForm } from "vee-validate";
@@ -14,9 +14,19 @@ import { donateRepository } from "@render/modules/donate/repository/donate.repos
 import ConfirmDialog from "@render/components/organisms/confirm-dialog.vue";
 import { useConfirm } from "@render/composables/use-confirm";
 import { Locale } from "@shared/types/util.types";
+import {
+  QUERY_KEYS,
+  useQueryHelper,
+} from "@render/composables/use-query-typed";
 
 const isVisible = defineModel<boolean>();
 const { t, locale } = useI18n<object, Locale>();
+
+const { storage } = useGlobalState();
+
+const { invalidateQueries } = useQueryHelper();
+
+const selectedDate = inject<Ref<Date, Date>>("currentSelectedDate");
 
 const { getters } = useGlobalState();
 const { setValues, handleSubmit, isSubmitting, values } = useForm<NewDonate>({
@@ -34,7 +44,10 @@ const { setValues, handleSubmit, isSubmitting, values } = useForm<NewDonate>({
 
 const submitDataToServer = async () => {
   try {
+    console.log(JSON.stringify(values));
     await donateRepository.createNewDonate(values);
+    await invalidateQueries(QUERY_KEYS.TRANSACTION(selectedDate!));
+
     successToast();
     isVisible.value = false;
   } catch (error) {
@@ -44,13 +57,11 @@ const submitDataToServer = async () => {
 
 const onSubmit = handleSubmit(
   () => confirmProps.showDialog(),
-  (error) => {
-    console.error("new donate error", error);
-    fieldMissingToast();
-  },
+  (errors) =>
+    console.error(JSON.stringify({ ...errors.errors, ...errors.values })),
 );
 
-const { failedToast, successToast, fieldMissingToast } = useToast();
+const { failedToast, successToast } = useToast();
 const confirmProps = useConfirm(submitDataToServer);
 </script>
 <template>

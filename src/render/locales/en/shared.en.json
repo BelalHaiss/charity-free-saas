@@ -36,7 +36,7 @@
     "success": "Submitted Successfully",
     "failed": "Submitted Failed",
     "invalid_data": "Invalid Data",
-    "please-fill-fields": "Please fill in the required fields"
+    "please_fill_fields": "Please fill in the required fields"
   },
   "form": {
     "empty_error": "This field is required ",

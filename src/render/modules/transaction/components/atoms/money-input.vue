@@ -34,6 +34,7 @@ watch(moneyUnit, (newMoneyUnit) => setMoneyUnitValue(newMoneyUnit.id), {
     >
       <template #input>
         <InputNumber
+          class="max-h-[45px]"
           v-model="amountValue"
           :inputId="props.amountFieldName"
           inputClass="border-e-0 rounded-e-none"

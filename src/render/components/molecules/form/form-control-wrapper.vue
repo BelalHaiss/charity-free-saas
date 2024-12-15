@@ -13,7 +13,7 @@ const props = defineProps<{
 
     <slot name="input" />
 
-    <span class="text-red-500 text-sm" v-if="!!errorMessage">
+    <span class="text-red-500 text-xs h-2 mt-[2px]">
       {{ errorMessage }}
     </span>
   </div>

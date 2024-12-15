@@ -30,7 +30,7 @@ export const useToast = () => {
 
   const fieldMissingToast = () => {
     toast.add({
-      summary: t("shared.toast.  please-fill-fields"),
+      summary: t("shared.toast.please_fill_fields"),
       severity: "error",
       life: 700,
     });
