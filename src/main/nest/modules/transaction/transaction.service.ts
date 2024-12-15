@@ -4,9 +4,13 @@ import type {
   NewTransaction,
   TransactionQueryByType,
 } from "@shared/types/transaction/transaction.dto";
-import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
+import type {
+  CastDateFieldsToIsoDate,
+  CastQueryFieldsToStrings,
+} from "@shared/types/util.types";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import { UtilsService } from "../utils/utils.service";
+import { removeFields } from "@shared/services/object.util";
 
 @Injectable()
 export class TransactionService {
@@ -14,8 +18,13 @@ export class TransactionService {
     private prismaService: PrismaService,
     private utilService: UtilsService,
   ) {}
-  create(newTransaction: NewTransaction) {
-    return this.prismaService.transaction.create({ data: newTransaction });
+  create(newTransaction: CastDateFieldsToIsoDate<NewTransaction>) {
+    return this.prismaService.transaction.create({
+      data: {
+        ...removeFields(newTransaction, ["date"]),
+        created_at: newTransaction.date,
+      },
+    });
   }
 
   async getExpensesName(branch_id: number) {

@@ -1,4 +1,4 @@
-import { Locale } from "@shared/types/util.types";
+import { CastDateFieldsToIsoDate, Locale } from "@shared/types/util.types";
 import { ValidationSchemas } from "@shared/services/schema/schema.util";
 import {
   NewDonate,
@@ -15,7 +15,19 @@ export const newExpenseSchema = (locale: Locale) =>
     label: ValidationSchemas.getStringSchema(locale),
     type: ValidationSchemas.getEnumSchema(locale, ["EXPENSE"] as const),
     branch_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+    date: ValidationSchemas.getDateSchema(locale),
   }) satisfies ZodType<NewTransaction>;
+
+export const newExpenseServerSchema = (locale: Locale) =>
+  z.object({
+    created_by: ValidationSchemas.getStringSchema(locale),
+    unit_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+    amount: ValidationSchemas.getNumberSchema(locale, 0.1),
+    label: ValidationSchemas.getStringSchema(locale),
+    type: ValidationSchemas.getEnumSchema(locale, ["EXPENSE"] as const),
+    branch_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+    date: ValidationSchemas.dateString(locale),
+  }) satisfies ZodType<CastDateFieldsToIsoDate<NewTransaction>>;
 
 export const newFinancialDonateSchema = (locale: Locale) =>
   z.object({

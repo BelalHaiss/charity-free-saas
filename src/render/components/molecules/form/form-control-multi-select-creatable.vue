@@ -8,6 +8,7 @@ import { computed, ref, watch } from "vue";
 import { useField } from "vee-validate";
 import { MultiSelectProps } from "primevue/multiselect";
 import { useI18n } from "vue-i18n";
+import FormControlWrapper from "./form-control-wrapper.vue";
 
 const newOptionsCreated = ref<CreatableSelectOptions[]>([]);
 const props = defineProps<FormFieldProps<MultiSelectProps>>();
@@ -47,39 +48,47 @@ const allOptions = computed(
 );
 </script>
 <template>
-  <MultiSelect
-    v-model="value"
-    :options="allOptions"
-    filter
-    option-label="label"
-    :placeholder="props.inputProps.placeholder"
-    :selected-items-label="
-      t('shared.form.max_selected', {
-        count: value.length,
-      })
-    "
-    :max-selected-labels="maxSelectedCount"
-    class="max-w-[300px] form-input"
-    :pt="{
-      filterContainer: {
-        class: 'max-w-[300px] overflow-hidden',
-      },
-    }"
-    @filter="(ev) => (currentFilterValue = ev.value)"
+  <FormControlWrapper
+    :errorMessage="errorMessage"
+    :name="props.name"
+    :label="props.label"
   >
-    <template #option="slotProps">
-      <div class="flex align-items-center ms-2">
-        <span>{{ t(slotProps.option.label) }}</span>
-      </div>
-    </template>
-    <template #emptyfilter>
-      <Button
-        :outlined="true"
-        class="py-1 max-w-[300px] overflow-hidden"
-        @click="handleNewItem"
+    <template #input>
+      <MultiSelect
+        v-model="value"
+        :options="allOptions"
+        filter
+        option-label="label"
+        :placeholder="props.inputProps.placeholder"
+        :selected-items-label="
+          t('shared.form.max_selected', {
+            count: value.length,
+          })
+        "
+        :max-selected-labels="maxSelectedCount"
+        class="max-w-[300px] form-input"
+        :pt="{
+          filterContainer: {
+            class: 'max-w-[300px] overflow-hidden',
+          },
+        }"
+        @filter="(ev) => (currentFilterValue = ev.value)"
       >
-        {{ t("shared.form.add_item") + " " + currentFilterValue }}
-      </Button>
+        <template #option="slotProps">
+          <div class="flex align-items-center ms-2">
+            <span>{{ t(slotProps.option.label) }}</span>
+          </div>
+        </template>
+        <template #emptyfilter>
+          <Button
+            :outlined="true"
+            class="py-1 max-w-[300px] overflow-hidden"
+            @click="handleNewItem"
+          >
+            {{ t("shared.form.add_item") + " " + currentFilterValue }}
+          </Button>
+        </template>
+      </MultiSelect>
     </template>
-  </MultiSelect>
+  </FormControlWrapper>
 </template>

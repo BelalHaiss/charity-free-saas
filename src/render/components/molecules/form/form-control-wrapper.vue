@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { useField } from "vee-validate";
-
 const props = defineProps<{
   name: string;
   label: string;
   hideLabel?: boolean;
+  errorMessage?: string;
 }>();
-
-const { errorMessage } = useField<string>(() => props.name);
 </script>
 
 <template>
@@ -16,8 +13,8 @@ const { errorMessage } = useField<string>(() => props.name);
 
     <slot name="input" />
 
-    <InlineMessage v-if="!!errorMessage">
+    <span class="text-red-500 text-sm" v-if="!!errorMessage">
       {{ errorMessage }}
-    </InlineMessage>
+    </span>
   </div>
 </template>

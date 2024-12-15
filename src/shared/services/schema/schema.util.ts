@@ -119,7 +119,7 @@ export abstract class ValidationSchemas {
 
   static getDateSchema(lang: Locale) {
     const messages = validationMessages[lang];
-    return z.coerce.date({
+    return z.date({
       required_error: messages.required(),
       invalid_type_error: messages.invalidDate(),
     });

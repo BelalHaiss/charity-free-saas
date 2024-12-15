@@ -14,6 +14,7 @@ axiosInstance.interceptors.request.use(
     console.log(getters.getBranchId(), "axios interceptor ");
     config.headers["Time-Zone"] = timezone;
     config.headers["Branch-ID"] = getters.getBranchId();
+    config.headers["Accept-Language"] = getters.getCurrentUser()?.lang;
     return config;
   },
   (error) => {

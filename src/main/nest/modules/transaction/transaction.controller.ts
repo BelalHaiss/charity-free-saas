@@ -10,19 +10,36 @@ import {
 } from "@nestjs/common";
 import { TransactionService } from "./transaction.service";
 import { UpdateTransactionDto } from "./dto/update-transaction.dto";
-import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
+import type {
+  CastDateFieldsToIsoDate,
+  CastQueryFieldsToStrings,
+  Locale,
+} from "@shared/types/util.types";
 import type {
   NewTransaction,
   TransactionQueryByType,
 } from "@shared/types/transaction/transaction.dto";
-import { Timezone } from "@main/nest/decorator/headers.decorator";
+import { Language, Timezone } from "@main/nest/decorator/headers.decorator";
+import { ZodValidationService } from "../utils/zod-validation.service";
+import { newExpenseServerSchema } from "@render/modules/transaction/util/transaction.schema";
 
 @Controller("transaction")
 export class TransactionController {
-  constructor(private readonly transactionService: TransactionService) {}
+  constructor(
+    private readonly transactionService: TransactionService,
+    private zodValidationService: ZodValidationService,
+  ) {}
   @Post()
-  create(@Body() newTransaction: NewTransaction) {
-    return this.transactionService.create(newTransaction);
+  create(
+    @Body() newTransaction: CastDateFieldsToIsoDate<NewTransaction>,
+    @Language() locale: Locale,
+  ) {
+    const parsedValue = this.zodValidationService.validate(
+      newTransaction,
+      newExpenseServerSchema,
+      locale,
+    );
+    return this.transactionService.create(parsedValue);
   }
 
   @Get("expenses/name/:branch_id")

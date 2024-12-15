@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { useField } from "vee-validate";
 import { FormFieldProps } from "@render/types/form.types";
+import FormControlWrapper from "./form-control-wrapper.vue";
 const props = defineProps<FormFieldProps>();
 const { value, errorMessage } = useField<string>(() => props.name);
 </script>
 <template>
-  <InputText
-    :id="props.name"
-    v-model="value"
+  <FormControlWrapper
+    :errorMessage="errorMessage"
     :name="props.name"
-    v-bind="props.inputProps"
-    class="form-input"
-    :invalid="!!errorMessage"
-    :aria-describedby="props.name + `-help`"
-  />
+    :label="props.label"
+  >
+    <template #input>
+      <InputText
+        :id="props.name"
+        v-model="value"
+        :name="props.name"
+        v-bind="props.inputProps"
+        class="form-input"
+        :invalid="!!errorMessage"
+        :aria-describedby="props.name + `-help`"
+      />
+    </template>
+  </FormControlWrapper>
 </template>

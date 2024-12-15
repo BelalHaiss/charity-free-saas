@@ -12,11 +12,11 @@ const props = defineProps<{
   amountFieldName: string;
 }>();
 
-const { value: amountValue } = useField<number>(() => props.amountFieldName);
+const { value: amountValue, errorMessage: amountErrorMessage } =
+  useField<number>(() => props.amountFieldName);
 
-const { setValue: setMoneyUnitValue } = useField<number>(
-  () => props.moneyUnitFieldName,
-);
+const { setValue: setMoneyUnitValue, errorMessage: moneyUnitErrorMessage } =
+  useField<number>(() => props.moneyUnitFieldName);
 
 const moneyUnit = ref<MoneyUnit>(getters.getMoneyUnitByEnCode("EGP")!);
 
@@ -26,7 +26,12 @@ watch(moneyUnit, (newMoneyUnit) => setMoneyUnitValue(newMoneyUnit.id), {
 </script>
 <template>
   <div class="flex w-[300px]">
-    <FormControlWrapper :name="props.amountFieldName" hideLabel label="amount">
+    <FormControlWrapper
+      :error-message="amountErrorMessage"
+      :name="props.amountFieldName"
+      hideLabel
+      label="amount"
+    >
       <template #input>
         <InputNumber
           v-model="amountValue"
@@ -37,7 +42,12 @@ watch(moneyUnit, (newMoneyUnit) => setMoneyUnitValue(newMoneyUnit.id), {
       </template>
     </FormControlWrapper>
 
-    <FormControlWrapper :name="props.moneyUnitFieldName" hideLabel label="Unit">
+    <FormControlWrapper
+      :error-message="moneyUnitErrorMessage"
+      :name="props.moneyUnitFieldName"
+      hideLabel
+      label="Unit"
+    >
       <template #input>
         <MoneyUnitSelect v-model="moneyUnit" />
       </template>

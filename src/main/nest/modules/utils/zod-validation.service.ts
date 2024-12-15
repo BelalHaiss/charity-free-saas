@@ -11,6 +11,7 @@ export class ZodValidationService {
     schemaFactory: (locale: Locale) => ZodType<T>,
     locale: Locale,
   ): T {
+    console.log({ locale });
     const schema = schemaFactory(locale); // Generate schema dynamically
     try {
       console.log({ value });

@@ -41,4 +41,5 @@ export type FormFieldProps<T extends InputProps = object> = Omit<
   "inputProps"
 > & {
   inputProps: T extends InputProps ? T : undefined;
+  invalid?: boolean;
 };

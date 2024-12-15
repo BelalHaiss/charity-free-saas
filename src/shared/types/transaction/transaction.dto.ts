@@ -7,4 +7,10 @@ export type TransactionQueryByType = {
   branchId: number;
 };
 
-export type NewTransaction = Prisma.TransactionUncheckedCreateInput;
+export type NewTransaction = Omit<
+  Prisma.TransactionUncheckedCreateInput,
+  "created_at" | "amount"
+> & {
+  date: Date;
+  amount: number;
+};
