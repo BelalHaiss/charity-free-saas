@@ -6,7 +6,7 @@ import qs from "qs";
 class ItemRepository {
   createItem(newItem: CreateNewItem) {
     return fetcher({
-      url: `benefit/item`,
+      url: `/benefit/item`,
       config: { method: "POST", data: newItem },
     });
   }
@@ -14,13 +14,13 @@ class ItemRepository {
   getItemByName(name: string) {
     const nameQuery = qs.stringify({ name });
     return fetcher<Item[]>({
-      url: `item/name/?${nameQuery}`,
+      url: `/item/name/?${nameQuery}`,
     });
   }
 
   getItemById(id: number) {
     return fetcher<Item | null>({
-      url: `item/${id}`,
+      url: `/item/${id}`,
     });
   }
 }

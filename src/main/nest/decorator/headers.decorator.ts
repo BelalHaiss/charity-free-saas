@@ -6,6 +6,7 @@ import {
 import { Request } from "express";
 import { CustomException } from "../shared/exception/CustomException";
 import { Locale } from "@shared/types/util.types";
+import { JWT_PAYLOAD } from "../types/auth.types";
 
 export const Timezone = createParamDecorator(
   (data: never, ctx: ExecutionContext) => {
@@ -40,5 +41,12 @@ export const Language = createParamDecorator(
   (defaultLanguage: string = "en", ctx: ExecutionContext): Locale => {
     const request = ctx.switchToHttp().getRequest();
     return request.headers["accept-language"] || defaultLanguage;
+  },
+);
+
+export const User = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    return request.user as JWT_PAYLOAD;
   },
 );

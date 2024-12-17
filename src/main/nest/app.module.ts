@@ -12,9 +12,13 @@ import { CategoryModule } from "./modules/category/category.module";
 import { BenefitModule } from "./modules/benefit/benefit.module";
 import { ItemModule } from "./modules/item/item.module";
 import { UtilsModule } from "./modules/utils/utils.module";
+import { AuthModule } from "./modules/auth/auth.module";
+import { ConfigModule } from "@nestjs/config";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+
     PrismaModule,
     SetupModule,
     UserModule,
@@ -28,6 +32,7 @@ import { UtilsModule } from "./modules/utils/utils.module";
     BenefitModule,
     ItemModule,
     UtilsModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

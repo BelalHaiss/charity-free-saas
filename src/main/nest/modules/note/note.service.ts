@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import type {
-  CreateNote,
+  CreateNotePayload,
   QueryNoteByDate,
-  UpdateNotePayload,
 } from "@shared/types/note/note.dto";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
@@ -15,9 +14,9 @@ export class NoteService {
     private utilService: UtilsService,
   ) {}
 
-  create(createNoteDto: CreateNote) {
-    return this.prismaService.note.create({ data: createNoteDto });
-  }
+  // create(createNoteDto: CreateNotePayload) {
+  //   return this.prismaService.note.create({ data: createNoteDto });
+  // }
 
   getDayNotes(
     query: CastQueryFieldsToStrings<QueryNoteByDate>,
@@ -36,9 +35,9 @@ export class NoteService {
     return `This action returns a #${id} note`;
   }
 
-  update(id: number, updateNoteDto: UpdateNotePayload) {
-    return `This action updates a #${id} note`;
-  }
+  // update(id: number, updateNoteDto: UpdateNotePayload) {
+  //   return `This action updates a #${id} note`;
+  // }
 
   remove(id: number) {
     return `This action removes a #${id} note`;

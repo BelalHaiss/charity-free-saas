@@ -5,7 +5,7 @@ import type {
 } from "@shared/types/util.types";
 import axios, { AxiosRequestConfig } from "axios";
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:4000/api/v1/",
+  baseURL: "http://localhost:4000/api/v1",
 });
 const { getters } = useGlobalState();
 axiosInstance.interceptors.request.use(
@@ -24,22 +24,12 @@ axiosInstance.interceptors.request.use(
 );
 
 import qs from "qs";
-export type ApiPaths =
-  | "beneficiary"
-  | "setup"
-  | "unit"
-  | "transaction"
-  | "donate"
-  | "note"
-  | "benefit"
-  | "category"
-  | "item";
 
 export type FetcherArgs = {
-  url: ApiPaths | `${ApiPaths}/${string}`;
+  url: string;
   config?: AxiosRequestConfig;
 };
-export const fetcher = async <T = never>({
+export const fetcher = async <T = unknown>({
   url,
   config,
 }: FetcherArgs): Promise<T> => {

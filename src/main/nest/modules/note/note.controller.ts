@@ -11,9 +11,9 @@ import {
 import { NoteService } from "./note.service";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
 import type {
-  CreateNote,
+  CreateNotePayload,
+  EditNotePayload,
   QueryNoteByDate,
-  UpdateNotePayload,
 } from "@shared/types/note/note.dto";
 import { BranchID, Timezone } from "@main/nest/decorator/headers.decorator";
 
@@ -21,10 +21,10 @@ import { BranchID, Timezone } from "@main/nest/decorator/headers.decorator";
 export class NoteController {
   constructor(private readonly noteService: NoteService) {}
 
-  @Post()
-  create(@Body() createNoteDto: CreateNote) {
-    return this.noteService.create(createNoteDto);
-  }
+  // @Post()
+  // create(@Body() createNoteDto: CreateNotePayload) {
+  //   return this.noteService.create(createNoteDto);
+  // }
 
   @Get()
   getDayNotes(
@@ -40,10 +40,10 @@ export class NoteController {
     return this.noteService.findOne(+id);
   }
 
-  @Patch(":id")
-  update(@Param("id") id: string, @Body() updateNoteDto: UpdateNotePayload) {
-    return this.noteService.update(+id, updateNoteDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateNoteDto: EditNotePayload) {
+  //   return this.noteService.update(+id, updateNoteDto);
+  // }
 
   @Delete(":id")
   remove(@Param("id") id: string) {

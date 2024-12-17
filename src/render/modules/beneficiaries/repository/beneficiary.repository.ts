@@ -12,7 +12,7 @@ class BeneficiaryRepository implements BeneficiaryRepositoryI {
   ): Promise<BeneficiaryTableDTO> {
     const queryString = queryStringify(filter.value);
     const data = await fetcher<BeneficiaryTableDTO>({
-      url: `beneficiary/?${queryString}`,
+      url: `/beneficiary/?${queryString}`,
     });
     return data ?? { totalRecords: 0, data: [] };
   }

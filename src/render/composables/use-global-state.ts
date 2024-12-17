@@ -9,6 +9,7 @@ import { createGlobalState, useStorage } from "@vueuse/core";
 type StateValues = {
   organization: OrganizationAppModel;
   user: CurrentUser;
+  userToken?: `Bearer ${string}`;
   units: Unit[];
   moneyUnits: MoneyUnit[];
   branchId: number;
@@ -32,10 +33,12 @@ export const useGlobalState = createGlobalState(() => {
   const actions = {
     setOrganization: (org: OrganizationAppModel) =>
       (storage.value.organization = { ...org }),
-    setUser: (userData: User) => (storage.value.user = { ...userData }),
+    setUser: (userData: CurrentUser) => (storage.value.user = { ...userData }),
     setUnits: (units: Unit[]) => (storage.value.units = units),
     setMoneyUnits: (units: MoneyUnit[]) => (storage.value.moneyUnits = units),
     setBranchId: (branchId: number) => (storage.value.branchId = branchId),
+    setUserToken: (token: StateValues["userToken"]) =>
+      (storage.value.userToken = token),
   };
 
   const getters = {

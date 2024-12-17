@@ -1,12 +1,21 @@
 import { User } from "@prisma/client";
 import * as argon2 from "argon2";
-import { UserServiceI } from "./interfaces/user.service.interface";
 import { PrismaInteractiveTransaction } from "@shared/types/prisma.types";
 import { InitialAdminToServer } from "@shared/types/user/user.dto";
 import { Injectable } from "@nestjs/common";
+import { PrismaService } from "@main/nest/shared/services/prisma.service";
 
 @Injectable()
-export class UserService implements UserServiceI {
+export class UserService {
+  constructor(private prismaService: PrismaService) {}
+
+  public findByUsername(username: string) {
+    return this.prismaService.user.findUnique({
+      where: {
+        username,
+      },
+    });
+  }
   async createInitialAdmin(
     tx: PrismaInteractiveTransaction,
     user: InitialAdminToServer,
@@ -23,4 +32,3 @@ export class UserService implements UserServiceI {
     });
   }
 }
-export const userService = new UserService();

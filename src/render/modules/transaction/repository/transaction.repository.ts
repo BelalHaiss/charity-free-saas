@@ -14,18 +14,18 @@ class TransactionRepository implements TransactionRepositoryI {
     const queryString = qs.stringify(query);
 
     return fetcher<ClientTransaction[]>({
-      url: `transaction/?${queryString}`,
+      url: `/transaction/?${queryString}`,
     });
   }
 
   getExpensesName(branchId: number) {
     return fetcher<string[]>({
-      url: `transaction/expenses/name/${branchId}`,
+      url: `/transaction/expenses/name/${branchId}`,
     });
   }
   createTransaction(newTransaction: NewTransaction) {
     return fetcher({
-      url: "transaction",
+      url: "/transaction",
       config: {
         method: "POST",
         data: newTransaction,
@@ -34,7 +34,7 @@ class TransactionRepository implements TransactionRepositoryI {
   }
   deleteExpense(transactionId: number) {
     return fetcher({
-      url: `transaction/${transactionId}`,
+      url: `/transaction/${transactionId}`,
       config: {
         method: "DELETE",
       },

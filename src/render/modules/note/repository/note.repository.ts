@@ -7,11 +7,11 @@ class NoteRepository {
   getDayNotes(query: QueryNoteByDate): Promise<Note[]> {
     const queryString = qs.stringify(query);
 
-    return fetcher<Note[]>({ url: `note/?${queryString}` });
+    return fetcher<Note[]>({ url: `/note/?${queryString}` });
   }
   createNote(notePayload: Note) {
     return fetcher({
-      url: "note",
+      url: "/note",
       config: {
         method: "POST",
         data: notePayload,
@@ -21,9 +21,9 @@ class NoteRepository {
 
   editNote(noteId: string, notePayload: Partial<Note>) {
     return fetcher({
-      url: "note",
+      url: "/note",
       config: {
-        method: "POST",
+        method: "PATCH",
         data: notePayload,
       },
     });

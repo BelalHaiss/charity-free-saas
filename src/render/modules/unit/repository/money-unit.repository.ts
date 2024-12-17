@@ -3,7 +3,7 @@ import { fetcher } from "@render/utils/api.util";
 
 class MoneyUnitRepository {
   getAllUnits() {
-    return fetcher<MoneyUnit[]>({ url: `unit/money` });
+    return fetcher<MoneyUnit[]>({ url: `/unit/money` });
   }
 }
 

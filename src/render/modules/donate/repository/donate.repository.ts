@@ -12,7 +12,7 @@ class DonateRepository {
   getDonatesByDate(query: QueryDonateByDate): Promise<DonateWithRelations[]> {
     const queryString = qs.stringify(query);
 
-    return fetcher<DonateWithRelations[]>({ url: `donate/?${queryString}` });
+    return fetcher<DonateWithRelations[]>({ url: `/donate/?${queryString}` });
   }
 
   createNewDonate(data: NewDonate) {
@@ -21,14 +21,14 @@ class DonateRepository {
       date: data.date.toISOString(),
     };
     return fetcher({
-      url: `donate`,
+      url: `/donate`,
       config: { method: "POST", data: newDonateServerDto },
     });
   }
 
   deleteDonateById(id: number) {
     return fetcher({
-      url: `donate/${id}`,
+      url: `/donate/${id}`,
       config: { method: "DELETE" },
     });
   }
