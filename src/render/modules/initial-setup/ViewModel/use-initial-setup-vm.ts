@@ -68,7 +68,7 @@ export const useInitialSetup = () => {
       // }
     } catch (error) {
       console.log({ error }, "failed errro");
-      failedToast();
+      failedToast(error);
       return;
     }
   };

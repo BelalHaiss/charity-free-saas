@@ -1,4 +1,5 @@
 import { useGlobalState } from "@render/composables/use-global-state";
+import { i18nConfig } from "@render/config/i18n";
 import type {
   ApiPaginationQueryParams,
   ApiQueryParams,
@@ -14,7 +15,7 @@ axiosInstance.interceptors.request.use(
     console.log(getters.getBranchId(), "axios interceptor ");
     config.headers["Time-Zone"] = timezone;
     config.headers["Branch-ID"] = getters.getBranchId();
-    config.headers["Accept-Language"] = getters.getCurrentUser()?.lang;
+    config.headers["Accept-Language"] = i18nConfig.global.locale.value;
     return config;
   },
   (error) => {

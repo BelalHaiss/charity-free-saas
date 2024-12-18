@@ -44,7 +44,7 @@ const createItem = async () => {
     isVisible.value = false;
   } catch (error) {
     console.error({ error });
-    failedToast();
+    failedToast(error);
   } finally {
     isSubmiting.value = true;
   }

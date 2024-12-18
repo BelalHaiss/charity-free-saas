@@ -4,6 +4,7 @@ import { SetupServiceI } from "./interfaces/setup.service.interface";
 import {
   InitialSetupToClient,
   InitialSetupToServer,
+  SetupStatusResponse,
 } from "@shared/types/setup/initial.dto";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import { UserService } from "../user/user.service";
@@ -34,5 +35,10 @@ export class SetupService implements SetupServiceI {
       };
       return response;
     });
+  }
+
+  async isAppAlreadySetup(): Promise<SetupStatusResponse> {
+    const organization = await this.prismaService.organization.findFirst({});
+    return { isSetupDone: !!organization };
   }
 }

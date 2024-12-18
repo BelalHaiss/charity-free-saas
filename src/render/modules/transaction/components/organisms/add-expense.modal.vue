@@ -28,7 +28,7 @@ const { handleSubmit, isSubmitting, isFieldDirty } = useForm<NewTransaction>({
   validationSchema: toTypedSchema(newExpenseSchema(locale.value)),
   initialValues: {
     branch_id: storage.value.branchId,
-    created_by: storage.value.user.username,
+    created_by: storage.value.user!.username,
     type: "EXPENSE",
     date: new Date(),
   },
@@ -44,7 +44,7 @@ const saveNewItem = async (newTransaction: NewTransaction) => {
     isVisible.value = false;
   } catch (error) {
     console.error({ error });
-    failedToast();
+    failedToast(error);
   }
 };
 const onSubmit = handleSubmit(saveNewItem, (erro) => {

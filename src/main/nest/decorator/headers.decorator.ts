@@ -40,7 +40,9 @@ export const BranchID = createParamDecorator(
 export const Language = createParamDecorator(
   (defaultLanguage: string = "en", ctx: ExecutionContext): Locale => {
     const request = ctx.switchToHttp().getRequest();
-    return request.headers["accept-language"] || defaultLanguage;
+    const locale: string =
+      request.headers["accept-language"] || defaultLanguage;
+    return locale.includes("en") ? "en" : "ar";
   },
 );
 

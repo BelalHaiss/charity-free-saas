@@ -42,7 +42,8 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': 0,
       'vue/max-attributes-per-line': 0,
       'vue/multiline-html-element-content-newline': 0,
-      'vue/attributes-order': 0
+      'vue/attributes-order': 0,
+      'vue/html-self-closing': 0
     }
   }
 );

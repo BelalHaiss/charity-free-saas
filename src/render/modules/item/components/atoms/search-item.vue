@@ -34,7 +34,7 @@ const onFilter = useDebounceFn(async ({ value }: DropdownFilterEvent) => {
     const res = await itemRepository.getItemByName(value);
     items.value = selectedItem.value ? [selectedItem.value, ...res] : res;
   } catch (error) {
-    failedToast();
+    failedToast(error);
   } finally {
     isLoading.value = false;
   }

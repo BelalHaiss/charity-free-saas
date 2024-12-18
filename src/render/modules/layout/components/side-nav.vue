@@ -22,12 +22,18 @@ const expandedItems = ref<TreeExpandedKeys>({});
     class="absolute start-0 h-full bg-white rounded-2xl group py-4 px-2 w-[85px] transition-all duration-300 hover:w-[190px] shadow-xl z-50 overflow-hidden flex flex-col items-center"
   >
     <div class="flex-center mb-4 gap-2 w-full">
-      <img src="@render/assets/images/logo.png" class="size-[60px]">
-      <span
-        class="text-primary-color font-bold text-lg max-w-min text-center [word-spacing:100px] hidden group-hover:block"
-      >
-        {{ t("shared.app_name") }}
-      </span>
+      <RouterLink to="/">
+        <img
+          src="@render/assets/images/logo.png"
+          alt="logo"
+          class="size-[60px]"
+        />
+        <span
+          class="text-primary-color font-bold text-lg max-w-min text-center [word-spacing:100px] hidden group-hover:block"
+        >
+          {{ t("shared.app_name") }}
+        </span>
+      </RouterLink>
     </div>
 
     <div class="flex flex-1 gap-2 flex-col overflow-x-visible overflow-y-auto">

@@ -32,7 +32,7 @@ const { getters } = useGlobalState();
 const { setValues, handleSubmit, isSubmitting, values } = useForm<NewDonate>({
   initialValues: {
     branch_id: getters.getBranchId(),
-    created_by: getters.getCurrentUser().username,
+    created_by: getters.getCurrentUser()!.username,
     date: new Date(),
     financialTransaction: {
       branch_id: getters.getBranchId(),
@@ -51,7 +51,7 @@ const submitDataToServer = async () => {
     successToast();
     isVisible.value = false;
   } catch (error) {
-    failedToast();
+    failedToast(error);
   }
 };
 

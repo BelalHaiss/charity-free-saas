@@ -17,6 +17,7 @@ export const QUERY_KEYS = {
     "expenses_name",
     branchId,
   ],
+  SETUP_STATUS: ["setup", "status"],
 };
 
 export const useQueryHelper = <T>() => {

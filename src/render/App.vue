@@ -12,6 +12,7 @@ import SpinnerFullPage from "./components/molecules/spinner-full-page.vue";
 import { Settings } from "luxon";
 import { useGlobalState } from "./composables/use-global-state";
 import { Locale } from "@shared/types/util.types";
+import { useInitialRouteHandling } from "./composables/use-initial-route-handling";
 
 const { locale } = useI18n<object, Locale>();
 const primevue = usePrimeVue();
@@ -25,12 +26,11 @@ const setCachedFetchedDone = () => (isCachedDataFetched.value = true);
 const isInitializing = computed(
   () => isCachedDataFetched.value && isFirstRouteHandled.value,
 );
+
+const setRouteHandled = () => (isFirstRouteHandled.value = true);
+useInitialRouteHandling(setRouteHandled);
 useInitialCacheHandler(setCachedFetchedDone);
-onMounted(() => {
-  // const { organization } = storage.value;
-  isFirstRouteHandled.value = true;
-  // if (!organization) router.push('/setup');
-});
+
 watchEffect(() => {
   document.documentElement.lang = locale.value;
   document.documentElement.dir = locale.value === "ar" ? "rtl" : "ltr";
@@ -38,7 +38,9 @@ watchEffect(() => {
   Settings.defaultLocale = locale.value;
 });
 
-const isSetupPage = computed(() => route.fullPath === "/setup");
+const isSetupPage = computed(
+  () => route.fullPath === "/setup" || route.fullPath === "/login",
+);
 </script>
 
 <template>

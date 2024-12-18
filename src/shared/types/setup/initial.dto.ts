@@ -24,3 +24,7 @@ export type InitialSetupToServer = {
   organization: OrganizationToServer;
   adminUser: InitialAdminToServer;
 };
+
+export type SetupStatusResponse = {
+  isSetupDone: boolean;
+};

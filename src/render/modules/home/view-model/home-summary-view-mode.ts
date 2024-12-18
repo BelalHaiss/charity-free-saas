@@ -65,7 +65,7 @@ export const useHomeSummary = () => {
       return [];
     } catch (e) {
       console.error(e);
-      failedToast();
+      failedToast(e);
       return [];
     } finally {
       isLoading.value = false;

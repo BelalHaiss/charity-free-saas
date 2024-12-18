@@ -28,7 +28,7 @@ const handleDeleteDonate = async (donate: Donate) => {
 
     successToast();
   } catch (e) {
-    failedToast();
+    failedToast(e);
   }
 };
 const headers = computed<TableColumns<Donate>[]>(() => [

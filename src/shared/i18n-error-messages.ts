@@ -13,7 +13,7 @@ type ErrorMessages = {
   operationFailed: string;
 };
 
-const errorMessages: Record<Locale, ErrorMessages> = {
+export const errorMessages: Record<Locale, ErrorMessages> = {
   en: {
     noUsernameFound: "No user found with the provided username.",
     passwordWrong: "The password you entered is incorrect.",

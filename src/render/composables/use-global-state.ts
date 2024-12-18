@@ -8,7 +8,7 @@ import { createGlobalState, useStorage } from "@vueuse/core";
 
 type StateValues = {
   organization: OrganizationAppModel;
-  user: CurrentUser;
+  user?: CurrentUser;
   userToken?: `Bearer ${string}`;
   units: Unit[];
   moneyUnits: MoneyUnit[];
@@ -20,7 +20,6 @@ export const useGlobalState = createGlobalState(() => {
     StateValues,
     "branchId" | "units" | "moneyUnits" | "user"
   > = {
-    user: devUser,
     organization: null,
     units: [],
     branchId: 1,
@@ -53,7 +52,7 @@ export const useGlobalState = createGlobalState(() => {
 
     getMoneyUnitByEnCode: (enCode: string) =>
       storage.value.moneyUnits.find((unit) => unit.en_code === enCode),
-    getCurrentUser: (): CurrentUser => storage.value.user,
+    getCurrentUser: (): CurrentUser | undefined => storage.value.user,
     getBranchId: (): number => storage.value.branchId,
     getGroupedUnits: (): GroupedUnits[] => {
       const units = storage.value.units;

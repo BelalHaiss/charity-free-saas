@@ -1,3 +1,4 @@
+import { getServerErrorMessage } from "@render/utils/exception.util";
 import { useToast as usePrimeToast } from "primevue/usetoast";
 import { useI18n } from "vue-i18n";
 
@@ -12,9 +13,10 @@ export const useToast = () => {
       life: 700,
     });
 
-  const failedToast = () => {
+  const failedToast = (error: unknown) => {
+    const serverErrorMessage = getServerErrorMessage(error);
     toast.add({
-      summary: t("shared.toast.failed"),
+      summary: serverErrorMessage || t("shared.toast.failed"),
       severity: "error",
       life: 700,
     });

@@ -25,7 +25,7 @@ const handleDeleteExpense = async (expenseId: number) => {
     await invalidateQueries(QUERY_KEYS.TRANSACTION(selectedDate!));
     successToast();
   } catch (e) {
-    failedToast();
+    failedToast(e);
   }
 };
 const { getters } = useGlobalState();

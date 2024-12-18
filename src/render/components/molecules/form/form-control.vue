@@ -24,6 +24,6 @@ const activeComponent: Record<FormFieldType, Component> = {
   <component
     v-bind="props"
     :is="activeComponent[props.type]"
-    class="flex gap-1 flex-col w-[250px] sm:w-[300px] [&>label]:capitalize"
+    class="flex gap-1 flex-col [&>label]:capitalize"
   />
 </template>
