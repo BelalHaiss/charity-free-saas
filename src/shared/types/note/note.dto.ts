@@ -5,5 +5,5 @@ export type QueryNoteByDate = {
   date: DateQueryString;
 };
 
-export type CreateNotePayload = Pick<Note, "desc" | "title">;
-export type EditNotePayload = Pick<Note, "desc" | "title">;
+export type CreateNotePayload = Pick<Note, "content">;
+export type UpdateNotePayload = Pick<Note, "content">;

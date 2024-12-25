@@ -1,15 +1,14 @@
-import { User, Unit, MoneyUnit } from "@prisma/client";
+import { Unit, MoneyUnit } from "@prisma/client";
 import { GroupedUnits } from "@render/modules/unit/types/unit.type";
 import { NullableKeys } from "@render/types/util.types";
-import { devUser } from "@render/utils/dev.util";
 import { OrganizationAppModel } from "@shared/types/organization/organization.dto";
 import { CurrentUser } from "@shared/types/user/user.dto";
 import { createGlobalState, useStorage } from "@vueuse/core";
 
 type StateValues = {
   organization: OrganizationAppModel;
-  user?: CurrentUser;
-  userToken?: `Bearer ${string}`;
+  user: CurrentUser | null;
+  userToken: `Bearer ${string}` | null;
   units: Unit[];
   moneyUnits: MoneyUnit[];
   branchId: number;
@@ -24,6 +23,8 @@ export const useGlobalState = createGlobalState(() => {
     units: [],
     branchId: 1,
     moneyUnits: [],
+    user: null,
+    userToken: null,
   };
 
   const storage = useStorage("app-store", initialState);
@@ -32,7 +33,7 @@ export const useGlobalState = createGlobalState(() => {
   const actions = {
     setOrganization: (org: OrganizationAppModel) =>
       (storage.value.organization = { ...org }),
-    setUser: (userData: CurrentUser) => (storage.value.user = { ...userData }),
+    setUser: (userData: StateValues["user"]) => (storage.value.user = userData),
     setUnits: (units: Unit[]) => (storage.value.units = units),
     setMoneyUnits: (units: MoneyUnit[]) => (storage.value.moneyUnits = units),
     setBranchId: (branchId: number) => (storage.value.branchId = branchId),
@@ -52,7 +53,8 @@ export const useGlobalState = createGlobalState(() => {
 
     getMoneyUnitByEnCode: (enCode: string) =>
       storage.value.moneyUnits.find((unit) => unit.en_code === enCode),
-    getCurrentUser: (): CurrentUser | undefined => storage.value.user,
+    getCurrentUser: () => storage.value.user,
+    getUserToken: () => storage.value.userToken,
     getBranchId: (): number => storage.value.branchId,
     getGroupedUnits: (): GroupedUnits[] => {
       const units = storage.value.units;

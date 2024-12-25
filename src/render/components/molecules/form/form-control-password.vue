@@ -14,6 +14,7 @@ const { value, errorMessage } = useField<string>(() => props.name);
     <template #input>
       <Password
         :id="name"
+        v-bind="props.inputProps"
         v-model="value"
         input-class="form-input"
         :invalid="!!errorMessage"

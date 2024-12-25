@@ -22,12 +22,16 @@ const isFirstRouteHandled = ref(false);
 const route = useRoute();
 const isCachedDataFetched = ref(false);
 
-const setCachedFetchedDone = () => (isCachedDataFetched.value = true);
+const setCachedFetchedDone = () => {
+  isCachedDataFetched.value = true;
+};
 const isInitializing = computed(
-  () => isCachedDataFetched.value && isFirstRouteHandled.value,
+  () => !isCachedDataFetched.value && !isFirstRouteHandled.value,
 );
 
-const setRouteHandled = () => (isFirstRouteHandled.value = true);
+const setRouteHandled = () => {
+  isFirstRouteHandled.value = true;
+};
 useInitialRouteHandling(setRouteHandled);
 useInitialCacheHandler(setCachedFetchedDone);
 
@@ -38,19 +42,20 @@ watchEffect(() => {
   Settings.defaultLocale = locale.value;
 });
 
-const isSetupPage = computed(
-  () => route.fullPath === "/setup" || route.fullPath === "/login",
-);
+const isSetupPage = computed(() => {
+  const fullPath = route.fullPath || "";
+  return fullPath === "/setup" || fullPath === "/login";
+});
 </script>
 
 <template>
-  <SpinnerFullPage v-if="!isInitializing" />
+  <SpinnerFullPage v-if="isInitializing" />
 
-  <SideNav v-if="!isSetupPage" />
+  <SideNav v-if="!isSetupPage && !isInitializing" />
 
   <Toast />
   <main
-    v-if="isInitializing"
+    v-if="!isInitializing"
     class="w-full h-full p-1 flex-1"
     :class="!isSetupPage ? 'page-container ms-[85px] ' : ''"
   >

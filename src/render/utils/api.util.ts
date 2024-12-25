@@ -12,10 +12,13 @@ const { getters } = useGlobalState();
 axiosInstance.interceptors.request.use(
   (config) => {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log(getters.getBranchId(), "axios interceptor ");
     config.headers["Time-Zone"] = timezone;
     config.headers["Branch-ID"] = getters.getBranchId();
     config.headers["Accept-Language"] = i18nConfig.global.locale.value;
+    const userToken = getters.getUserToken();
+    if (userToken) {
+      config.headers["Authorization"] = userToken;
+    }
     return config;
   },
   (error) => {

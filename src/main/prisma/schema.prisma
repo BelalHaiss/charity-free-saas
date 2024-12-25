@@ -223,6 +223,8 @@ model Branch {
   CategoryItem       Category[]
   Item               Item[]
 
+  users BranchUser[]
+
   @@map("branch")
 }
 
@@ -234,11 +236,22 @@ model User {
   lang         Lang
   role_id      Int?
   role         Role?   @relation(fields: [role_id], references: [id])
-  /// [UserBranchesIds]
-  branches     Json
   notes        Note[]
 
+  branches BranchUser[]
+
   @@map("user")
+}
+
+model BranchUser {
+  branch_id Int
+  user_id   Int
+
+  Branch Branch @relation(fields: [branch_id], references: [id])
+  User   User   @relation(fields: [user_id], references: [id])
+
+  @@id([branch_id, user_id])
+  @@map("branch_user")
 }
 
 model Donate {
@@ -264,7 +277,7 @@ model DonateItem {
   user_unit_size  UNIT_SIZE // the unit that user select when he add item
   user_unit_value Int // the value that user typed when add item
 
-  Donate Donate @relation(fields: [donate_id], references: [id],onDelete: Cascade)
+  Donate Donate @relation(fields: [donate_id], references: [id], onDelete: Cascade)
   Item   Item   @relation(fields: [item_id], references: [id])
 
   @@map("donate_item")
@@ -285,7 +298,7 @@ model Transaction {
   branch    Branch @relation(fields: [branch_id], references: [id])
 
   donate_id          Int?          @unique
-  donate             Donate?       @relation(fields: [donate_id], references: [id],onDelete: Cascade)
+  donate             Donate?       @relation(fields: [donate_id], references: [id], onDelete: Cascade)
   visit_benefit_id   Int?          @unique
   visit_benefit_item VisitBenefit? @relation(fields: [visit_benefit_id], references: [id])
 
@@ -306,8 +319,7 @@ model Role {
 model Note {
   id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
-  title      String
-  desc       String
+  content       String
   branch_id  Int?
 
   user_id Int

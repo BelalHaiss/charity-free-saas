@@ -5,28 +5,19 @@ import { Locale } from "@shared/types/util.types";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useForm } from "vee-validate";
 import { useI18n } from "vue-i18n";
-import { userRepository } from "../../repository/user.repository";
-import { useGlobalState } from "@render/composables/use-global-state";
 import FormControl from "@render/components/molecules/form/form-control.vue";
 import { useToast } from "@render/composables/use-toast";
-import { sleep } from "@render/utils/dev.util";
-import { useRouter } from "vue-router/auto";
+import { useAuth } from "@render/composables/use-auth";
 const { locale, t } = useI18n<object, Locale>();
 const { handleSubmit, isSubmitting } = useForm<LoginPayload>({
   validationSchema: toTypedSchema(loginSchema(locale.value)),
 });
 
-const router = useRouter();
-
+const { handleLogin } = useAuth();
 const { failedToast } = useToast();
-const { actions } = useGlobalState();
 const onSubmit = handleSubmit(async (payload) => {
   try {
-    await sleep(2000);
-    const userResponse = await userRepository.login(payload);
-    actions.setUserToken(`Bearer ${userResponse.access_token}`);
-    actions.setUser(userResponse.user);
-    router.push("/");
+    await handleLogin(payload);
   } catch (e) {
     failedToast(e);
   }

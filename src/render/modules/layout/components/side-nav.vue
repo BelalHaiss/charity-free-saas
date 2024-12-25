@@ -7,9 +7,11 @@ import { TreeExpandedKeys } from "primevue/tree";
 import { useSideNav } from "../viewModel/useSideNav";
 import LangMenu from "@render/components/atoms/lang-menu.vue";
 import { useI18n } from "vue-i18n";
+import { useAuth } from "@render/composables/use-auth";
 const { t } = useI18n();
 
 const { navItems } = useSideNav();
+const { user, handleLogout } = useAuth();
 const toggleNodeExpand = (node: TreeNode) => {
   const currentState = expandedItems.value[node.key!];
   expandedItems.value[node.key!] = !currentState;
@@ -91,10 +93,11 @@ const expandedItems = ref<TreeExpandedKeys>({});
 
     <div class="flex-center gap-2 mb-1 mt-auto border-t py-1">
       <Avatar :label="'U'" shape="circle" class="size-[25px]" />
-      <span class="hidden group-hover:block"> Ahmed Met </span>
+      <span class="hidden group-hover:block"> {{ user?.username }} </span>
 
       <Button
         text
+        @click="handleLogout"
         class="rounded-full p-1 hidden group-hover:block"
         severity="danger"
       >

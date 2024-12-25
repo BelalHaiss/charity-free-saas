@@ -18,6 +18,9 @@ export const QUERY_KEYS = {
     branchId,
   ],
   SETUP_STATUS: ["setup", "status"],
+
+  DAY_NOTES: ["notes", "daily"],
+  USER_NOTES: ["notes", "user"],
 };
 
 export const useQueryHelper = <T>() => {

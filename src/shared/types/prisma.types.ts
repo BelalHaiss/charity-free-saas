@@ -11,7 +11,6 @@ type UserBranches = number[];
 
 declare global {
   namespace PrismaJson {
-    type UserBranchesIds = UserBranches;
     type RolePermissions = PermissionsType;
     type BeneficiaryItemDetails = Beneficiary_Item_Details;
   }

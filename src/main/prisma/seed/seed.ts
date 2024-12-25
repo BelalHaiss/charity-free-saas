@@ -5,6 +5,7 @@
  * Learn more about the Seed Client by following our guide: https://docs.snaplet.dev/seed/getting-started
  */
 import { fakerAR } from "@faker-js/faker";
+import * as argon2 from "argon2";
 
 import { createSeedClient } from "@snaplet/seed";
 import { moneyUnits } from "./seed.util";
@@ -19,6 +20,14 @@ const main = async () => {
       id: 1,
       branches: [{ id: 1, lang: "ar", name: "اهل الخير" }],
       name: "منظمة التعاون",
+    },
+  ]);
+  await seed.user([
+    {
+      username: "admin",
+      password: await argon2.hash("admin"),
+      lang: "ar",
+      branches: [{ branch_id: 1 }],
     },
   ]);
   await seed.beneficiary((x) =>

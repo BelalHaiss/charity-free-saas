@@ -32,14 +32,14 @@ export const useInitialRouteHandling = (setRouteHandled: () => void) => {
 
     if (!isSetupDone) {
       router.push("/setup");
+      setRouteHandled();
       return;
     }
 
     if (!user) {
       router.push("/login");
+      setRouteHandled(); // Call the callback after routing
     }
-
-    setRouteHandled(); // Call the callback after routing
   };
 
   // Use the lifecycle hook to ensure this runs only once

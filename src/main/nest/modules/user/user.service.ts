@@ -26,7 +26,6 @@ export class UserService {
       data: {
         username: user.username,
         password: password_hash,
-        branches: user.branches,
         lang: user.lang,
       },
     });
