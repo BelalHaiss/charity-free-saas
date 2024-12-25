@@ -1,6 +1,7 @@
 import type { Note } from "@prisma/client";
 import { fetcher } from "@render/utils/api.util";
 import type {
+  CreateNotePayload,
   QueryNoteByDate,
   UpdateNotePayload,
 } from "@shared/types/note/note.dto";
@@ -16,7 +17,7 @@ class NoteRepository {
   getUserNotes() {
     return fetcher<Note[]>({ url: "/note" });
   }
-  createNote(notePayload: Note) {
+  createNote(notePayload: CreateNotePayload) {
     return fetcher({
       url: "/note",
       config: {
@@ -26,7 +27,7 @@ class NoteRepository {
     });
   }
 
-  editNote(noteId: string, notePayload: UpdateNotePayload) {
+  editNote(noteId: number, notePayload: UpdateNotePayload) {
     return fetcher({
       url: `/note${noteId}`,
       config: {
@@ -36,7 +37,7 @@ class NoteRepository {
     });
   }
 
-  deleteNote(noteId) {
+  deleteNote(noteId: number) {
     return fetcher({
       url: `/note/${noteId}`,
       config: {
