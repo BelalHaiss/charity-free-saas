@@ -2,21 +2,38 @@ import { JWT_PAYLOAD, UserInRequestHeader } from "@main/nest/types/auth.types";
 import {
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
-import { UserService } from "../user/user.service";
+import { PrismaService } from "@main/nest/shared/services/prisma.service";
+import { UserWithBranches } from "@shared/types/user/user.dto";
+import { removeFields } from "@shared/services/object.util";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
-    private userService: UserService,
+    private prismaService: PrismaService,
   ) {}
+  private async findByUserId(id: number): Promise<UserWithBranches | null> {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+
+      include: {
+        branches: true,
+      },
+    });
+    if (!user) return null;
+
+    return removeFields(user, ["password"]);
+  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -28,7 +45,7 @@ export class AuthGuard implements CanActivate {
       const payload: JWT_PAYLOAD = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get("AUTH_SECRET"),
       });
-      const user = await this.userService.findByUserId(payload.sub);
+      const user = await this.findByUserId(payload.sub);
 
       if (!user) {
         throw new UnauthorizedException();
@@ -37,6 +54,7 @@ export class AuthGuard implements CanActivate {
         ...user,
         branches: user.branches.map((branch) => branch.branch_id),
       };
+      console.log({ requestUser });
       request["user"] = requestUser;
     } catch {
       throw new UnauthorizedException();

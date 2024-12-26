@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from "@nestjs/common";
 import { NoteService } from "./note.service";
 import type {
@@ -15,8 +16,10 @@ import type {
 } from "@shared/types/note/note.dto";
 import { Timezone, User } from "@main/nest/decorator/headers.decorator";
 import type { UserInRequestHeader } from "@main/nest/types/auth.types";
+import { AuthGuard } from "../auth/auth.guard";
 
 @Controller("note")
+@UseGuards(AuthGuard)
 export class NoteController {
   constructor(private readonly noteService: NoteService) {}
 

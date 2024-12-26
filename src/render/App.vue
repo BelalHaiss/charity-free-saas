@@ -59,7 +59,7 @@ const isSetupPage = computed(() => {
     class="w-full h-full p-1 flex-1"
     :class="!isSetupPage ? 'page-container ms-[85px] ' : ''"
   >
-    <ActionButton />
+    <ActionButton v-if="!isSetupPage && !isInitializing" />
     <RouterView />
   </main>
   <VueQueryDevtools />

@@ -28,7 +28,7 @@ export class AuthService {
         status: HttpStatus.UNAUTHORIZED,
       });
     }
-    const passwordHash = argon2.verify(user.password, passwordPayload);
+    const passwordHash = await argon2.verify(user.password, passwordPayload);
     if (!passwordHash) {
       throw new CustomException({
         message: getLocalizedErrorMessage(locale, "passwordWrong"),
