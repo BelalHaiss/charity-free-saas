@@ -8,18 +8,27 @@ import { createNoteSchema } from "@shared/services/schema/note.schema";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useI18n } from "vue-i18n";
 import { Locale } from "@shared/types/util.types";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { noteRepository } from "../../repository/note.repository";
 import { useToast } from "@render/composables/use-toast";
 import { useQueryHelper } from "@render/composables/use-query-typed";
+import { useTypedI18n } from "@render/composables/use-typed-i18n";
+import { useGlobalState } from "@render/composables/use-global-state";
 const { locale } = useI18n<object, Locale>();
-const { resetForm, defineField, meta, values } = useForm<CreateNotePayload>({
-  validationSchema: toTypedSchema(createNoteSchema(locale.value)),
-});
+const { resetForm, defineField, meta, values, setFieldValue } =
+  useForm<CreateNotePayload>({
+    validationSchema: toTypedSchema(createNoteSchema(locale.value)),
+  });
 
+const { getters } = useGlobalState();
+const { t } = useTypedI18n();
 const { invalidateQueries } = useQueryHelper();
 const [content, contentAttr] = defineField("content");
-const [branchId, branchIdAttr] = defineField("branch_id");
+const isPublic = ref(false);
+
+watch(isPublic, (newIsPublicVal) =>
+  setFieldValue("branch_id", getters.getBranchId(), true),
+);
 const { failedToast, successToast } = useToast();
 const isSubmitting = ref(false);
 const saveNote = async () => {
@@ -44,28 +53,36 @@ const saveNote = async () => {
       'p-4 rounded-lg relative group transition-all duration-200 bg-yellow-100',
     ]"
   >
-    <div class="flex items-start justify-between gap-2">
+    <div class="flex flex-col gap-2">
       <input
         v-model="content"
         v-bind="contentAttr"
         @keyup.enter="saveNote"
         class="w-full bg-transparent outline-none"
       />
-      <div class="flex items-center gap-2">
+    </div>
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-1">
+        <Checkbox v-model="isPublic" inputId="is-public" />
+        <label for="is-public"> {{ t("is_public") }} </label>
+      </div>
+      <div>
         <Button
           :disabled="meta.valid"
+          v-tooltip="'save'"
           @click="saveNote"
           class="p-1 hover:bg-white/20 rounded"
         >
           <IconRepository icon-name="save" />
         </Button>
-        <Button @click="resetForm()" class="p-1 hover:bg-white/20 rounded">
+        <Button
+          v-tooltip="'reset'"
+          @click="resetForm()"
+          class="p-1 hover:bg-white/20 rounded"
+        >
           <IconRepository icon-name="undo" />
         </Button>
       </div>
-    </div>
-    <div class="text-xs mt-2 opacity-70">
-      {{ formatDate(new Date(), "yyyy-LL-dd") }}
     </div>
   </form>
 </template>

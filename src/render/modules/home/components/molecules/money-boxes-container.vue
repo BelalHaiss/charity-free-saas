@@ -2,8 +2,7 @@
 import { MoneyTotalsBoxes } from "@render/modules/transaction/types/transactions.types";
 import MoneyBox from "../atoms/money-box.vue";
 import { useI18n } from "vue-i18n";
-import NoteBox from "../atoms/note-box.vue";
-import { Note } from "@prisma/client";
+
 import { DayData } from "../../view-model/home-summary-view-mode";
 import { useGlobalState } from "@render/composables/use-global-state";
 import {
@@ -16,7 +15,7 @@ import { Locale } from "@shared/types/util.types";
 import AddExpenseModal from "@render/modules/transaction/components/organisms/add-expense.modal.vue";
 import AddDonateModal from "@render/modules/transaction/components/organisms/add-donate.modal.vue";
 
-const { expenses, incomes, notes } = defineProps<DayData>();
+const { expenses, incomes } = defineProps<DayData>();
 
 const { storage } = useGlobalState();
 const { locale } = useI18n<object, Locale>();
@@ -78,8 +77,6 @@ const { t } = useI18n();
       :label="t('donates')"
       :money-items="moneyTotals.incomes"
     />
-
-    <NoteBox :on-click="() => {}" :notes="notes" />
 
     <AddExpenseModal v-model="isExpenseModalVisible" />
 

@@ -12,6 +12,7 @@ import CenteredSpinner from "./components/molecules/centered-spinner.vue";
 import { Settings } from "luxon";
 import { Locale } from "@shared/types/util.types";
 import { useInitialRouteHandling } from "./composables/use-initial-route-handling";
+import ActionButton from "./modules/layout/components/action-button/action.button.vue";
 
 const { locale } = useI18n<object, Locale>();
 const primevue = usePrimeVue();
@@ -48,7 +49,7 @@ const isSetupPage = computed(() => {
 </script>
 
 <template>
-  <CenteredSpinner class="w-dvw h-dvh" v-if="isInitializing" />
+  <CenteredSpinner is-full-screen v-if="isInitializing" />
 
   <SideNav v-if="!isSetupPage && !isInitializing" />
 
@@ -58,6 +59,7 @@ const isSetupPage = computed(() => {
     class="w-full h-full p-1 flex-1"
     :class="!isSetupPage ? 'page-container ms-[85px] ' : ''"
   >
+    <ActionButton />
     <RouterView />
   </main>
   <VueQueryDevtools />

@@ -15,7 +15,6 @@ export type DayData = {
   expenses: ClientTransaction[];
   incomes: ClientTransaction[];
   donates: DonateWithRelations[];
-  notes: Note[];
 };
 export const useHomeSummary = () => {
   const selectedDate = ref(new Date());
@@ -27,7 +26,6 @@ export const useHomeSummary = () => {
     donates: [],
     expenses: [],
     incomes: [],
-    notes: [],
   });
 
   provide("dayData", dayData);
@@ -54,11 +52,8 @@ export const useHomeSummary = () => {
       const donates =
         await donateRepository.getDonatesByDate(sharedQueryParams);
 
-      // fetch day notes
-      const dayNotes = await noteRepository.getPublicNotes();
       dayData.value = {
         donates,
-        notes: dayNotes,
         expenses,
         incomes,
       };

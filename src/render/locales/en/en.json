@@ -43,6 +43,7 @@
   "user": "User",
   "item-deleted": "Item Is Deleted",
   "public_notes": "Public Notes",
+  "is_public": "Is Public",
   "my_notes": "My Notes",
   "pages": {
     "home": "Home",
