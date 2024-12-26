@@ -1,14 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from "@nestjs/common";
+import { Controller, Post, Body } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { UpdateAuthDto } from "./dto/update-auth.dto";
 import type { LoginPayload } from "@shared/types/auth/auth.dto";
 import { Language } from "@main/nest/decorator/headers.decorator";
 import type { Locale } from "@shared/types/util.types";

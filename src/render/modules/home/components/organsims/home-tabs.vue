@@ -8,10 +8,10 @@ const { t } = useI18n();
 <template>
   <div class="gap-2 min-w-full">
     <TabView>
-      <TabPanel :header="t('shared.donates')">
+      <TabPanel :header="t('donates')">
         <DonatesTables />
       </TabPanel>
-      <TabPanel header-class="flex-1" :header="t('shared.expenses')">
+      <TabPanel header-class="flex-1" :header="t('expenses')">
         <ExpenseTables />
       </TabPanel>
     </TabView>

@@ -1,9 +1,13 @@
 import { User } from "@prisma/client";
 import * as argon2 from "argon2";
 import { PrismaInteractiveTransaction } from "@shared/types/prisma.types";
-import { InitialAdminToServer } from "@shared/types/user/user.dto";
+import {
+  InitialAdminToServer,
+  UserWithBranches,
+} from "@shared/types/user/user.dto";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
+import { removeFields } from "@shared/services/object.util";
 
 @Injectable()
 export class UserService {
@@ -15,6 +19,21 @@ export class UserService {
         username,
       },
     });
+  }
+
+  public async findByUserId(id: number): Promise<UserWithBranches | null> {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+
+      include: {
+        branches: true,
+      },
+    });
+    if (!user) return null;
+
+    return removeFields(user, ["password"]);
   }
   async createInitialAdmin(
     tx: PrismaInteractiveTransaction,

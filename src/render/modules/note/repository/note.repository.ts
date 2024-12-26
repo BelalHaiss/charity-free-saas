@@ -2,20 +2,20 @@ import type { Note } from "@prisma/client";
 import { fetcher } from "@render/utils/api.util";
 import type {
   CreateNotePayload,
-  QueryNoteByDate,
+  PrivateNote,
+  PublicNote,
   UpdateNotePayload,
 } from "@shared/types/note/note.dto";
+import { ISO_8601_DateString } from "@shared/types/util.types";
 import qs from "qs";
 
 class NoteRepository {
-  getDayNotes(query: QueryNoteByDate): Promise<Note[]> {
-    const queryString = qs.stringify(query);
-
-    return fetcher<Note[]>({ url: `/note/day-notes?${queryString}` });
+  getPublicNotes(): Promise<PublicNote[]> {
+    return fetcher<PublicNote[]>({ url: `/note/public` });
   }
 
   getUserNotes() {
-    return fetcher<Note[]>({ url: "/note" });
+    return fetcher<PrivateNote[]>({ url: `/note/private` });
   }
   createNote(notePayload: CreateNotePayload) {
     return fetcher({

@@ -55,14 +55,14 @@ const createItem = async () => {
     v-model:visible="isVisible"
     modal
     class="w-full max-w-[600px]"
-    :header="t('shared.add', { label: t('shared.item') })"
+    :header="t('add', { label: t('item') })"
   >
     <div class="flex flex-col flex-center gap-3">
       <CategorySelect v-model="categoryValue" class="w-[300px]" />
 
       <TextInput
         v-model="itemName"
-        :label="t('shared.name', { label: t('shared.item') })"
+        :label="t('name', { label: t('item') })"
         name="item_name"
         :input-props="{}"
       />
@@ -74,10 +74,10 @@ const createItem = async () => {
           severity="secondary"
           @click="isVisible = false"
         >
-          {{ t("shared.cancel") }}
+          {{ t("cancel") }}
         </Button>
         <Button :loading="isSubmiting" type="button" @click="createItem()">
-          {{ t("shared.save") }}
+          {{ t("save") }}
         </Button>
       </div>
     </div>

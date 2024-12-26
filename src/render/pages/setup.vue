@@ -21,13 +21,13 @@ const { t } = useI18n();
     <div class="flex-1 w-full flex justify-content-center">
       <Stepper linear class="w-full">
         <StepperPanel
-          :header="t('shared.details', { label: t(`shared.organization`) })"
+          :header="t('details', { label: t(`shared.organization`) })"
         >
           <template #content="{ nextCallback }">
             <OrganizationTemplate />
             <div class="flex pt-4 justify-content-end">
               <Button
-                :label="t('shared.next')"
+                :label="t('next')"
                 :disabled="!isFormsValid.organization"
                 icon="pi pi-arrow-right"
                 icon-pos="right"
@@ -37,21 +37,19 @@ const { t } = useI18n();
           </template>
         </StepperPanel>
 
-        <StepperPanel
-          :header="t('shared.details', { label: t('shared.admin') })"
-        >
+        <StepperPanel :header="t('details', { label: t('admin') })">
           <template #content="{ prevCallback }">
             <AdminForm />
             <div class="flex pt-4 justify-between">
               <Button
-                :label="t('shared.next')"
+                :label="t('next')"
                 icon="pi pi-arrow-right"
                 :disabled="!isFormsValid.admin"
                 icon-pos="right"
                 @click="confirmProps.showDialog"
               />
               <Button
-                :label="t('shared.back')"
+                :label="t('back')"
                 severity="secondary"
                 icon="pi pi-arrow-left"
                 @click="prevCallback"

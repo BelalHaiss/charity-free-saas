@@ -23,14 +23,14 @@ const { t } = useI18n();
     <div class="flex justify-content-end gap-2">
       <Button
         type="button"
-        :label="t('shared.cancel')"
+        :label="t('cancel')"
         :disabled="isSubmitting"
         severity="secondary"
         @click="props.onCancel"
       />
       <Button
         type="button"
-        :label="t('shared.confirm')"
+        :label="t('confirm')"
         :loading="isSubmitting"
         :severity="props.confirmButtonSeverity"
         @click="props.onConfirm"

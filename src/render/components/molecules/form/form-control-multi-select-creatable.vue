@@ -3,7 +3,7 @@ import {
   CreatableSelectOptions,
   FormFieldProps,
 } from "@render/types/form.types";
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 
 import { useField } from "vee-validate";
 import { MultiSelectProps } from "primevue/multiselect";
@@ -61,7 +61,7 @@ const allOptions = computed(
         option-label="label"
         :placeholder="props.inputProps.placeholder"
         :selected-items-label="
-          t('shared.form.max_selected', {
+          t('form.max_selected', {
             count: value.length,
           })
         "
@@ -85,7 +85,7 @@ const allOptions = computed(
             class="py-1 max-w-[300px] overflow-hidden"
             @click="handleNewItem"
           >
-            {{ t("shared.form.add_item") + " " + currentFilterValue }}
+            {{ t("form.add_item") + " " + currentFilterValue }}
           </Button>
         </template>
       </MultiSelect>

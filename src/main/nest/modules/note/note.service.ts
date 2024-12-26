@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import type {
   CreateNotePayload,
+  PublicNote,
   UpdateNotePayload,
-  QueryNoteByDate,
 } from "@shared/types/note/note.dto";
-import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import { UtilsService } from "../utils/utils.service";
-import { JWT_PAYLOAD } from "@main/nest/types/auth.types";
+import { UserInRequestHeader } from "@main/nest/types/auth.types";
+import { removeFields } from "@shared/services/object.util";
 
 @Injectable()
 export class NoteService {
@@ -16,9 +16,12 @@ export class NoteService {
     private utilService: UtilsService,
   ) {}
 
-  create(createNoteDto: CreateNotePayload, user: JWT_PAYLOAD) {
+  create(createNoteDto: CreateNotePayload, user: UserInRequestHeader) {
     return this.prismaService.note.create({
-      data: { ...createNoteDto, user_id: user.sub },
+      data: {
+        ...createNoteDto,
+        user_id: user.id,
+      },
     });
   }
 
@@ -26,18 +29,28 @@ export class NoteService {
     return this.prismaService.note.findMany({ where: { user_id: userId } });
   }
 
-  getDayNotes(
-    query: CastQueryFieldsToStrings<QueryNoteByDate>,
-    timeZone: string,
-    branchId: number,
-  ) {
-    return this.prismaService.note.findMany({
+  async getPublicNotes(userBranches: number[]): Promise<PublicNote[]> {
+    const notes = await this.prismaService.note.findMany({
       where: {
-        branch_id: branchId,
-        created_at: this.utilService.getFullDayDateFilter(query.date, timeZone),
+        branch_id: {
+          in: userBranches,
+        },
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+          },
+        },
       },
       orderBy: { created_at: "desc" },
     });
+
+    const publicNotes: PublicNote[] = notes.map((note) => ({
+      ...removeFields(note, ["user"]),
+      username: note.user.username,
+    }));
+    return publicNotes;
   }
 
   update(id: number, updateNoteDto: UpdateNotePayload) {

@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { Locale } from "@shared/types/util.types";
 
 export type InitialAdmin = Pick<User, "username" | "password"> & {
@@ -7,3 +7,10 @@ export type InitialAdmin = Pick<User, "username" | "password"> & {
 export type InitialAdminToServer = InitialAdmin & { lang: Locale };
 
 export type CurrentUser = Omit<User, "password">;
+
+export type UserWithBranches = Omit<
+  Prisma.UserGetPayload<{
+    include: { branches: true };
+  }>,
+  "password"
+>;

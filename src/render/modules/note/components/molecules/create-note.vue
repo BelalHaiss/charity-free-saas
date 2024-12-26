@@ -19,6 +19,7 @@ const { resetForm, defineField, meta, values } = useForm<CreateNotePayload>({
 
 const { invalidateQueries } = useQueryHelper();
 const [content, contentAttr] = defineField("content");
+const [branchId, branchIdAttr] = defineField("branch_id");
 const { failedToast, successToast } = useToast();
 const isSubmitting = ref(false);
 const saveNote = async () => {

@@ -46,28 +46,28 @@ const onSubmit = handleSubmit(async (payload) => {
             <div
               class="text-surface-900 dark:text-surface-0 text-3xl font-medium mb-4"
             >
-              {{ t("shared.messages.welcome") }}
+              {{ t("messages.welcome") }}
             </div>
             <span class="text-muted-color font-medium">
-              {{ t("shared.messages.sign_in") }}
+              {{ t("messages.sign_in") }}
             </span>
           </div>
 
           <form class="flex flex-col gap-4" :onsubmit="onSubmit">
             <FormControl
-              :label="t('shared.form.username')"
+              :label="t('form.username')"
               name="username"
               :inputProps="{
-                placeholder: t('shared.form.username'),
+                placeholder: t('form.username'),
               }"
               type="text"
             />
 
             <FormControl
-              :label="t('shared.form.password')"
+              :label="t('form.password')"
               name="password"
               :inputProps="{
-                placeholder: t('shared.form.password'),
+                placeholder: t('form.password'),
               }"
               type="password"
             />
@@ -75,7 +75,7 @@ const onSubmit = handleSubmit(async (payload) => {
             <Button
               :loading="isSubmitting"
               type="submit"
-              :label="t('shared.login')"
+              :label="t('login')"
               class="w-full"
             />
           </form>

@@ -9,15 +9,22 @@ import { updateNoteSchema } from "@shared/services/schema/note.schema";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useI18n } from "vue-i18n";
 import { Locale } from "@shared/types/util.types";
-import { UpdateNotePayload } from "@shared/types/note/note.dto";
+import {
+  PrivateNote,
+  PublicNote,
+  UpdateNotePayload,
+} from "@shared/types/note/note.dto";
 import { useQueryHelper } from "@render/composables/use-query-typed";
 import { useToast } from "@render/composables/use-toast";
 import { noteRepository } from "../../repository/note.repository";
 import Button from "primevue/button";
+import { useGlobalState } from "@render/composables/use-global-state";
+import UsernameWithIcon from "@render/components/molecules/username-with-icon.vue";
+import { NoteItemType } from "../../types/note.types";
 
-interface NoteProps {
-  note: Note;
-}
+type NoteProps = {
+  note: NoteItemType;
+};
 
 const { locale } = useI18n<object, Locale>();
 const props = defineProps<NoteProps>();
@@ -29,11 +36,16 @@ const { resetForm, defineField, meta, values } = useForm<UpdateNotePayload>({
   },
 });
 
+const { getters } = useGlobalState();
+
 const { invalidateQueries } = useQueryHelper();
 const [content, contentAttr] = defineField("content");
 const { failedToast, successToast } = useToast();
 const isSubmitting = ref(false);
 const isDeleting = ref(false);
+const isEditable = computed(
+  () => props.note.user_id === getters.getCurrentUser()?.id,
+);
 const saveEditedNote = async () => {
   isSubmitting.value = true;
   const payload = values;
@@ -94,10 +106,16 @@ const handleReset = () => {
         @keyup.enter="saveEditedNote"
         class="w-full bg-transparent outline-none"
       />
+    </div>
+    <div class="text-xs mt-2 opacity-70 flex justify-between items-center">
       <div class="flex items-center gap-2">
+        <UsernameWithIcon v-if="note.username" :username="note.username" />
+        {{ formatDate(note.created_at, "yyyy-LL-dd") }}
+      </div>
+      <div v-if="isEditable" class="flex items-center gap-2">
         <div v-if="!isEditing" class="flex gap-2 items-center">
           <Button @click="startEditing" class="p-1 hover:bg-white/20 rounded">
-            <IconRepository icon-name="edit" />
+            <IconRepository v-tooltip="'edit'" icon-name="edit" />
           </Button>
 
           <Button
@@ -105,24 +123,24 @@ const handleReset = () => {
             @click="handleDelete"
             class="p-1 hover:bg-white/20 rounded"
           >
-            <IconRepository icon-name="filled-delete" />
+            <IconRepository icon-name="filled-delete" v-tooltip="'delete'" />
           </Button>
         </div>
 
-        <Button
-          @click="saveEditedNote"
-          :loading="isSubmitting"
-          class="p-1 hover:bg-white/20 rounded"
-        >
-          <IconRepository icon-name="save" />
-        </Button>
-        <Button @click="handleReset" class="p-1 hover:bg-white/20 rounded">
-          <IconRepository icon-name="undo" />
-        </Button>
+        <div v-else>
+          <Button
+            @click="saveEditedNote"
+            :loading="isSubmitting"
+            class="p-1 hover:bg-white/20 rounded"
+            v-tooltip="'save'"
+          >
+            <IconRepository icon-name="save" />
+          </Button>
+          <Button @click="handleReset" class="p-1 hover:bg-white/20 rounded">
+            <IconRepository icon-name="undo" v-tooltip="'reset'" />
+          </Button>
+        </div>
       </div>
-    </div>
-    <div class="text-xs mt-2 opacity-70">
-      {{ formatDate(note.created_at, "yyyy-LL-dd") }}
     </div>
   </div>
 </template>

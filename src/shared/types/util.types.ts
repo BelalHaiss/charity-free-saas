@@ -68,8 +68,6 @@ export type CastDateFieldsToIsoDate<T> =
         }
       : T; // Return the type unchanged if it's not an object or array
 
-export type DateQueryString = string; // formatted as yyyy-mm-dd
-
 export type ISO_8601_DateString = string;
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };

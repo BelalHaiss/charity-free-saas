@@ -40,10 +40,10 @@ const handleNewItem = async (categoryName: string) => {
 <template>
   <CreatableSelect
     v-model="selectedValue"
-    :label="t('shared.select', { label: t('shared.category') })"
+    :label="t('select', { label: t('category') })"
     :handleNewItem="handleNewItem"
     :isLoading="isRefetching"
-    :placeholder="t('shared.select', { label: t('shared.category') })"
+    :placeholder="t('select', { label: t('category') })"
     :options="categoriesOptions"
   />
 </template>

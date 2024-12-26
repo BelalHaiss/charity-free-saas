@@ -16,7 +16,7 @@ const { t } = useI18n();
     <DateInput
       v-model="selectedDate"
       class="min-w-[300px]"
-      :label="t('shared.select-date')"
+      :label="t('select-date')"
     />
   </div>
 </template>

@@ -1,10 +1,10 @@
-import { DateQueryString } from "../util.types";
+import { ISO_8601_DateString } from "../util.types";
 import { NewTransaction } from "../transaction/transaction.dto";
 import { WithTempId } from "@render/types/util.types";
 import { Donate, Prisma, UNIT_SIZE } from "@prisma/client";
 
 export type QueryDonateByDate = {
-  date: DateQueryString;
+  date: ISO_8601_DateString;
   branchId: number;
 };
 

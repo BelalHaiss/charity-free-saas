@@ -56,7 +56,7 @@ const onSubmit = handleSubmit(saveNewItem, (erro) => {
     v-model:visible="isVisible"
     modal
     class="w-full max-w-[600px]"
-    :header="t('shared.add', { label: t('shared.item') })"
+    :header="t('add', { label: t('item') })"
   >
     <form @submit="onSubmit" class="flex flex-col flex-center gap-3">
       <FormControl
@@ -75,14 +75,14 @@ const onSubmit = handleSubmit(saveNewItem, (erro) => {
           severity="secondary"
           @click="isVisible = false"
         >
-          {{ t("shared.cancel") }}
+          {{ t("cancel") }}
         </Button>
         <Button
           :loading="isSubmitting"
           :disabled="!isFieldDirty('label') || !isFieldDirty('amount')"
           type="submit"
         >
-          {{ t("shared.save") }}
+          {{ t("save") }}
         </Button>
       </div>
     </form>

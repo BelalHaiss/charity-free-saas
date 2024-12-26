@@ -19,7 +19,7 @@ export const QUERY_KEYS = {
   ],
   SETUP_STATUS: ["setup", "status"],
 
-  DAY_NOTES: ["notes", "daily"],
+  PUBLIC_NOTES: ["notes", "public"],
   USER_NOTES: ["notes", "user"],
 };
 

@@ -79,6 +79,17 @@ export abstract class ValidationSchemas {
       .max(max || Infinity, { message: messages.max?.(max || Infinity) });
   }
 
+  static getOptionalStringSchema(lang: Locale, min?: number, max?: number) {
+    const messages = validationMessages[lang];
+    return z
+      .string({
+        invalid_type_error: messages.typeString(),
+      })
+      .min(min || 1, { message: messages.min?.(min || 1) })
+      .max(max || Infinity, { message: messages.max?.(max || Infinity) })
+      .optional();
+  }
+
   static getPhoneNumberSchema(lang: Locale, min?: number, max?: number) {
     const messages = validationMessages[lang];
     return z
@@ -116,6 +127,17 @@ export abstract class ValidationSchemas {
       })
       .min(min || -Infinity, { message: messages.minNumber(min || 0) })
       .max(max || Infinity, { message: messages.maxNumber(max || 0) });
+  }
+
+  static getOptionalNumberSchema(lang: Locale, min?: number, max?: number) {
+    const messages = validationMessages[lang];
+    return z
+      .number({
+        invalid_type_error: messages.typeNumber(),
+      })
+      .min(min || -Infinity, { message: messages.minNumber(min || 0) })
+      .max(max || Infinity, { message: messages.maxNumber(max || 0) })
+      .optional();
   }
 
   static getArraySchema<T>(

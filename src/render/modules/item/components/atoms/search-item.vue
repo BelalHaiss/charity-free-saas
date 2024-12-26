@@ -50,12 +50,12 @@ watch(items, () => console.log({ items }));
       :loading="isLoading"
       input-id="select"
       :options="items"
-      :empty-filter-message="t('shared.no-results-found')"
+      :empty-filter-message="t('no-results-found')"
       filter
       option-label="name"
       :placeholder="
-        t('shared.search by', {
-          label: t('shared.name', { label: t('shared.item') }),
+        t('search by', {
+          label: t('name', { label: t('item') }),
         })
       "
       class="max-h-full"

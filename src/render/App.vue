@@ -8,9 +8,8 @@ import { useRoute } from "vue-router/auto";
 import SideNav from "./modules/layout/components/side-nav.vue";
 import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
 import { useInitialCacheHandler } from "./composables/use-initial-cache";
-import SpinnerFullPage from "./components/molecules/spinner-full-page.vue";
+import CenteredSpinner from "./components/molecules/centered-spinner.vue";
 import { Settings } from "luxon";
-import { useGlobalState } from "./composables/use-global-state";
 import { Locale } from "@shared/types/util.types";
 import { useInitialRouteHandling } from "./composables/use-initial-route-handling";
 
@@ -49,7 +48,7 @@ const isSetupPage = computed(() => {
 </script>
 
 <template>
-  <SpinnerFullPage v-if="isInitializing" />
+  <CenteredSpinner class="w-dvw h-dvh" v-if="isInitializing" />
 
   <SideNav v-if="!isSetupPage && !isInitializing" />
 

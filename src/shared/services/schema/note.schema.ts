@@ -9,9 +9,11 @@ import {
 export const createNoteSchema = (locale: Locale) =>
   z.object({
     content: ValidationSchemas.getStringSchema(locale),
+    branch_id: ValidationSchemas.getOptionalNumberSchema(locale),
   }) satisfies ZodType<CreateNotePayload>;
 
 export const updateNoteSchema = (locale: Locale) =>
   z.object({
     content: ValidationSchemas.getStringSchema(locale),
+    branch_id: ValidationSchemas.getOptionalNumberSchema(locale),
   }) satisfies ZodType<UpdateNotePayload>;

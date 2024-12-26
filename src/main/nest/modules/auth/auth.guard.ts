@@ -1,4 +1,4 @@
-import { JWT_PAYLOAD } from "@main/nest/types/auth.types";
+import { JWT_PAYLOAD, UserInRequestHeader } from "@main/nest/types/auth.types";
 import {
   CanActivate,
   ExecutionContext,
@@ -8,12 +8,14 @@ import {
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
+    private userService: UserService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -26,9 +28,16 @@ export class AuthGuard implements CanActivate {
       const payload: JWT_PAYLOAD = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get("AUTH_SECRET"),
       });
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
-      request["user"] = payload;
+      const user = await this.userService.findByUserId(payload.sub);
+
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+      const requestUser: UserInRequestHeader = {
+        ...user,
+        branches: user.branches.map((branch) => branch.branch_id),
+      };
+      request["user"] = requestUser;
     } catch {
       throw new UnauthorizedException();
     }

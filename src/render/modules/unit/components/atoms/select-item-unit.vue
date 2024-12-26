@@ -19,7 +19,7 @@ const selectedUnit = defineModel<SelectOptions<number>>();
     v-model="selectedUnit"
     :isLoading="false"
     :options="unitsOptions"
-    :placeholder="t('shared.select', { label: t('shared.unit') })"
-    :label="t('shared.select', { label: t('shared.unit') })"
+    :placeholder="t('select', { label: t('unit') })"
+    :label="t('select', { label: t('unit') })"
   />
 </template>

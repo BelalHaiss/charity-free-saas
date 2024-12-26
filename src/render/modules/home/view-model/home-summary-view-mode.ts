@@ -55,7 +55,7 @@ export const useHomeSummary = () => {
         await donateRepository.getDonatesByDate(sharedQueryParams);
 
       // fetch day notes
-      const dayNotes = await noteRepository.getDayNotes(sharedQueryParams);
+      const dayNotes = await noteRepository.getPublicNotes();
       dayData.value = {
         donates,
         notes: dayNotes,

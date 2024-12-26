@@ -69,7 +69,7 @@ const confirmProps = useConfirm(submitDataToServer);
     v-model:visible="isVisible"
     modal
     class="w-full max-w-[700px]"
-    :header="t('shared.add', { label: t('shared.item') })"
+    :header="t('add', { label: t('item') })"
   >
     <form
       @submit="onSubmit"
@@ -86,10 +86,10 @@ const confirmProps = useConfirm(submitDataToServer);
           severity="secondary"
           @click="isVisible = false"
         >
-          {{ t("shared.cancel") }}
+          {{ t("cancel") }}
         </Button>
         <Button type="submit" :loading="isSubmitting">
-          {{ t("shared.save") }}
+          {{ t("save") }}
         </Button>
       </div>
     </form>

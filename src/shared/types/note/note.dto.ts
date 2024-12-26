@@ -1,9 +1,8 @@
 import { Note } from "@prisma/client";
-import { DateQueryString } from "../util.types";
 
-export type QueryNoteByDate = {
-  date: DateQueryString;
-};
+export type CreateNotePayload = Pick<Note, "content"> & { branch_id?: number };
+export type UpdateNotePayload = Pick<Note, "content"> & { branch_id?: number };
 
-export type CreateNotePayload = Pick<Note, "content">;
-export type UpdateNotePayload = Pick<Note, "content">;
+export type PublicNote = Note & { username: string };
+
+export type PrivateNote = Note;

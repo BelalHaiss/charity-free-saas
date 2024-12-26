@@ -55,12 +55,12 @@ const { t } = useI18n();
   <div class="flex *:flex-1 items-center gap-2 flex-1">
     <MoneyBox
       class="bg-primary-color"
-      :label="t('shared.net')"
+      :label="t('net')"
       :money-items="moneyTotals.net"
     />
     <MoneyBox
       class="bg-red-500"
-      :label="t('shared.expenses')"
+      :label="t('expenses')"
       :money-items="moneyTotals.expenses"
       :on-click="
         () => {
@@ -75,7 +75,7 @@ const { t } = useI18n();
         }
       "
       class="bg-primary-color"
-      :label="t('shared.donates')"
+      :label="t('donates')"
       :money-items="moneyTotals.incomes"
     />
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-center w-dvw h-dvh">
+  <div class="flex-center">
     <ProgressSpinner />
   </div>
 </template>

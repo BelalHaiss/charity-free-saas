@@ -1,9 +1,9 @@
 import { Prisma, TransactionType } from "@prisma/client";
-import { DateQueryString } from "../util.types";
+import { ISO_8601_DateString } from "../util.types";
 
 export type TransactionQueryByType = {
   type: TransactionType;
-  date: DateQueryString;
+  date: ISO_8601_DateString;
   branchId: number;
 };
 

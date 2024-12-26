@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SpinnerFullPage from "@render/components/molecules/spinner-full-page.vue";
+import SpinnerFullPage from "@render/components/molecules/centered-spinner.vue";
 import { useHomeSummary } from "../../view-model/home-summary-view-mode";
 import HomeHeader from "../organsims/home-header.vue";
 import HomeTabs from "../organsims/home-tabs.vue";

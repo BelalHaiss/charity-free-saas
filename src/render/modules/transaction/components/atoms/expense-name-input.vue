@@ -51,7 +51,7 @@ const handleNewItem = (val: string) => {
       <CreatableSelect
         v-model="expenseNameValue"
         :options="expenseOptions"
-        :label="t('shared.expense', { label: t('shared.expense') })"
+        :label="t('expense', { label: t('expense') })"
         :isLoading="isLoading"
         :handleNewItem="handleNewItem"
       />

@@ -1,6 +1,4 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { CreateAuthDto } from "./dto/create-auth.dto";
-import { UpdateAuthDto } from "./dto/update-auth.dto";
 import { UserService } from "../user/user.service";
 import { JwtService } from "@nestjs/jwt";
 import * as argon2 from "argon2";
