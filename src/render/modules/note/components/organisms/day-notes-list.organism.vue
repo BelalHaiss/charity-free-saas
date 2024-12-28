@@ -10,7 +10,7 @@ defineProps<{
 }>();
 </script>
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex w-full max-w-[450px] flex-col gap-2">
     <CenteredSpinner v-if="isLoading" />
     <CreateNote />
     <NoteItem v-for="note in notes" :note="note" :key="note.id" />

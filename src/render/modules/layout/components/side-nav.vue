@@ -33,7 +33,7 @@ const expandedItems = ref<TreeExpandedKeys>({});
         <span
           class="text-primary-color font-bold text-lg max-w-min text-center [word-spacing:100px] hidden group-hover:block"
         >
-          {{ t("shared.app_name") }}
+          {{ t("app_name") }}
         </span>
       </RouterLink>
     </div>

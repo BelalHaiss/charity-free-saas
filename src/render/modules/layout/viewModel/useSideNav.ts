@@ -24,18 +24,18 @@ export const useSideNav = () => {
   const navItems = computed<(TreeNode & { customIcon: FunctionalComponent })[]>(
     () => [
       {
-        label: t("shared.pages.beneficiaries"),
+        label: t("pages.beneficiaries"),
         key: "beneficiaries",
         customIcon: IconoirPeopleTag,
         children: [
           {
-            label: t("shared.pages.beneficiaries_show"),
+            label: t("pages.beneficiaries_show"),
             type: "child",
             path: "/beneficiaries/",
             customIcon: MaterialSymbolsLightViewComfyAltOutlineRounded,
           },
           {
-            label: t("shared.pages.add_beneficiary"),
+            label: t("pages.add_beneficiary"),
             type: "child",
             path: "/beneficiaries/create",
             customIcon: MaterialSymbolsGroupAddOutlineRounded,
@@ -43,19 +43,19 @@ export const useSideNav = () => {
         ],
       },
       {
-        label: t("shared.pages.visits"),
+        label: t("pages.visits"),
         key: "visits",
 
         customIcon: MdiPackageVariantClosedCheck,
         children: [
           {
-            label: t("shared.pages.visits_show"),
+            label: t("pages.visits_show"),
             type: "child",
             path: "/visits/",
             customIcon: MaterialSymbolsLightViewComfyAltOutlineRounded,
           },
           {
-            label: t("shared.pages.add_visit"),
+            label: t("pages.add_visit"),
             type: "child",
             path: "/visits/create",
             customIcon: MdiPackageVariantClosedPlus,
@@ -63,18 +63,18 @@ export const useSideNav = () => {
         ],
       },
       {
-        label: t("shared.pages.benefits"),
+        label: t("pages.benefits"),
         customIcon: StreamlineWarehouse1,
         key: "benefits",
         children: [
           {
-            label: t("shared.pages.benefits_items"),
+            label: t("pages.benefits_items"),
             type: "child",
             path: "/benefits/items",
             customIcon: IconParkOutlineAdProduct,
           },
           {
-            label: t("shared.pages.benefits_finance"),
+            label: t("pages.benefits_finance"),
             type: "child",
             path: "/benefits/finance",
             customIcon:
@@ -83,30 +83,30 @@ export const useSideNav = () => {
         ],
       },
       {
-        label: t("shared.pages.settings"),
+        label: t("pages.settings"),
         key: "settings",
         customIcon: SolarSettingsOutline,
         children: [
           {
-            label: t("shared.details", { label: t("shared.organization") }),
+            label: t("details", { label: t("organization") }),
             type: "child",
             path: "/settings/info",
             customIcon: TablerBuildingArch,
           },
           {
-            label: t("shared.pages.settings_user"),
+            label: t("pages.settings_user"),
             type: "child",
             path: "/settings/users/manage",
             customIcon: MaterialSymbolsLightPersonEditOutlineSharp,
           },
           {
-            label: t("shared.pages.settings_user_roles"),
+            label: t("pages.settings_user_roles"),
             type: "child",
             path: "/settings/users/roles",
             customIcon: MaterialSymbolsLightVerifiedUserOutlineRounded,
           },
           {
-            label: t("shared.pages.settings_unit"),
+            label: t("pages.settings_unit"),
             type: "child",
             path: "/settings/units",
             customIcon: TablerRulerMeasure,
@@ -116,16 +116,16 @@ export const useSideNav = () => {
       {
         customIcon: TablerReportMoney,
         key: "reports",
-        label: t("shared.pages.reports"),
+        label: t("pages.reports"),
         children: [
           {
-            label: t("shared.pages.reports_daily"),
+            label: t("pages.reports_daily"),
             type: "child",
             path: "/reports/daily",
             customIcon: SystemUiconsCalendarLastDay,
           },
           {
-            label: t("shared.pages.reports_donates"),
+            label: t("pages.reports_donates"),
             type: "child",
             path: "/reports/donates",
             customIcon: FluentMoneyHand24Regular,

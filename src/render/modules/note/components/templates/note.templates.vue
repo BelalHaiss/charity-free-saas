@@ -23,7 +23,7 @@ const { data: privateNotes, isLoading: privateNotesLoading } = useQuery({
 });
 </script>
 <template>
-  <Button severity="secondary" rounded @click="onOpen">
+  <Button severity="warning" outlined class="rounded-btn" @click="onOpen">
     <IconRepository icon-name="open_note_modal" />
   </Button>
 
@@ -31,7 +31,7 @@ const { data: privateNotes, isLoading: privateNotesLoading } = useQuery({
     v-model:visible="isOpen"
     modal
     :header="t('notes')"
-    :style="{ width: '25rem' }"
+    class="w-full max-w-[450px]"
   >
     <TabView>
       <TabPanel :header="t('public_notes')">

@@ -27,6 +27,9 @@
   .form-input {
     @apply w-full h-[35px];
   }
+  .rounded-btn {
+    @apply flex-center  p-1 size-8 rounded-full;
+  }
 }
 
 @layer base {
