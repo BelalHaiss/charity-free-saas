@@ -13,11 +13,12 @@ const { value, errorMessage } = useField<string>(() => props.name);
     :hide-label="props.hideLabel"
   >
     <template #input>
-      <InputText
+      <Textarea
         :id="props.name"
         v-model="value"
         :name="props.name"
         v-bind="props.inputProps"
+        autoResize
         class="form-input"
         :invalid="!!errorMessage"
         :aria-describedby="props.name + `-help`"

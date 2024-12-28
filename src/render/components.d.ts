@@ -29,6 +29,7 @@ declare module 'vue' {
     Skeleton: typeof import('primevue/skeleton')['default']
     TabPanel: typeof import('primevue/tabpanel')['default']
     TabView: typeof import('primevue/tabview')['default']
+    Textarea: typeof import('primevue/textarea')['default']
     Tree: typeof import('primevue/tree')['default']
   }
 }

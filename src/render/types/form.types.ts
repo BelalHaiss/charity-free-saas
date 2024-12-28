@@ -22,7 +22,8 @@ export type FormFieldType =
   | "multi-select-creatable"
   | "number"
   | "password"
-  | "checkbox";
+  | "checkbox"
+  | "textArea";
 
 type InputProps =
   | MultiSelectProps
@@ -34,6 +35,7 @@ export type FormField<K extends string> = {
   name: K;
   type: FormFieldType;
   inputProps?: InputProps;
+  hideLabel?: boolean;
 };
 
 export type FormFieldProps<T extends InputProps = object> = Omit<

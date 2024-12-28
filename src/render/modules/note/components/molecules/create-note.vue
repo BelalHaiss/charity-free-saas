@@ -14,6 +14,7 @@ import { useToast } from "@render/composables/use-toast";
 import { useQueryHelper } from "@render/composables/use-query-typed";
 import { useTypedI18n } from "@render/composables/use-typed-i18n";
 import { useGlobalState } from "@render/composables/use-global-state";
+import FormControl from "@render/components/molecules/form/form-control.vue";
 const { locale } = useI18n<object, Locale>();
 const { resetForm, defineField, meta, values, setFieldValue } =
   useForm<CreateNotePayload>({
@@ -23,15 +24,22 @@ const { resetForm, defineField, meta, values, setFieldValue } =
 const { getters } = useGlobalState();
 const { t } = useTypedI18n();
 const { invalidateQueries } = useQueryHelper();
-const [content, contentAttr] = defineField("content");
+const { failedToast, successToast, invalidDataToast } = useToast();
 const isPublic = ref(false);
 
 watch(isPublic, (newIsPublicVal) =>
-  setFieldValue("branch_id", getters.getBranchId(), true),
+  setFieldValue(
+    "branch_id",
+    newIsPublicVal ? getters.getBranchId() : undefined,
+    true,
+  ),
 );
-const { failedToast, successToast } = useToast();
 const isSubmitting = ref(false);
 const saveNote = async () => {
+  if (!meta.value.valid) {
+    invalidDataToast();
+    return;
+  }
   isSubmitting.value = true;
   const payload = values;
   try {
@@ -48,34 +56,40 @@ const saveNote = async () => {
 </script>
 
 <template>
-  <form
+  <div
     :class="[
       'p-4 rounded-lg relative group transition-all duration-200 bg-yellow-100',
     ]"
   >
     <div class="flex flex-col gap-2">
-      <input
-        v-model="content"
-        v-bind="contentAttr"
-        @keyup.enter="saveNote"
-        class="w-full bg-transparent outline-none"
+      <FormControl
+        hide-label
+        type="textArea"
+        label="content"
+        name="content"
+        :input-props="{
+          class: 'input-transparent',
+        }"
       />
     </div>
     <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-1">
-        <Checkbox v-model="isPublic" inputId="is-public" />
+        <Checkbox v-model="isPublic" binary inputId="is-public" />
         <label for="is-public"> {{ t("is_public") }} </label>
       </div>
-      <div>
+      <div class="flex items-center">
         <Button
-          :disabled="meta.valid"
+          :disabled="!meta.valid"
           v-tooltip="'save'"
           @click="saveNote"
           class="p-1 hover:bg-white/20 rounded"
+          text
         >
           <IconRepository icon-name="save" />
         </Button>
         <Button
+          text
+          severity="secondary"
           v-tooltip="'reset'"
           @click="resetForm()"
           class="p-1 hover:bg-white/20 rounded"
@@ -84,5 +98,5 @@ const saveNote = async () => {
         </Button>
       </div>
     </div>
-  </form>
+  </div>
 </template>

@@ -6,6 +6,7 @@ import { useTypedI18n } from "@render/composables/use-typed-i18n";
 import { useQuery } from "@tanstack/vue-query";
 import { noteRepository } from "../../repository/note.repository";
 import DayNotesListOrganism from "../organisms/day-notes-list.organism.vue";
+import CreateNote from "../molecules/create-note.vue";
 
 const { isOpen, onClose, onOpen } = useDisclosure();
 const { t } = useTypedI18n();
@@ -31,8 +32,10 @@ const { data: privateNotes, isLoading: privateNotesLoading } = useQuery({
     v-model:visible="isOpen"
     modal
     :header="t('notes')"
-    class="w-full max-w-[450px]"
+    class="w-full max-w-[450px] flex flex-col gap-4"
   >
+    <CreateNote class="mb-5" />
+
     <TabView>
       <TabPanel :header="t('public_notes')">
         <DayNotesListOrganism
