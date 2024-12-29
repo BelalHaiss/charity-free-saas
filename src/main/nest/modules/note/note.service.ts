@@ -6,8 +6,8 @@ import type {
 } from "@shared/types/note/note.dto";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import { UtilsService } from "../utils/utils.service";
-import { UserInRequestHeader } from "@main/nest/types/auth.types";
 import { removeFields } from "@shared/services/object.util";
+import { UserWithBranchesIds } from "@shared/types/user/user.dto";
 
 @Injectable()
 export class NoteService {
@@ -16,7 +16,7 @@ export class NoteService {
     private utilService: UtilsService,
   ) {}
 
-  create(createNoteDto: CreateNotePayload, user: UserInRequestHeader) {
+  create(createNoteDto: CreateNotePayload, user: UserWithBranchesIds) {
     return this.prismaService.note.create({
       data: {
         ...createNoteDto,

@@ -30,7 +30,6 @@
   .rounded-btn {
     @apply flex-center  p-1 size-8 rounded-full;
   }
-
   .input-transparent {
     @apply w-full bg-transparent border-none outline-none focus:ring-0 shadow-none;
   }
@@ -50,6 +49,11 @@ body {
   --sb-thumb-color: #6baf8d;
   --sb-size: 7px;
   --text-black: #0f1419;
+}
+
+.p-tooltip-text {
+  font-size: small;
+  padding: 5px;
 }
 
 .no-scrollbar::-webkit-scrollbar {

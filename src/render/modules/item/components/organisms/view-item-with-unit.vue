@@ -18,10 +18,6 @@ const { data, error, isLoading } = useQuery({
   queryFn: () => itemRepository.getItemById(itemId),
 });
 
-watch(data, () => {
-  console.log({ data });
-});
-
 const donateItemUnit = computed(() => {
   if (!data || !data.value) return "";
   const unit = getters.getUnitById(data.value.unit_id)!;

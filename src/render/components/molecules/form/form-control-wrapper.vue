@@ -8,7 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col w-full">
     <label v-if="!hideLabel" :for="props.name">{{ props.label }}</label>
 
     <slot name="input" />

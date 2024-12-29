@@ -3,7 +3,10 @@
   "back": "رجوع",
   "confirm": "تأكيد",
   "save": "حفظ",
+  "reset": "الغاء",
   "cancel": "إلغاء",
+  "edit": "تعديل",
+  "delete": "حذف",
   "app_name": "يد العون",
   "account": "الحساب",
   "logout": "تسجيل الخروج",
@@ -44,6 +47,8 @@
   "item-deleted": "العنصر محذوف",
   "public_notes": "ملاحظات العامة",
   "my_notes": "ملاحظاتي",
+  "is_public": "عام",
+
   "pages": {
     "home": "الرئيسية",
     "beneficiaries": "المستفيدون",

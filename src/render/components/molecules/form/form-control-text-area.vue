@@ -3,7 +3,7 @@ import { useField } from "vee-validate";
 import { FormFieldProps } from "@render/types/form.types";
 import FormControlWrapper from "./form-control-wrapper.vue";
 const props = defineProps<FormFieldProps>();
-const { value, errorMessage } = useField<string>(() => props.name);
+const { value, errorMessage, handleBlur } = useField<string>(() => props.name);
 </script>
 <template>
   <FormControlWrapper
@@ -14,6 +14,7 @@ const { value, errorMessage } = useField<string>(() => props.name);
   >
     <template #input>
       <Textarea
+        @blur="handleBlur"
         :id="props.name"
         v-model="value"
         :name="props.name"

@@ -8,33 +8,33 @@ export const useToast = () => {
 
   const successToast = () =>
     toast.add({
-      summary: t("shared.toast.success"),
+      summary: t("toast.success"),
       severity: "success",
-      life: 700,
+      life: 900,
     });
 
   const failedToast = (error: unknown) => {
     const serverErrorMessage = getServerErrorMessage(error);
     toast.add({
-      summary: serverErrorMessage || t("shared.toast.failed"),
+      summary: serverErrorMessage || t("toast.failed"),
       severity: "error",
-      life: 700,
+      life: 900,
     });
   };
 
   const invalidDataToast = () => {
     toast.add({
-      summary: t("shared.toast.invalid_data"),
+      summary: t("toast.invalid_data"),
       severity: "error",
-      life: 700,
+      life: 900,
     });
   };
 
   const fieldMissingToast = () => {
     toast.add({
-      summary: t("shared.toast.please_fill_fields"),
+      summary: t("toast.please_fill_fields"),
       severity: "error",
-      life: 700,
+      life: 900,
     });
   };
 

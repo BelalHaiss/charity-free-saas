@@ -12,4 +12,14 @@ export class AuthController {
   create(@Body() payload: LoginPayload, @Language() locale: Locale) {
     return this.authService.signIn(payload.username, payload.password, locale);
   }
+
+  @Post("validate-token")
+  async validateToken(
+    @Body("token") bearerToken: string,
+    @Language() locale: Locale,
+  ) {
+    const token =
+      await this.authService.extractTokenFromBearerToken(bearerToken);
+    return this.authService.validateToken(token!, locale);
+  }
 }

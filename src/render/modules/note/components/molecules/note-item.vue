@@ -1,19 +1,13 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import IconRepository from "@render/components/atoms/icon-repository.vue";
-import { Note } from "@prisma/client";
 import { formatDate } from "@render/utils/date.util";
-import { noteColors } from "../../service/note.util";
 import { useForm } from "vee-validate";
 import { updateNoteSchema } from "@shared/services/schema/note.schema";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useI18n } from "vue-i18n";
 import { Locale } from "@shared/types/util.types";
-import {
-  PrivateNote,
-  PublicNote,
-  UpdateNotePayload,
-} from "@shared/types/note/note.dto";
+import { UpdateNotePayload } from "@shared/types/note/note.dto";
 import { useQueryHelper } from "@render/composables/use-query-typed";
 import { useToast } from "@render/composables/use-toast";
 import { noteRepository } from "../../repository/note.repository";
@@ -22,32 +16,48 @@ import { useGlobalState } from "@render/composables/use-global-state";
 import UsernameWithIcon from "@render/components/molecules/username-with-icon.vue";
 import { NoteItemType } from "../../types/note.types";
 import { useTypedI18n } from "@render/composables/use-typed-i18n";
+import FormControl from "@render/components/molecules/form/form-control.vue";
 
 type NoteProps = {
   note: NoteItemType;
 };
+const noteColors = [
+  "bg-blue-100",
+  "bg-purple-100",
+  "bg-green-100",
+  "bg-red-100",
+  "bg-indigo-100",
+];
 
 const { locale } = useI18n<object, Locale>();
 const props = defineProps<NoteProps>();
+const isPublic = ref(!!props.note.branch_id);
 
-const { resetForm, defineField, setFieldValue, values } =
-  useForm<UpdateNotePayload>({
-    validationSchema: toTypedSchema(updateNoteSchema(locale.value)),
-    initialValues: {
-      content: props.note.content,
-    },
-  });
+const getInitialFormValue = () => {
+  isPublic.value = !!props.note.branch_id;
+  return {
+    content: props.note.content,
+    branch_id: props.note.branch_id ? props.note.branch_id : undefined,
+  };
+};
+
+const { resetForm, meta, setFieldValue, values } = useForm<UpdateNotePayload>({
+  validationSchema: toTypedSchema(updateNoteSchema(locale.value)),
+  initialValues: getInitialFormValue(),
+  keepValuesOnUnmount: true,
+});
 
 const { t } = useTypedI18n();
 const { getters } = useGlobalState();
 
 const { invalidateQueries } = useQueryHelper();
-const [content, contentAttr] = defineField("content");
-
-const isPublic = ref(false);
 
 watch(isPublic, (newIsPublicVal) =>
-  setFieldValue("branch_id", getters.getBranchId(), true),
+  setFieldValue(
+    "branch_id",
+    newIsPublicVal ? getters.getBranchId() : undefined,
+    true,
+  ),
 );
 const { failedToast, successToast } = useToast();
 const isSubmitting = ref(false);
@@ -62,7 +72,7 @@ const saveEditedNote = async () => {
     await noteRepository.editNote(props.note.id, payload);
     successToast();
     await invalidateQueries(["notes"]);
-    resetForm();
+    handleReset();
   } catch (e) {
     failedToast(e);
   } finally {
@@ -86,7 +96,8 @@ const handleDelete = async () => {
 const isEditing = ref(false);
 
 const noteColor = computed(() => {
-  return noteColors[props.note.id % noteColors.length];
+  const randomIndex = Math.floor(Math.random() * noteColors.length);
+  return noteColors[randomIndex];
 });
 
 const startEditing = () => {
@@ -94,7 +105,7 @@ const startEditing = () => {
 };
 
 const handleReset = () => {
-  resetForm();
+  resetForm({ values: getInitialFormValue() });
   isEditing.value = false;
 };
 </script>
@@ -102,35 +113,51 @@ const handleReset = () => {
 <template>
   <div
     :class="[
-      'p-4 rounded-lg relative group transition-all duration-200',
+      'p-3 rounded-lg flex flex-col  transition-all duration-200',
       noteColor,
     ]"
   >
-    <div class="flex items-start justify-between gap-2">
+    <div class="flex w-full">
       <span v-if="!isEditing">{{ note.content }}</span>
-      <input
+      <FormControl
         v-else
-        v-model="content"
-        v-bind="contentAttr"
-        @keyup.enter="saveEditedNote"
-        class="w-full bg-transparent outline-none"
+        hide-label
+        type="textArea"
+        label="content"
+        name="content"
+        :input-props="{
+          class: 'input-transparent w-full',
+        }"
       />
     </div>
-    <div class="text-xs mt-2 opacity-70 flex justify-between items-center">
-      <div class="flex items-center gap-2">
-        <div v-if="isEditable" class="flex items-center gap-1">
-          <Checkbox v-model="isPublic" inputId="is-public" />
-          <label for="is-public"> {{ t("is_public") }} </label>
-        </div>
-        <UsernameWithIcon v-if="note.username" :username="note.username" />
+
+    <div class="text-xs flex items-center my-2 gap-2">
+      <UsernameWithIcon v-if="note.username" :username="note.username" />
+      <span class="font-light">
         {{ formatDate(note.created_at, "yyyy-LL-dd") }}
+      </span>
+    </div>
+    <div
+      v-if="isEditable"
+      class="text-xs opacity-70 flex justify-between items-center"
+    >
+      <div v-if="isEditing" class="flex items-center gap-1">
+        <Checkbox
+          class="!text-xs"
+          binary
+          v-model="isPublic"
+          :inputId="note.id + 'is-public'"
+        />
+        <label :for="note.id + 'is-public'"> {{ t("is_public") }} </label>
       </div>
-      <div v-if="isEditable" class="flex items-center gap-2">
-        <div v-if="!isEditing" class="flex gap-2 items-center">
+      <div class="flex items-center gap-2 ms-auto">
+        <div v-if="!isEditing" class="flex items-center">
           <Button
             @click="startEditing"
-            v-tooltip="'edit'"
-            class="p-1 hover:bg-white/20 rounded"
+            severity="warning"
+            v-tooltip="t('edit')"
+            class="p-1"
+            text
           >
             <IconRepository icon-name="edit" />
           </Button>
@@ -138,8 +165,10 @@ const handleReset = () => {
           <Button
             :loading="isDeleting"
             @click="handleDelete"
-            v-tooltip="'delete'"
-            class="p-1 hover:bg-white/20 rounded"
+            v-tooltip="t('delete')"
+            class="p-1"
+            severity="danger"
+            text
           >
             <IconRepository icon-name="filled-delete" />
           </Button>
@@ -149,15 +178,19 @@ const handleReset = () => {
           <Button
             @click="saveEditedNote"
             :loading="isSubmitting"
-            class="p-1 hover:bg-white/20 rounded"
-            v-tooltip="'save'"
+            :disabled="!meta.touched || !meta.valid"
+            class="p-1"
+            v-tooltip="t('save')"
+            text
           >
             <IconRepository icon-name="save" />
           </Button>
           <Button
+            severity="secondary"
             @click="handleReset"
-            v-tooltip="'reset'"
-            class="p-1 hover:bg-white/20 rounded"
+            v-tooltip="t('reset')"
+            class="p-1"
+            text
           >
             <IconRepository icon-name="undo" />
           </Button>

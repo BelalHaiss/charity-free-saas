@@ -13,28 +13,34 @@ import { removeFields } from "@shared/services/object.util";
 export class UserService {
   constructor(private prismaService: PrismaService) {}
 
-  public findByUsername(username: string) {
-    return this.prismaService.user.findUnique({
+  public async findByUsername(username: string) {
+    const user = await this.prismaService.user.findUnique({
       where: {
         username,
       },
-    });
-  }
-
-  public async findByUserId(id: number): Promise<UserWithBranches | null> {
-    const user = await this.prismaService.user.findUnique({
-      where: {
-        id,
-      },
-
       include: {
         branches: true,
       },
     });
     if (!user) return null;
 
-    return removeFields(user, ["password"]);
+    return user;
   }
+
+  public async findUserById(id: number) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        branches: true,
+      },
+    });
+    if (!user) return null;
+
+    return user;
+  }
+
   async createInitialAdmin(
     tx: PrismaInteractiveTransaction,
     user: InitialAdminToServer,

@@ -44,7 +44,6 @@ const { setValues, handleSubmit, isSubmitting, values } = useForm<NewDonate>({
 
 const submitDataToServer = async () => {
   try {
-    console.log(JSON.stringify(values));
     await donateRepository.createNewDonate(values);
     await invalidateQueries(QUERY_KEYS.TRANSACTION(selectedDate!));
 

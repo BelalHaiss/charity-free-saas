@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import NoteTemplates from "@render/modules/note/components/templates/note.templates.vue";
 import { onClickOutside, useDraggable, useWindowSize } from "@vueuse/core";
-import Menu from "primevue/menu";
-import { MenuItem } from "primevue/menuitem";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import IonAddSharp from "~icons/ion/add-sharp";

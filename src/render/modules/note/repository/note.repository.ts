@@ -1,4 +1,3 @@
-import type { Note } from "@prisma/client";
 import { fetcher } from "@render/utils/api.util";
 import type {
   CreateNotePayload,
@@ -6,8 +5,6 @@ import type {
   PublicNote,
   UpdateNotePayload,
 } from "@shared/types/note/note.dto";
-import { ISO_8601_DateString } from "@shared/types/util.types";
-import qs from "qs";
 
 class NoteRepository {
   getPublicNotes(): Promise<PublicNote[]> {
@@ -29,7 +26,7 @@ class NoteRepository {
 
   editNote(noteId: number, notePayload: UpdateNotePayload) {
     return fetcher({
-      url: `/note${noteId}`,
+      url: `/note/${noteId}`,
       config: {
         method: "PATCH",
         data: notePayload,

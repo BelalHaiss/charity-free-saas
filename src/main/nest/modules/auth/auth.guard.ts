@@ -1,69 +1,25 @@
-import { JWT_PAYLOAD, UserInRequestHeader } from "@main/nest/types/auth.types";
-import {
-  CanActivate,
-  ExecutionContext,
-  Inject,
-  Injectable,
-  UnauthorizedException,
-} from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { JwtService } from "@nestjs/jwt";
+import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Request } from "express";
-import { PrismaService } from "@main/nest/shared/services/prisma.service";
-import { UserWithBranches } from "@shared/types/user/user.dto";
-import { removeFields } from "@shared/services/object.util";
+import { getUserLocaleFromRequest } from "@main/nest/decorator/headers.decorator";
+import { AuthService } from "./auth.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(
-    private jwtService: JwtService,
-    private configService: ConfigService,
-    private prismaService: PrismaService,
-  ) {}
-  private async findByUserId(id: number): Promise<UserWithBranches | null> {
-    const user = await this.prismaService.user.findUnique({
-      where: {
-        id,
-      },
-
-      include: {
-        branches: true,
-      },
-    });
-    if (!user) return null;
-
-    return removeFields(user, ["password"]);
-  }
+  constructor(private authService: AuthService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
+    const request = context.switchToHttp().getRequest<Request>();
+    const locale = getUserLocaleFromRequest(request);
+    const token = this.authService.extractTokenFromHeader(request);
     if (!token) {
-      throw new UnauthorizedException();
+      this.authService.throwUnAuthorizedException(locale);
     }
     try {
-      const payload: JWT_PAYLOAD = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.get("AUTH_SECRET"),
-      });
-      const user = await this.findByUserId(payload.sub);
-
-      if (!user) {
-        throw new UnauthorizedException();
-      }
-      const requestUser: UserInRequestHeader = {
-        ...user,
-        branches: user.branches.map((branch) => branch.branch_id),
-      };
-      console.log({ requestUser });
-      request["user"] = requestUser;
+      const { user } = await this.authService.validateToken(token, locale);
+      request["user"] = user;
     } catch {
-      throw new UnauthorizedException();
+      this.authService.throwUnAuthorizedException(locale);
     }
     return true;
-  }
-
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(" ") ?? [];
-    return type === "Bearer" ? token : undefined;
   }
 }

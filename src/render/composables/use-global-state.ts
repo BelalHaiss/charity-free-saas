@@ -39,6 +39,10 @@ export const useGlobalState = createGlobalState(() => {
     setBranchId: (branchId: number) => (storage.value.branchId = branchId),
     setUserToken: (token: StateValues["userToken"]) =>
       (storage.value.userToken = token),
+    resetUserAndToken: () => {
+      storage.value.user = null;
+      storage.value.userToken = null;
+    },
   };
 
   const getters = {

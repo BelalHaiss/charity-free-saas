@@ -61,3 +61,8 @@ export function addArrayItemIfNotIncluded<T>(
 export function arrayHasMatches(array1: string[], array2: string[]): boolean {
   return array1.some((item) => array2.includes(item));
 }
+
+export const mapObjectArrayToItemArray = <T extends object, K extends keyof T>(
+  array: T[],
+  key: K,
+): T[K][] => array.map((obj) => obj[key]);

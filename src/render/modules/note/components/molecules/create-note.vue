@@ -38,6 +38,7 @@ const isSubmitting = ref(false);
 const saveNote = async () => {
   if (!meta.value.valid) {
     invalidDataToast();
+
     return;
   }
   isSubmitting.value = true;
@@ -61,17 +62,15 @@ const saveNote = async () => {
       'p-4 rounded-lg relative group transition-all duration-200 bg-yellow-100',
     ]"
   >
-    <div class="flex flex-col gap-2">
-      <FormControl
-        hide-label
-        type="textArea"
-        label="content"
-        name="content"
-        :input-props="{
-          class: 'input-transparent',
-        }"
-      />
-    </div>
+    <FormControl
+      hide-label
+      type="textArea"
+      label="content"
+      name="content"
+      :input-props="{
+        class: 'input-transparent',
+      }"
+    />
     <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-1">
         <Checkbox v-model="isPublic" binary inputId="is-public" />
@@ -80,9 +79,9 @@ const saveNote = async () => {
       <div class="flex items-center">
         <Button
           :disabled="!meta.valid"
-          v-tooltip="'save'"
+          v-tooltip="t('save')"
           @click="saveNote"
-          class="p-1 hover:bg-white/20 rounded"
+          class="p-1"
           text
         >
           <IconRepository icon-name="save" />
@@ -90,9 +89,9 @@ const saveNote = async () => {
         <Button
           text
           severity="secondary"
-          v-tooltip="'reset'"
+          v-tooltip="t('reset')"
           @click="resetForm()"
-          class="p-1 hover:bg-white/20 rounded"
+          class="p-1"
         >
           <IconRepository icon-name="undo" />
         </Button>

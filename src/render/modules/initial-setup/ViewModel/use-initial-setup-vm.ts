@@ -42,9 +42,7 @@ export const useInitialSetup = () => {
   });
 
   watch(locale, () => setFieldValue("lang", locale.value));
-  watch(values, () => {
-    console.log({ values });
-  });
+
   // submiting data
 
   // const { execute } = useAxiosFetch<InitialSetupToClient>('/setup/init', {

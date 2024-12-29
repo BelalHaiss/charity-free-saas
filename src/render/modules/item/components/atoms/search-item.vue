@@ -39,8 +39,6 @@ const onFilter = useDebounceFn(async ({ value }: DropdownFilterEvent) => {
     isLoading.value = false;
   }
 });
-
-watch(items, () => console.log({ items }));
 </script>
 
 <template>

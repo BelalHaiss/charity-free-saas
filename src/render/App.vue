@@ -26,11 +26,12 @@ const setCachedFetchedDone = () => {
   isCachedDataFetched.value = true;
 };
 const isInitializing = computed(
-  () => !isCachedDataFetched.value && !isFirstRouteHandled.value,
+  () => !isCachedDataFetched.value || !isFirstRouteHandled.value,
 );
 
 const setRouteHandled = () => {
-  isFirstRouteHandled.value = true;
+  // wait until redirection already happen
+  setTimeout(() => (isFirstRouteHandled.value = true), 700);
 };
 useInitialRouteHandling(setRouteHandled);
 useInitialCacheHandler(setCachedFetchedDone);
@@ -43,7 +44,7 @@ watchEffect(() => {
 });
 
 const isSetupPage = computed(() => {
-  const fullPath = route.fullPath || "";
+  const fullPath = route.fullPath;
   return fullPath === "/setup" || fullPath === "/login";
 });
 </script>

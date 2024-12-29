@@ -6,7 +6,7 @@ import {
 import { Request } from "express";
 import { CustomException } from "../shared/exception/CustomException";
 import { Locale } from "@shared/types/util.types";
-import { JWT_PAYLOAD, UserInRequestHeader } from "../types/auth.types";
+import { UserWithBranchesIds } from "@shared/types/user/user.dto";
 
 export const Timezone = createParamDecorator(
   (data: never, ctx: ExecutionContext) => {
@@ -23,17 +23,21 @@ export const Timezone = createParamDecorator(
 );
 
 export const Language = createParamDecorator(
-  (defaultLanguage: string = "en", ctx: ExecutionContext): Locale => {
-    const request = ctx.switchToHttp().getRequest();
-    const locale: string =
-      request.headers["accept-language"] || defaultLanguage;
-    return locale.includes("en") ? "en" : "ar";
+  (_, ctx: ExecutionContext): Locale => {
+    const request = ctx.switchToHttp().getRequest<Request>();
+    return getUserLocaleFromRequest(request);
   },
 );
 
 export const User = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    return request.user as UserInRequestHeader;
+    return request.user as UserWithBranchesIds;
   },
 );
+
+export const getUserLocaleFromRequest = (req: Request): Locale => {
+  const defaultLanguage = "ar";
+  const locale: string = req.headers["accept-language"] || defaultLanguage;
+  return locale.includes("en") ? "en" : "ar";
+};

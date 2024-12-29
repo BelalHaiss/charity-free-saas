@@ -6,7 +6,7 @@ export type InitialAdmin = Pick<User, "username" | "password"> & {
 };
 export type InitialAdminToServer = InitialAdmin & { lang: Locale };
 
-export type CurrentUser = Omit<User, "password">;
+export type CurrentUser = UserWithBranchesIds;
 
 export type UserWithBranches = Omit<
   Prisma.UserGetPayload<{
@@ -14,3 +14,7 @@ export type UserWithBranches = Omit<
   }>,
   "password"
 >;
+
+export type UserWithBranchesIds = Omit<UserWithBranches, "branches"> & {
+  branches: number[];
+};

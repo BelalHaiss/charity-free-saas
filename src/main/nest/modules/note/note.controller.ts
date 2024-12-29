@@ -14,9 +14,9 @@ import type {
   CreateNotePayload,
   UpdateNotePayload,
 } from "@shared/types/note/note.dto";
-import { Timezone, User } from "@main/nest/decorator/headers.decorator";
-import type { UserInRequestHeader } from "@main/nest/types/auth.types";
+import { User } from "@main/nest/decorator/headers.decorator";
 import { AuthGuard } from "../auth/auth.guard";
+import { type UserWithBranchesIds } from "@shared/types/user/user.dto";
 
 @Controller("note")
 @UseGuards(AuthGuard)
@@ -26,18 +26,18 @@ export class NoteController {
   @Post()
   create(
     @Body() createNoteDto: CreateNotePayload,
-    @User() user: UserInRequestHeader,
+    @User() user: UserWithBranchesIds,
   ) {
     return this.noteService.create(createNoteDto, user);
   }
 
   @Get("private")
-  getUserNotes(@User() user: UserInRequestHeader) {
+  getUserNotes(@User() user: UserWithBranchesIds) {
     return this.noteService.getUserNotes(user.id);
   }
 
   @Get("public")
-  getDayNotes(@User() user: UserInRequestHeader) {
+  getDayNotes(@User() user: UserWithBranchesIds) {
     return this.noteService.getPublicNotes(user.branches);
   }
 
