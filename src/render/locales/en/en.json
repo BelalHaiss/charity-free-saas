@@ -70,7 +70,10 @@
     "settings_unit": "Units"
   },
   "toast": {
-    "success": "Submitted Successfully",
+    "submitted_success": "Submitted Successfully",
+    "deleted_success": "Deleted Successfully",
+    "edited_success": "Edited Successfully",
+
     "failed": "Submitted Failed",
     "invalid_data": "Invalid Data",
     "please_fill_fields": "Please fill in the required fields"

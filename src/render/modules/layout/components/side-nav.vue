@@ -28,7 +28,7 @@ const expandedItems = ref<TreeExpandedKeys>({});
         <img
           src="@render/assets/images/logo.png"
           alt="logo"
-          class="size-[60px]"
+          class="size-[50px]"
         />
         <span
           class="text-primary-color font-bold text-lg max-w-min text-center [word-spacing:100px] hidden group-hover:block"

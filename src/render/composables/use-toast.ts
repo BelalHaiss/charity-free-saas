@@ -6,12 +6,15 @@ export const useToast = () => {
   const toast = usePrimeToast();
   const { t } = useI18n();
 
-  const successToast = () =>
+  type SuccessToastType = "submitted" | "edited" | "deleted";
+
+  const successToast = (type: SuccessToastType = "submitted") => {
     toast.add({
-      summary: t("toast.success"),
+      summary: t(`toast.${type}_success`),
       severity: "success",
       life: 900,
     });
+  };
 
   const failedToast = (error: unknown) => {
     const serverErrorMessage = getServerErrorMessage(error);

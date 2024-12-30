@@ -71,7 +71,9 @@
     "settings_unit": "الوحدات"
   },
   "toast": {
-    "success": "تم الإرسال بنجاح",
+    "submitted_success": "تم الإرسال بنجاح",
+    "deleted_success": "تم الحذف بنجاح",
+    "edited_success": "تم التعديل بنجاح",
     "failed": "فشل الإرسال",
     "invalid_data": "بيانات غير صالحة",
     "please_fill_fields": "يرجى ملء الحقول المطلوبة"

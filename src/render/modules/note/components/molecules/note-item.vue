@@ -70,7 +70,7 @@ const saveEditedNote = async () => {
   const payload = values;
   try {
     await noteRepository.editNote(props.note.id, payload);
-    successToast();
+    successToast("edited");
     await invalidateQueries(["notes"]);
     handleReset();
   } catch (e) {
@@ -84,7 +84,7 @@ const handleDelete = async () => {
   isDeleting.value = true;
   try {
     await noteRepository.deleteNote(props.note.id);
-    successToast();
+    successToast("deleted");
     await invalidateQueries(["notes"]);
   } catch (e) {
     failedToast(e);

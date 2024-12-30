@@ -47,8 +47,8 @@ const saveNewItem = async (newTransaction: NewTransaction) => {
     failedToast(error);
   }
 };
-const onSubmit = handleSubmit(saveNewItem, (erro) => {
-  console.log(erro.errors);
+const onSubmit = handleSubmit(saveNewItem, (error) => {
+  console.log(error.errors);
 });
 </script>
 <template>

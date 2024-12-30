@@ -53,7 +53,7 @@ const { data: privateNotes, isLoading: privateNotesLoading } = useQuery({
     <div class="flex justify-content-end gap-2">
       <Button
         type="button"
-        label="Cancel"
+        :label="t('cancel')"
         severity="secondary"
         @click="onClose"
       ></Button>

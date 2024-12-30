@@ -49,10 +49,11 @@ const menuStyle = computed(() => ({
     <div
       :style="style"
       ref="actionBTN"
-      class="flex-center !bg-transparent absolute cursor-pointer"
+      class="flex-center !bg-transparent absolute cursor-pointer z-50"
     >
       <Button
         @click="toggle"
+        severity="contrast"
         class="flex-center shadow-xl p-1 size-10 rounded-full"
       >
         <IonAddSharp class="text-white text-xl" />
