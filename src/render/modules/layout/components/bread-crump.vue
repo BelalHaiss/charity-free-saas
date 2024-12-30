@@ -12,22 +12,22 @@ const props = defineProps<{
   paths: PathProp[];
 }>();
 const pathsWithLabel = new Map<Path, string>([
-  ["/", "shared.pages.home"],
-  ["/beneficiaries/", "shared.pages.beneficiaries"],
-  ["/beneficiaries/create", "shared.pages.add_beneficiary"],
+  ["/", "pages.home"],
+  ["/beneficiaries/", "pages.beneficiaries"],
+  ["/beneficiaries/create", "pages.add_beneficiary"],
   ["/beneficiaries/[id]/", ""],
-  ["/benefits/finance", "shared.pages.benefits_finance"],
-  ["/benefits/items", "shared.pages.benefits_items"],
-  ["/profile/", "shared.pages.profile"],
-  ["/reports/daily", "shared.pages.reports_daily"],
-  ["/reports/donates", "shared.pages.reports_donates"],
-  ["/settings/info", "shared.pages.settings_org"],
-  ["/settings/units", "shared.pages.settings_unit"],
-  ["/settings/users/manage", "shared.pages.settings_user"],
-  ["/settings/users/roles", "shared.pages.settings_user_roles"],
-  ["/visits/", "shared.pages.visits"],
+  ["/benefits/finance", "pages.benefits_finance"],
+  ["/benefits/items", "pages.benefits_items"],
+  ["/profile/", "pages.profile"],
+  ["/reports/daily", "pages.reports_daily"],
+  ["/reports/donates", "pages.reports_donates"],
+  ["/settings/info", "pages.settings_org"],
+  ["/settings/units", "pages.settings_unit"],
+  ["/settings/users/manage", "pages.settings_user"],
+  ["/settings/users/roles", "pages.settings_user_roles"],
+  ["/visits/", "pages.visits"],
   ["/visits/[id]/", ""],
-  ["/visits/create", "shared.pages.add_visit"],
+  ["/visits/create", "pages.add_visit"],
 ]);
 
 const activePaths = computed<(MenuItem & PathProp)[]>(() =>

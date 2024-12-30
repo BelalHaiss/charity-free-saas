@@ -56,19 +56,6 @@ model Person {
   @@map("person")
 }
 
-model FinancialBenefit {
-  id Int @id @default(autoincrement())
-
-  name    String
-  amount  Decimal   @db.Decimal(10, 2)
-  unit_id Int
-  unit    MoneyUnit @relation(fields: [unit_id], references: [id])
-
-  benefit_id Int     @unique()
-  benefit    Benefit @relation(fields: [benefit_id], references: [id])
-
-  @@map("financial_benefit")
-}
 
 model Benefit {
   id                  Int         @id @default(autoincrement())
@@ -83,12 +70,44 @@ model Benefit {
 
   @@map("benefit")
 }
+model FinancialBenefit {
+  id Int @id @default(autoincrement())
+
+  name    String
+  amount  Decimal   @db.Decimal(10, 2)
+  unit_id Int
+  unit    MoneyUnit @relation(fields: [unit_id], references: [id])
+
+  benefit_id Int     @unique()
+  benefit    Benefit @relation(fields: [benefit_id], references: [id],onDelete: Cascade)
+
+  @@map("financial_benefit")
+}
+
+model Item {
+  id   Int    @id @default(autoincrement())
+  name String
+  qty  Int
+
+  category_id Int
+  category    Category @relation(fields: [category_id], references: [id])
+  unit_id     Int
+  unit        Unit     @relation(fields: [unit_id], references: [id])
+  branch_id   Int
+  branch      Branch   @relation(fields: [branch_id], references: [id])
+
+  benefit_id  Int          @unique()
+  ItemBenifit Benefit      @relation(fields: [benefit_id], references: [id],onDelete: Cascade)
+  DonateItem  DonateItem[]
+
+  @@map("item")
+}
 
 model BeneficiaryBenefit {
   beneficiary_id Int
   beneficiary    Beneficiary @relation(fields: [beneficiary_id], references: [id])
   benefit_id     Int
-  Benefit        Benefit     @relation(fields: [benefit_id], references: [id])
+  Benefit        Benefit     @relation(fields: [benefit_id], references: [id],onDelete: Cascade)
 
   item_unit_size UNIT_SIZE? // if not financial benefit
   item_value     Int? // if not financial benefit
@@ -138,25 +157,6 @@ model Category {
   branch    Branch @relation(fields: [branch_id], references: [id])
 
   @@map("category")
-}
-
-model Item {
-  id   Int    @id @default(autoincrement())
-  name String
-  qty  Int
-
-  category_id Int
-  category    Category @relation(fields: [category_id], references: [id])
-  unit_id     Int
-  unit        Unit     @relation(fields: [unit_id], references: [id])
-  branch_id   Int
-  branch      Branch   @relation(fields: [branch_id], references: [id])
-
-  benefit_id  Int          @unique()
-  ItemBenifit Benefit      @relation(fields: [benefit_id], references: [id])
-  DonateItem  DonateItem[]
-
-  @@map("item")
 }
 
 model MoneyUnit {

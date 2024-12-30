@@ -10,15 +10,15 @@ const { t } = useI18n();
 const { items } = defineProps<{ items: DonateWithRelations["donate_items"] }>();
 const tableHeader = computed((): TableHeader[] => [
   {
-    label: t("shared.item"),
+    label: t("item"),
     styles: { flex: 2 },
   },
   {
-    label: t("shared.unit"),
+    label: t("unit"),
     styles: { flex: 1 },
   },
   {
-    label: t("shared.value"),
+    label: t("value"),
     styles: { flex: 1 },
   },
 ]);
@@ -26,7 +26,7 @@ const tableHeader = computed((): TableHeader[] => [
 <template>
   <SmContainer class="min-w-full">
     <template #header>
-      {{ t("shared.monetary-donation") }}
+      {{ t("monetary-donation") }}
     </template>
 
     <template #main>

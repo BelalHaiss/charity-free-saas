@@ -14,17 +14,17 @@ const props = defineProps<{ donate: DonateWithRelations }>();
 const tableHeader = computed(
   (): ({ getter: (data: Donate) => string | number } & TableHeader)[] => [
     {
-      label: t("shared.donor"),
+      label: t("donor"),
       styles: { flex: 2 },
       getter: (data: Donate) => data.donor,
     },
     {
-      label: t("shared.form.phone"),
+      label: t("form.phone"),
       styles: { flex: 1 },
       getter: (data: Donate) => data.donor_phone ?? "",
     },
     {
-      label: t("shared.date"),
+      label: t("date"),
       styles: { flex: 1 },
       getter: (data: Donate) => formatDate(data.created_at, "tt"),
     },
@@ -35,7 +35,7 @@ const tableHeader = computed(
 <template>
   <SmContainer>
     <template #header>
-      {{ t("shared.donor") }}
+      {{ t("donor") }}
     </template>
 
     <template #main>

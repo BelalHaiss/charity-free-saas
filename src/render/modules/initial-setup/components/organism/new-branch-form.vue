@@ -9,7 +9,7 @@ const { fieldList } = useBranchForm();
 <template>
   <div class="flex flex-col gap-2">
     <p class="font-bold capitalize">
-      {{ t("shared.details", { label: t("organization.main_branch") }) }}
+      {{ t("details", { label: t("organization.main_branch") }) }}
     </p>
     <form
       class="flex w-full bg-gray-50/50 flex-col gap-3 border p-2 rounded-xl"

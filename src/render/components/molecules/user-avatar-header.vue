@@ -11,7 +11,7 @@ const router = useRouter();
 
 const items = ref<MenuItem[]>([
   {
-    label: t("shared.account"),
+    label: t("account"),
     command: () => router.push("/profile"),
   },
   {
@@ -39,7 +39,7 @@ const toggle = (event) => menuRef.value!.toggle(event);
   >
     <template #end>
       <Button text severity="danger" class="w-full p-1">
-        {{ t("shared.logout") }}
+        {{ t("logout") }}
         <IonIosCloseCircle class="ms-auto" />
       </Button>
     </template>

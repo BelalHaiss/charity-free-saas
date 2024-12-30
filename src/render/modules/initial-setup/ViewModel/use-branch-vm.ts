@@ -18,7 +18,7 @@ export const useBranchForm = () => {
     },
     {
       name: "branch.phone",
-      label: t("shared.form.phone"),
+      label: t("form.phone"),
       type: "number",
     },
     {

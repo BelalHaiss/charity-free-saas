@@ -19,43 +19,43 @@ export const useBeneficiaryTable = () => {
       {
         field: "id",
         dataGetter: (data) => data.id,
-        header: t("shared.code"),
+        header: t("code"),
         fieldType: "number",
       },
       {
         field: "name",
         dataGetter: (data) => data.name,
-        header: t("shared.name", { label: t("shared.beneficiary") }),
+        header: t("name", { label: t("beneficiary") }),
       },
       {
         dataGetter: (data) => data.identity_card!,
         field: "identity_card",
-        header: t("shared.identity_card"),
+        header: t("identity_card"),
         fieldType: "text",
       },
       {
         dataGetter: (data) => data.sponsorship_case_id!.toString(),
         field: "sponsorship_case_id",
-        header: t("shared.type", { label: t("shared.sponsorship") }),
+        header: t("type", { label: t("sponsorship") }),
         fieldType: "select",
       },
       {
         field: "created_at",
         dataGetter: (data) => formatDate(data.created_at, "d / L / y"),
 
-        header: t("shared.created_at"),
+        header: t("created_at"),
         fieldType: "date",
       },
       {
         dataGetter: (data) => formatDate(data.updated_at, "d / L / y"),
-        header: t("shared.updated_at"),
+        header: t("updated_at"),
         field: "updated_at",
         fieldType: "date",
       },
       {
         dataGetter: (data) => data.notes?.slice(0, 30) ?? "",
         field: "notes",
-        header: t("shared.note"),
+        header: t("note"),
       },
     ],
   );

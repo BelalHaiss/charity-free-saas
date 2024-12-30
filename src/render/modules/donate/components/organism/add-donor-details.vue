@@ -10,12 +10,12 @@ const { t } = useI18n();
 const donorFieldList: FormField<keyof NewDonate>[] = [
   {
     name: "donor",
-    label: t("shared.donor"),
+    label: t("donor"),
     type: "text",
   },
   {
     name: "donor_phone",
-    label: t("shared.form.phone"),
+    label: t("form.phone"),
     type: "text",
     inputProps: {
       type: "number",
@@ -23,7 +23,7 @@ const donorFieldList: FormField<keyof NewDonate>[] = [
   },
   {
     name: "date",
-    label: t("shared.date"),
+    label: t("date"),
     type: "date",
   },
 ];
@@ -32,7 +32,7 @@ const donorFieldList: FormField<keyof NewDonate>[] = [
 <template>
   <SmContainer>
     <template #header>
-      {{ t("shared.donor") }}
+      {{ t("donor") }}
     </template>
 
     <template #main>

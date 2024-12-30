@@ -67,7 +67,7 @@ const {
       <template #header>
         <RouterLink to="/beneficiaries/create">
           <Button>
-            {{ t("shared.add", { label: t("shared.beneficiary") }) }}
+            {{ t("add", { label: t("beneficiary") }) }}
           </Button>
         </RouterLink>
       </template>

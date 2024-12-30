@@ -1,6 +1,6 @@
 import { Item } from "@prisma/client";
 import { fetcher } from "@render/utils/api.util";
-import { CreateNewItem } from "@shared/types/item/item.dto";
+import { CreateNewItem } from "@shared/types/benefit/benefit.dto";
 import qs from "qs";
 
 class ItemRepository {

@@ -15,7 +15,7 @@ import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import { Prisma } from "@prisma/client";
 import { UnitService } from "../unit/unit.service";
 import { ItemService } from "../item/item.service";
-import { ItemChangeQty } from "@shared/types/item/item.dto";
+import { ItemChangeQty } from "@shared/types/benefit/benefit.dto";
 import { CustomException } from "@main/nest/shared/exception/CustomException";
 import { UtilsService } from "../utils/utils.service";
 

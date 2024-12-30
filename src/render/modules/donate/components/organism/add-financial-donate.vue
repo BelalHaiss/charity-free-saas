@@ -13,7 +13,7 @@ const { t } = useI18n();
 <template>
   <SmContainer>
     <template #header>
-      {{ t("shared.monetary-donation") }}
+      {{ t("monetary-donation") }}
     </template>
 
     <template #main>

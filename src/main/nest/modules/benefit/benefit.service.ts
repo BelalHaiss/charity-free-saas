@@ -1,7 +1,12 @@
 import { Injectable } from "@nestjs/common";
-import { UpdateBenefitDto } from "./dto/update-benefit.dto";
-import { CreateNewItem } from "@shared/types/item/item.dto";
+import {
+  CreateNewItem,
+  deleteBenefitItems,
+  EditFinancialBenefitPayload,
+  EditItemPayload,
+} from "@shared/types/benefit/benefit.dto";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
+import { CreateFinancialBenefitPayload } from "@shared/types/benefit/benefit.dto";
 
 @Injectable()
 export class BenefitService {
@@ -16,20 +21,75 @@ export class BenefitService {
       },
     });
   }
-
-  findAll() {
-    return `This action returns all benefit`;
+  createItems(newItems: CreateNewItem[]) {
+    return this.prismaService.$transaction(async (tx) => {
+      const bulkCreate = newItems.map((item) =>
+        tx.benefit.create({
+          data: {
+            type: "ITEM",
+            Item: {
+              create: item,
+            },
+          },
+        }),
+      );
+      await Promise.all(bulkCreate);
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} benefit`;
+  editItems(editedItems: EditItemPayload[]) {
+    return this.prismaService.$transaction(async (tx) => {
+      const bulkEdit = editedItems.map((item) =>
+        tx.item.update({
+          where: {
+            id: item.id,
+          },
+          data: item,
+        }),
+      );
+      await Promise.all(bulkEdit);
+    });
   }
 
-  update(id: number, updateBenefitDto: UpdateBenefitDto) {
-    return `This action updates a #${id} benefit`;
+  // financial items  services methods
+  createFinancialItems(financialItems: CreateFinancialBenefitPayload[]) {
+    this.prismaService.$transaction(async (tx) => {
+      const bulkCreate = financialItems.map((financialItem) =>
+        tx.benefit.create({
+          data: {
+            type: "FINANCIAL",
+            FinancialBenefit: {
+              create: financialItem,
+            },
+          },
+        }),
+      );
+      await Promise.all(bulkCreate);
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} benefit`;
+  editFinancialItems(editedItems: EditFinancialBenefitPayload[]) {
+    return this.prismaService.$transaction(async (tx) => {
+      const bulkEdit = editedItems.map((item) =>
+        tx.financialBenefit.update({
+          where: {
+            id: item.id,
+          },
+          data: item,
+        }),
+      );
+      await Promise.all(bulkEdit);
+    });
+  }
+
+  // delete any benefit item
+  deleteBenefitItems(itemsIds: deleteBenefitItems) {
+    return this.prismaService.benefit.deleteMany({
+      where: {
+        id: {
+          in: itemsIds,
+        },
+      },
+    });
   }
 }

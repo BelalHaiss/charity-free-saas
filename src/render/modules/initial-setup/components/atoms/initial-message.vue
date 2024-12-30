@@ -14,7 +14,7 @@ const { t } = useI18n();
     class="w-full max-w-[700px] mx-auto"
   >
     <h5 class="font-bold text-xl">
-      {{ t("shared.assalam") }} &#128075;
+      {{ t("assalam") }} &#128075;
     </h5>
     <p class="font-normal text-sm">
       {{ t("organization.enter-organization-details") }}

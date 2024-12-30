@@ -11,17 +11,12 @@ import {
 import { ItemService } from "./item.service";
 import { CreateItemDto } from "./dto/create-item.dto";
 import { UpdateItemDto } from "./dto/update-item.dto";
-import { ItemQuery } from "@shared/types/item/item.dto";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
+import { ItemQuery } from "@shared/types/benefit/benefit.dto";
 
 @Controller("item")
 export class ItemController {
   constructor(private readonly itemService: ItemService) {}
-
-  @Post()
-  create(@Body() createItemDto: CreateItemDto) {
-    return this.itemService.create(createItemDto);
-  }
 
   @Get("name")
   getItemByName(@Query() query: CastQueryFieldsToStrings<ItemQuery>) {

@@ -35,22 +35,22 @@ const headers = computed<TableColumns<Donate>[]>(() => [
   {
     field: "donor",
     dataGetter: (donate) => donate.donor,
-    header: t("shared.donor"),
+    header: t("donor"),
   },
   {
     field: "donor_phone",
     dataGetter: (donate) => donate.donor_phone ?? "",
-    header: t("shared.phone"),
+    header: t("phone"),
   },
   {
     field: "created_by",
     dataGetter: (donate) => donate.created_by,
-    header: t("shared.user"),
+    header: t("user"),
   },
   {
     field: "created_at",
     dataGetter: (donate) => formatDate(donate.created_at, "yyyy-LL-dd"),
-    header: t("shared.date"),
+    header: t("date"),
   },
   {
     field: "delete",

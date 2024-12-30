@@ -28,9 +28,8 @@ export const useConfirm = (
   };
   const hideDialog = () => (isVisible.value = false);
 
-  const header = customProps?.header ?? t("shared.actions.confirm-changes");
-  const description =
-    customProps?.description ?? t("shared.actions.confirm-msg");
+  const header = customProps?.header ?? t("actions.confirm-changes");
+  const description = customProps?.description ?? t("actions.confirm-msg");
 
   const onCancel = customProps?.onCancel ?? hideDialog;
   const handleConfirm = async () => {

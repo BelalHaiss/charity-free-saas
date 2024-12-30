@@ -1,43 +1,87 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-} from "@nestjs/common";
+import { Controller, Post, Body, Patch, Delete } from "@nestjs/common";
 import { BenefitService } from "./benefit.service";
-import { UpdateBenefitDto } from "./dto/update-benefit.dto";
-import type { CreateNewItem } from "@shared/types/item/item.dto";
+import type {
+  CreateNewItem,
+  EditItemPayload,
+  CreateFinancialBenefitPayload,
+  EditFinancialBenefitPayload,
+  deleteBenefitItems,
+} from "@shared/types/benefit/benefit.dto";
+import { ZodValidationService } from "../utils/zod-validation.service";
+import {
+  createBenefitItemPayloadSchema,
+  createFinancialItemsPayloadSchema,
+  editBenefitItemPayloadSchema,
+  editFinancialItemsPayloadSchema,
+} from "@shared/services/schema/benefit.schema";
+import { Language } from "@main/nest/decorator/headers.decorator";
+import { type Locale } from "@shared/types/util.types";
 
 @Controller("benefit")
 export class BenefitController {
-  constructor(private readonly benefitService: BenefitService) {}
+  constructor(
+    private readonly benefitService: BenefitService,
+    private readonly zodValidationService: ZodValidationService,
+  ) {}
 
-  @Post("item")
-  createItem(@Body() newItem: CreateNewItem) {
-    return this.benefitService.create(newItem);
+  // Create multiple Items
+  @Post("items")
+  createItems(@Body() newItems: CreateNewItem[], @Language() locale: Locale) {
+    const parsedItems = this.zodValidationService.validate(
+      newItems,
+      createBenefitItemPayloadSchema,
+      locale,
+    );
+    return this.benefitService.createItems(parsedItems);
   }
 
-  @Get()
-  findAll() {
-    return this.benefitService.findAll();
+  // Edit multiple Items
+  @Patch("items")
+  editItems(
+    @Body() editedItems: EditItemPayload[],
+    @Language() locale: Locale,
+  ) {
+    const parsedItems = this.zodValidationService.validate(
+      editedItems,
+      editBenefitItemPayloadSchema,
+      locale,
+    );
+    return this.benefitService.editItems(parsedItems);
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.benefitService.findOne(+id);
+  // Create multiple Financial Benefits
+  @Post("financial")
+  createFinancialItems(
+    @Body() financialItems: CreateFinancialBenefitPayload[],
+    @Language() locale: Locale,
+  ) {
+    const parsedItems = this.zodValidationService.validate(
+      financialItems,
+      createFinancialItemsPayloadSchema,
+      locale,
+    );
+
+    return this.benefitService.createFinancialItems(parsedItems);
   }
 
-  @Patch(":id")
-  update(@Param("id") id: string, @Body() updateBenefitDto: UpdateBenefitDto) {
-    return this.benefitService.update(+id, updateBenefitDto);
+  // Edit multiple Financial Benefits
+  @Patch("financial")
+  editFinancialItems(
+    @Body() editedItems: EditFinancialBenefitPayload[],
+    @Language() locale: Locale,
+  ) {
+    const parsedItems = this.zodValidationService.validate(
+      editedItems,
+      editFinancialItemsPayloadSchema,
+      locale,
+    );
+
+    return this.benefitService.editFinancialItems(parsedItems);
   }
 
-  @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.benefitService.remove(+id);
+  // Delete multiple Benefit items
+  @Delete()
+  deleteBenefitItems(@Body() itemsIds: deleteBenefitItems) {
+    return this.benefitService.deleteBenefitItems(itemsIds);
   }
 }

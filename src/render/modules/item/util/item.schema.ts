@@ -1,4 +1,4 @@
-import { CreateNewItem } from "@shared/types/item/item.dto";
+import { CreateNewItem } from "@shared/types/benefit/benefit.dto";
 import { z, ZodType } from "zod";
 
 export const newItemSchema = z.object({

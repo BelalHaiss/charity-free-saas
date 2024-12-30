@@ -2,17 +2,14 @@ import { HttpStatus, Injectable } from "@nestjs/common";
 import { CreateItemDto } from "./dto/create-item.dto";
 import { UpdateItemDto } from "./dto/update-item.dto";
 import { Prisma } from "@prisma/client";
-import { ItemChangeQty, ItemQuery } from "@shared/types/item/item.dto";
 import { CustomException } from "@main/nest/shared/exception/CustomException";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
+import { ItemChangeQty, ItemQuery } from "@shared/types/benefit/benefit.dto";
 
 @Injectable()
 export class ItemService {
   constructor(private prismaService: PrismaService) {}
-  create(createItemDto: CreateItemDto) {
-    return "This action adds a new item";
-  }
 
   async getItemByName(query: CastQueryFieldsToStrings<ItemQuery>) {
     return this.prismaService.item.findMany({

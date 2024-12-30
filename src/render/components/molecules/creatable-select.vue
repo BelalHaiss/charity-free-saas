@@ -48,7 +48,7 @@ const currentFilterValue = ref();
           class="py-1 max-w-[300px] overflow-hidden"
           @click="() => handleNewItem(currentFilterValue)"
         >
-          {{ t("shared.form.add_item") + " " + currentFilterValue }}
+          {{ t("form.add_item") + " " + currentFilterValue }}
         </Button>
       </template>
     </Dropdown>

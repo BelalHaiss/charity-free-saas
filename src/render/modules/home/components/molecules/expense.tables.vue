@@ -34,24 +34,24 @@ const headers = computed<TableColumns<ClientTransaction>[]>(() => [
   {
     field: "label",
     dataGetter: (expense) => expense.label,
-    header: t("shared.label"),
+    header: t("label"),
   },
   {
     field: "amount",
     dataGetter: (expense) =>
       `${expense.amount} ${getCodeLabel(getters.getMoneyUnitById(expense.unit_id)!)}`,
-    header: t("shared.amount"),
+    header: t("amount"),
   },
 
   {
     field: "created_by",
     dataGetter: (expense) => expense.created_by,
-    header: t("shared.user"),
+    header: t("user"),
   },
   {
     field: "created_at",
     dataGetter: (expense) => formatDate(expense.created_at, "yyyy-LL-dd"),
-    header: t("shared.date"),
+    header: t("date"),
   },
   {
     field: "delete",

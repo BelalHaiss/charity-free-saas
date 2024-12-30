@@ -18,7 +18,7 @@ const unit = computed(() => getters.getMoneyUnitById(transaction.id)!);
 <template>
   <SmContainer class="w-max mx-auto">
     <template #header>
-      {{ t("shared.monetary-donation") }}
+      {{ t("monetary-donation") }}
     </template>
 
     <template #main>

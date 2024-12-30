@@ -8,12 +8,12 @@ export const useAdminForm = () => {
   const fieldList: FormField<string>[] = [
     {
       name: "adminUser.username",
-      label: t("shared.form.username"),
+      label: t("form.username"),
       type: "text",
     },
     {
       name: "adminUser.password",
-      label: t("shared.form.password"),
+      label: t("form.password"),
       type: "password",
     },
   ];
