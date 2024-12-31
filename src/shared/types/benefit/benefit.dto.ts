@@ -1,4 +1,5 @@
-import { Item, Prisma } from "@prisma/client";
+import { FinancialBenefit, Item, Prisma } from "@prisma/client";
+import { ApiPaginationQueryParams } from "../util.types";
 
 export type CreateNewItem = Omit<Item, "id" | "benefit_id">;
 export type EditItemPayload = Required<
@@ -25,3 +26,14 @@ export type EditFinancialBenefitPayload = Required<
 >;
 
 export type deleteBenefitItems = number[];
+
+export type ItemBenefitTableFilteredFields = Pick<Item, "category_id" | "name">;
+export type ItemBenefitsTableQuery = ApiPaginationQueryParams<
+  ItemBenefitTableFilteredFields,
+  Item
+>;
+
+export type FinancialBenefitsTableQuery = ApiPaginationQueryParams<
+  null,
+  FinancialBenefit
+>;

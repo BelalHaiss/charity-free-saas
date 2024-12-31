@@ -24,7 +24,7 @@ interface PaginationOptions {
 type CursorPagination = {
   id: number;
 };
-type SortOptions<T> = {
+export type SortOptions<T> = {
   [Property in keyof T]?: "asc" | "desc";
 };
 
@@ -33,10 +33,13 @@ export type ApiQueryParams<T> = {
   sort?: SortOptions<T>;
 };
 
-export type ApiPaginationQueryParams<T> = {
+export type ApiPaginationQueryParams<
+  T extends object | null,
+  S extends object = never,
+> = {
   filter: FilterConditions<T>;
   pagination: PaginationOptions;
-  sort?: SortOptions<T>;
+  sort?: SortOptions<S>;
   cursorPagination?: CursorPagination;
 };
 

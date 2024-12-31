@@ -7,7 +7,6 @@ type Beneficiary_Item_Details = {
   item_unit_size: UNIT_SIZE;
   item_value: number;
 };
-type UserBranches = number[];
 
 declare global {
   namespace PrismaJson {
