@@ -1,10 +1,15 @@
-import { fetcher } from "@render/utils/api.util";
+import { fetcher, queryStringify } from "@render/utils/api.util";
 import {
   CreateFinancialBenefitPayload,
   CreateNewItem,
   EditFinancialBenefitPayload,
   EditItemPayload,
+  FinancialBenefitsQueryResponse,
+  FinancialBenefitsTableQuery,
+  ItemBenefitsTableQuery,
+  ItemQueryResponse,
 } from "@shared/types/benefit/benefit.dto";
+import { Ref } from "vue";
 
 class BenefitRepository {
   createBenefitItems(newItems: CreateNewItem[]) {
@@ -21,6 +26,14 @@ class BenefitRepository {
     });
   }
 
+  getBenefitItems(
+    filter: Ref<ItemBenefitsTableQuery>,
+  ): Promise<ItemQueryResponse> {
+    const qs = queryStringify(filter.value);
+
+    return fetcher<ItemQueryResponse>({ url: `/benefit/items/?${qs}` });
+  }
+
   createBenefitFinancial(newItems: CreateFinancialBenefitPayload[]) {
     return fetcher({
       url: `/benefit/financial`,
@@ -32,6 +45,16 @@ class BenefitRepository {
     return fetcher({
       url: `/benefit/financial`,
       config: { method: "PATCH", data: editedItems },
+    });
+  }
+
+  getFinancialBenefits(
+    filter: Ref<FinancialBenefitsTableQuery>,
+  ): Promise<FinancialBenefitsQueryResponse> {
+    const qs = queryStringify(filter.value);
+
+    return fetcher<FinancialBenefitsQueryResponse>({
+      url: `/benefit/financial/?${qs}`,
     });
   }
 }

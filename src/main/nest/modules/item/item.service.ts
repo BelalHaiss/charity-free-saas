@@ -5,11 +5,49 @@ import { Prisma } from "@prisma/client";
 import { CustomException } from "@main/nest/shared/exception/CustomException";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import type { CastQueryFieldsToStrings } from "@shared/types/util.types";
-import { ItemChangeQty, ItemQuery } from "@shared/types/benefit/benefit.dto";
+import {
+  CreateNewItem,
+  EditItemPayload,
+  ItemBenefitsTableQuery,
+  ItemChangeQty,
+  ItemQuery,
+  ItemQueryResponse,
+} from "@shared/types/benefit/benefit.dto";
+import { optionalCast } from "@shared/services/object.util";
 
 @Injectable()
 export class ItemService {
   constructor(private prismaService: PrismaService) {}
+
+  createItems(newItems: CreateNewItem[]) {
+    return this.prismaService.$transaction(async (tx) => {
+      const bulkCreate = newItems.map((item) =>
+        tx.benefit.create({
+          data: {
+            type: "ITEM",
+            Item: {
+              create: item,
+            },
+          },
+        }),
+      );
+      await Promise.all(bulkCreate);
+    });
+  }
+
+  editItems(editedItems: EditItemPayload[]) {
+    return this.prismaService.$transaction(async (tx) => {
+      const bulkEdit = editedItems.map((item) =>
+        tx.item.update({
+          where: {
+            id: item.id,
+          },
+          data: item,
+        }),
+      );
+      await Promise.all(bulkEdit);
+    });
+  }
 
   async getItemByName(query: CastQueryFieldsToStrings<ItemQuery>) {
     return this.prismaService.item.findMany({
@@ -47,19 +85,25 @@ export class ItemService {
     }
   }
 
-  findAll() {
-    return `This action returns all item`;
-  }
-
-  findOne(id: number) {
-    return this.prismaService.item.findUnique({ where: { id } });
-  }
-
-  update(id: number, updateItemDto: UpdateItemDto) {
-    return `This action updates a #${id} item`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} item`;
+  async findAll(
+    query: CastQueryFieldsToStrings<ItemBenefitsTableQuery>,
+  ): Promise<ItemQueryResponse> {
+    const queryFilter: Prisma.ItemFindManyArgs = {
+      where: {
+        category_id: optionalCast(query.filter.category_id, "toNumber"),
+        name: optionalCast(query.filter.name, "toString"),
+      },
+    };
+    const [data, totalRecords] = await this.prismaService.$transaction([
+      this.prismaService.item.findMany({
+        ...queryFilter,
+        ...this.prismaService.handlePagination(query.pagination),
+        orderBy: this.prismaService.handleSorting(query.sort),
+      }),
+      this.prismaService.item.count({
+        where: queryFilter.where,
+      }),
+    ]);
+    return { data, totalRecords };
   }
 }

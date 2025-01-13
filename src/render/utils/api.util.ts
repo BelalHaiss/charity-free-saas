@@ -1,5 +1,6 @@
 import { useGlobalState } from "@render/composables/use-global-state";
 import { i18nConfig } from "@render/config/i18n";
+import { removeNullOrUndefinedFromObject } from "@shared/services/object.util";
 import type {
   ApiPaginationQueryParams,
   ApiQueryParams,
@@ -32,6 +33,8 @@ export type FetcherArgs = {
   url: string;
   config?: AxiosRequestConfig;
 };
+
+export type API_QUERY_STRING = string;
 export const fetcher = async <T = unknown>({
   url,
   config,
@@ -41,8 +44,8 @@ export const fetcher = async <T = unknown>({
 };
 
 export const queryStringify = (
-  query: ApiQueryParams<object> | ApiPaginationQueryParams<object>,
-): string => {
+  query: ApiQueryParams<unknown> | ApiPaginationQueryParams<object, object>,
+): API_QUERY_STRING => {
   const queryWithPreservedEmptyObject = {
     ...query,
     filter:
@@ -51,6 +54,8 @@ export const queryStringify = (
         : { ...query.filter },
   };
 
-  const queryString = qs.stringify(queryWithPreservedEmptyObject);
+  const queryString = qs.stringify(
+    removeNullOrUndefinedFromObject(queryWithPreservedEmptyObject),
+  );
   return queryString;
 };

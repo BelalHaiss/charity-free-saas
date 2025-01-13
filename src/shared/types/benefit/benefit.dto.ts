@@ -1,5 +1,8 @@
 import { FinancialBenefit, Item, Prisma } from "@prisma/client";
-import { ApiPaginationQueryParams } from "../util.types";
+import {
+  ApiPaginationQueryParams,
+  ApiPaginationQueryResponse,
+} from "../util.types";
 
 export type CreateNewItem = Omit<Item, "id" | "benefit_id">;
 export type EditItemPayload = Required<
@@ -7,6 +10,8 @@ export type EditItemPayload = Required<
     id: number;
   }
 >;
+
+export type ItemQueryResponse = ApiPaginationQueryResponse<Item>;
 
 export type ItemQuery = {
   name: string;
@@ -34,6 +39,9 @@ export type ItemBenefitsTableQuery = ApiPaginationQueryParams<
 >;
 
 export type FinancialBenefitsTableQuery = ApiPaginationQueryParams<
-  null,
+  object,
   FinancialBenefit
 >;
+
+export type FinancialBenefitsQueryResponse =
+  ApiPaginationQueryResponse<FinancialBenefit>;

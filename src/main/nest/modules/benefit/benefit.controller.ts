@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Patch, Delete } from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  Body,
+  Patch,
+  Delete,
+  Get,
+  Query,
+} from "@nestjs/common";
 import { BenefitService } from "./benefit.service";
 import type {
   CreateNewItem,
@@ -6,6 +14,8 @@ import type {
   CreateFinancialBenefitPayload,
   EditFinancialBenefitPayload,
   deleteBenefitItems,
+  ItemBenefitsTableQuery,
+  FinancialBenefitsTableQuery,
 } from "@shared/types/benefit/benefit.dto";
 import { ZodValidationService } from "../utils/zod-validation.service";
 import {
@@ -15,7 +25,10 @@ import {
   editFinancialItemsPayloadSchema,
 } from "@shared/services/schema/benefit.schema";
 import { Language } from "@main/nest/decorator/headers.decorator";
-import { type Locale } from "@shared/types/util.types";
+import type {
+  CastQueryFieldsToStrings,
+  Locale,
+} from "@shared/types/util.types";
 
 @Controller("benefit")
 export class BenefitController {
@@ -49,6 +62,11 @@ export class BenefitController {
     return this.benefitService.editItems(parsedItems);
   }
 
+  @Get("items")
+  findItems(@Query() query: CastQueryFieldsToStrings<ItemBenefitsTableQuery>) {
+    return this.benefitService.findAllItems(query);
+  }
+
   // Create multiple Financial Benefits
   @Post("financial")
   createFinancialItems(
@@ -77,6 +95,13 @@ export class BenefitController {
     );
 
     return this.benefitService.editFinancialItems(parsedItems);
+  }
+
+  @Get("financial")
+  findFinanceBenefits(
+    @Query() query: CastQueryFieldsToStrings<FinancialBenefitsTableQuery>,
+  ) {
+    return this.benefitService.findAllFinancialBenefits(query);
   }
 
   // Delete multiple Benefit items

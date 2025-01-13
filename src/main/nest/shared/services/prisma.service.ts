@@ -2,8 +2,8 @@ import { Global, Injectable, OnModuleInit } from "@nestjs/common";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Module } from "@nestjs/common";
 import {
-  ApiPaginationQueryParams,
-  CastQueryFieldsToStrings,
+  CastValues,
+  PaginationOptions,
   SortOptions,
 } from "@shared/types/util.types";
 
@@ -13,12 +13,10 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     await this.$connect();
   }
 
-  filterPaginate(
-    query: CastQueryFieldsToStrings<ApiPaginationQueryParams<object>>,
-  ) {
+  handlePagination(query: CastValues<PaginationOptions, number | string>) {
     return {
-      take: +query.pagination.pageSize,
-      skip: +query.pagination.pageSize * +query.pagination.page,
+      take: +query.pageSize,
+      skip: +query.pageSize * +query.page,
     };
   }
 

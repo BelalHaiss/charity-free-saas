@@ -1,16 +1,17 @@
 import { Beneficiary, Person } from "@prisma/client";
-import { ApiPaginationQueryParams } from "../util.types";
+import {
+  ApiPaginationQueryParams,
+  ApiPaginationQueryResponse,
+} from "../util.types";
 
-type BeneficiaryTableDtoData = Pick<
+export type BeneficiaryTableDtoData = Pick<
   Beneficiary,
   "created_at" | "updated_at" | "id" | "notes"
 > &
   Pick<Person, "sponsorship_case_id" | "name" | "identity_card">;
 
-export type BeneficiaryTableDTO = {
-  data: BeneficiaryTableDtoData[];
-  totalRecords: number;
-};
+export type BeneficiaryTableDTO =
+  ApiPaginationQueryResponse<BeneficiaryTableDtoData>;
 type BeneficiaryTableFilteredFields = Pick<
   BeneficiaryTableDtoData,
   "name" | "identity_card" | "id"

@@ -15,18 +15,17 @@ export class BeneficiaryService {
   ) {}
   create(createBeneficiaryDto: object) {
     return createBeneficiaryDto;
-    return "This action adds a new beneficiary";
   }
 
   async findAll(
     query: CastQueryFieldsToStrings<BeneficiaryTableQuery>,
   ): Promise<BeneficiaryTableDTO> {
-    const pageQuery = this.prismaService.filterPaginate(query);
+    const pageQuery = this.prismaService.handlePagination(query.pagination);
     const currentQuery: Prisma.BeneficiaryFindManyArgs = {
       where: {
         id: query.filter.id ? +query.filter.id : undefined,
         people: {
-          some: {
+          every: {
             name: {
               contains: query.filter.name,
             },

@@ -4,82 +4,47 @@ import {
   deleteBenefitItems,
   EditFinancialBenefitPayload,
   EditItemPayload,
+  FinancialBenefitsTableQuery,
+  ItemBenefitsTableQuery,
 } from "@shared/types/benefit/benefit.dto";
 import { PrismaService } from "@main/nest/shared/services/prisma.service";
 import { CreateFinancialBenefitPayload } from "@shared/types/benefit/benefit.dto";
+import { ItemService } from "../item/item.service";
+import { FinancialBenefitService } from "../financial-benefit/financial-benefit.service";
+import { CastQueryFieldsToStrings } from "@shared/types/util.types";
 
 @Injectable()
 export class BenefitService {
-  constructor(private prismaService: PrismaService) {}
-  create(newItem: CreateNewItem) {
-    return this.prismaService.benefit.create({
-      data: {
-        type: "ITEM",
-        Item: {
-          create: newItem,
-        },
-      },
-    });
-  }
+  constructor(
+    private prismaService: PrismaService,
+    private readonly itemService: ItemService,
+    private readonly financialBenefitService: FinancialBenefitService,
+  ) {}
   createItems(newItems: CreateNewItem[]) {
-    return this.prismaService.$transaction(async (tx) => {
-      const bulkCreate = newItems.map((item) =>
-        tx.benefit.create({
-          data: {
-            type: "ITEM",
-            Item: {
-              create: item,
-            },
-          },
-        }),
-      );
-      await Promise.all(bulkCreate);
-    });
+    return this.itemService.createItems(newItems);
   }
 
   editItems(editedItems: EditItemPayload[]) {
-    return this.prismaService.$transaction(async (tx) => {
-      const bulkEdit = editedItems.map((item) =>
-        tx.item.update({
-          where: {
-            id: item.id,
-          },
-          data: item,
-        }),
-      );
-      await Promise.all(bulkEdit);
-    });
+    return this.itemService.editItems(editedItems);
+  }
+
+  findAllItems(query: CastQueryFieldsToStrings<ItemBenefitsTableQuery>) {
+    return this.itemService.findAll(query);
   }
 
   // financial items  services methods
   createFinancialItems(financialItems: CreateFinancialBenefitPayload[]) {
-    this.prismaService.$transaction(async (tx) => {
-      const bulkCreate = financialItems.map((financialItem) =>
-        tx.benefit.create({
-          data: {
-            type: "FINANCIAL",
-            FinancialBenefit: {
-              create: financialItem,
-            },
-          },
-        }),
-      );
-      await Promise.all(bulkCreate);
-    });
+    return this.financialBenefitService.createFinancialItems(financialItems);
   }
 
   editFinancialItems(editedItems: EditFinancialBenefitPayload[]) {
-    return this.prismaService.$transaction(async (tx) => {
-      const bulkEdit = editedItems.map((item) =>
-        tx.financialBenefit.update({
-          where: {
-            id: item.id,
-          },
-          data: item,
-        }),
-      );
-      await Promise.all(bulkEdit);
-    });
+    return this.financialBenefitService.editFinancialItems(editedItems);
+  }
+
+  findAllFinancialBenefits(
+    query: CastQueryFieldsToStrings<FinancialBenefitsTableQuery>,
+  ) {
+    return this.financialBenefitService.findAll(query);
   }
 
   // delete any benefit item

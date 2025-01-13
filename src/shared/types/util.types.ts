@@ -16,7 +16,7 @@ type FilterConditions<T> = {
   [Property in keyof T]?: T[Property];
 };
 
-interface PaginationOptions {
+export interface PaginationOptions {
   page: number; // Page number
   pageSize: number; // Number of items per page
 }
@@ -24,8 +24,10 @@ interface PaginationOptions {
 type CursorPagination = {
   id: number;
 };
+
+export type SortValue = "asc" | "desc";
 export type SortOptions<T> = {
-  [Property in keyof T]?: "asc" | "desc";
+  [Property in keyof T]?: SortValue;
 };
 
 export type ApiQueryParams<T> = {
@@ -33,9 +35,17 @@ export type ApiQueryParams<T> = {
   sort?: SortOptions<T>;
 };
 
+export interface Identifiable {
+  id: number;
+}
+
+export type ApiPaginationQueryResponse<T extends object> = {
+  data: T[];
+  totalRecords: number;
+};
 export type ApiPaginationQueryParams<
-  T extends object | null,
-  S extends object = never,
+  T extends object = object,
+  S extends object = object,
 > = {
   filter: FilterConditions<T>;
   pagination: PaginationOptions;
@@ -75,3 +85,7 @@ export type ISO_8601_DateString = string;
 
 export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 export type Locale = "ar" | "en";
+
+export type CastValues<T extends object, V> = {
+  [K in keyof T]: V;
+};

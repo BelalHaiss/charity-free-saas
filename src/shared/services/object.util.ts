@@ -66,3 +66,69 @@ export const mapObjectArrayToItemArray = <T extends object, K extends keyof T>(
   array: T[],
   key: K,
 ): T[K][] => array.map((obj) => obj[key]);
+
+const casters = {
+  toNumber: (value: unknown) => Number(value),
+  toString: (value: unknown) => String(value),
+  toBoolean: (value: unknown) => Boolean(value),
+  toUpperCase: (value: unknown) => String(value).toUpperCase(),
+};
+
+type CasterMethods = keyof typeof casters;
+
+type CasterReturnType<T extends CasterMethods> = T extends "toNumber"
+  ? number
+  : T extends "toString"
+    ? string
+    : T extends "toBoolean"
+      ? boolean
+      : T extends "toUpperCase"
+        ? string
+        : never;
+
+export function optionalCast<T extends CasterMethods>(
+  value: unknown,
+  caster: T,
+): CasterReturnType<T> | undefined {
+  return value !== undefined
+    ? (casters[caster](value) as CasterReturnType<T>)
+    : undefined;
+}
+
+export function removeNullOrUndefinedFromObject(obj: object): object {
+  // Create a copy of the object to avoid mutating the original
+  return Object.entries(obj).reduce((acc, [key, value]) => {
+    if (value !== undefined && value !== null) {
+      // If the value is an object, recursively process it
+      if (typeof value === "object" && !Array.isArray(value)) {
+        const cleanedValue = removeNullOrUndefinedFromObject(value);
+        // Only add the key if the nested object has keys left after cleaning
+        if (Object.keys(cleanedValue).length > 0) {
+          acc[key] = cleanedValue;
+        }
+      } else {
+        acc[key] = value;
+      }
+    }
+    return acc;
+  }, {} as object);
+}
+
+// Example usage:
+const input = {
+  a: 1,
+  b: null,
+  c: undefined,
+  d: {
+    e: 2,
+    f: null,
+    g: {
+      h: undefined,
+      i: 3,
+    },
+  },
+  j: [],
+  k: {
+    l: null,
+  },
+};
