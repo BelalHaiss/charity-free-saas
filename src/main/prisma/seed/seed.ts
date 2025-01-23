@@ -4,7 +4,7 @@
  * Use any TypeScript runner to run this script, for example: `npx tsx seed.ts`
  * Learn more about the Seed Client by following our guide: https://docs.snaplet.dev/seed/getting-started
  */
-import { fakerAR } from "@faker-js/faker";
+import { faker, fakerAR } from "@faker-js/faker";
 import * as argon2 from "argon2";
 
 import { createSeedClient } from "@snaplet/seed";
@@ -86,62 +86,19 @@ const main = async () => {
     },
   ]);
 
-  await seed.category([
-    {
-      id: 1,
-      name: "ادوية",
-      Item: [
-        {
-          name: " دواء صداع",
-          unit_id: 3,
-          branch_id: 1,
+  // category need branch id and unit_id
+  await seed.category((x) =>
+    x(20, () => ({
+      branch_id: 1,
+      name: fakerAR.commerce.product(),
+      Item: (x) =>
+        x(50, {
           benefit: { type: "ITEM" },
-        },
-        {
-          name: " دواء ضغط",
-          unit_id: 3,
-          branch_id: 1,
-          benefit: { type: "ITEM" },
-        },
-        {
-          name: " دواء برد",
-          unit_id: 3,
-          branch_id: 1,
-          benefit: { type: "ITEM" },
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "سلع ",
-      Item: [
-        {
-          name: " سكر",
-          unit_id: 5,
-          branch_id: 1,
-          benefit: { type: "ITEM" },
-        },
-        {
-          name: " شاي",
-          unit_id: 5,
-          branch_id: 1,
-          benefit: { type: "ITEM" },
-        },
-        {
-          name: " دقيق",
-          unit_id: 5,
-          branch_id: 1,
-          benefit: { type: "ITEM" },
-        },
-        {
-          name: " رز",
-          unit_id: 5,
-          branch_id: 1,
-          benefit: { type: "ITEM" },
-        },
-      ],
-    },
-  ]);
+          unit_id: faker.helpers.arrayElement([3, 4, 5]),
+          name: fakerAR.commerce.productName(),
+        }),
+    })),
+  );
   // seed category
 
   await seed.moneyUnit(moneyUnits);

@@ -97,7 +97,7 @@ model Item {
   branch      Branch   @relation(fields: [branch_id], references: [id])
 
   benefit_id  Int          @unique()
-  ItemBenifit Benefit      @relation(fields: [benefit_id], references: [id],onDelete: Cascade)
+  benefit Benefit      @relation(fields: [benefit_id], references: [id],onDelete: Cascade)
   DonateItem  DonateItem[]
 
   @@map("item")

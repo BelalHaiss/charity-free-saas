@@ -1,4 +1,8 @@
-import { fetcher, queryStringify } from "@render/utils/api.util";
+import {
+  API_QUERY_STRING,
+  fetcher,
+  queryStringify,
+} from "@render/utils/api.util";
 import {
   CreateFinancialBenefitPayload,
   CreateNewItem,
@@ -26,11 +30,7 @@ class BenefitRepository {
     });
   }
 
-  getBenefitItems(
-    filter: Ref<ItemBenefitsTableQuery>,
-  ): Promise<ItemQueryResponse> {
-    const qs = queryStringify(filter.value);
-
+  getBenefitItems(qs: API_QUERY_STRING): Promise<ItemQueryResponse> {
     return fetcher<ItemQueryResponse>({ url: `/benefit/items/?${qs}` });
   }
 

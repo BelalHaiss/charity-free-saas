@@ -1,4 +1,10 @@
-import { FinancialBenefit, Item, Prisma } from "@prisma/client";
+import {
+  Benefit,
+  Category,
+  FinancialBenefit,
+  Item,
+  Prisma,
+} from "@prisma/client";
 import {
   ApiPaginationQueryParams,
   ApiPaginationQueryResponse,
@@ -11,7 +17,13 @@ export type EditItemPayload = Required<
   }
 >;
 
-export type ItemQueryResponse = ApiPaginationQueryResponse<Item>;
+export type ItemIncludeCategoryAndBenefit = Item & {
+  category: Category;
+  benefit: Benefit;
+};
+
+export type ItemQueryResponse =
+  ApiPaginationQueryResponse<ItemIncludeCategoryAndBenefit>;
 
 export type ItemQuery = {
   name: string;

@@ -54,6 +54,8 @@ const headers = computed<TableColumns<Donate>[]>(() => [
   },
   {
     field: "delete",
+    header: t("delete"),
+
     headerComponent: {
       component: IconRepository,
       props: { iconName: "filled-delete" },

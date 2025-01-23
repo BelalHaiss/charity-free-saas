@@ -26,13 +26,14 @@ export type TableColumns<T extends object> = (
 ) & {
   // eslint-disable-next-line @typescript-eslint/ban-types
   field: keyof T | (string & {}); // Add a branded `string` type
+  header: string;
   fieldType?: FilterFieldType;
   options?: SelectOptions[];
   headerComponent?: {
     component: Component;
     props?: Record<string, unknown>;
   };
-} & Omit<ColumnProps, "field">;
+} & Omit<ColumnProps, "field" | "header">;
 
 export type TableFilter<T extends object> = {
   [P in keyof T]?: { value: T[P] } & Pick<DataTableFilterMetaData, "matchMode">;

@@ -50,7 +50,7 @@ export function useDynamicTable<
   saveFn,
 
   initialQuery = {
-    pagination: { page: 1, pageSize: 10 },
+    pagination: { page: 0, pageSize: 10 },
     filter: {},
   } as TQuery,
 }: UseDynamicTableOptions<T, TQuery>) {
@@ -93,7 +93,7 @@ export function useDynamicTable<
   };
 
   const onPaginate = (event: DataTablePageEvent) => {
-    queryParams.value.pagination.page = event.page + 1; // PrimeVue uses zero-based index
+    queryParams.value.pagination.page = event.page;
     queryParams.value.pagination.pageSize = event.rows;
   };
 
@@ -219,5 +219,7 @@ export function useDynamicTable<
     onFilter,
     onPaginate,
     onSort,
+    filters: queryParams.value.filter,
+    isLoading,
   };
 }

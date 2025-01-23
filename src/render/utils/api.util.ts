@@ -16,6 +16,11 @@ axiosInstance.interceptors.request.use(
     config.headers["Time-Zone"] = timezone;
     config.headers["Accept-Language"] = i18nConfig.global.locale.value;
     const userToken = getters.getUserToken();
+    const branch_id = getters.getBranchId();
+
+    if (branch_id) {
+      config.headers["Branch-ID"] = branch_id;
+    }
     if (userToken) {
       config.headers["Authorization"] = userToken;
     }

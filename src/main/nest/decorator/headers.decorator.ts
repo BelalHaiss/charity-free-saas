@@ -21,6 +21,19 @@ export const Timezone = createParamDecorator(
     return timeZone;
   },
 );
+export const BranchId = createParamDecorator(
+  (data: never, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest<Request>();
+    const branchId = request.header("branch-id");
+    if (!branchId) {
+      throw new CustomException({
+        message: "Header 'branch-id' is required",
+        status: HttpStatus.BAD_REQUEST,
+      });
+    }
+    return branchId;
+  },
+);
 
 export const Language = createParamDecorator(
   (_, ctx: ExecutionContext): Locale => {

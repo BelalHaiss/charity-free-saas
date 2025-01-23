@@ -27,6 +27,7 @@
   "name": "{label} name",
   "type": "{label} type",
   "date": "{label} Date",
+  "count": "{label} Count",
   "item": "Item",
   "value": "Value",
   "sponsorship": "sponsorship",
@@ -37,6 +38,7 @@
   "identity_card": "Identity Card",
   "category": "Category",
   "unit": "Unit",
+  "qty": "Quantity",
   "expense": "Expense",
   "donate": "Donate",
   "donor": "Donor",
@@ -48,6 +50,8 @@
   "public_notes": "Public Notes",
   "is_public": "Is Public",
   "my_notes": "My Notes",
+  "beneficiaries": "Beneficiaries",
+
   "pages": {
     "home": "Home",
     "beneficiaries": "Beneficiaries",

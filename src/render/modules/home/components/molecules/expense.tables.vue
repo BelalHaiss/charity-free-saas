@@ -55,6 +55,7 @@ const headers = computed<TableColumns<ClientTransaction>[]>(() => [
   },
   {
     field: "delete",
+    header: "delete",
     headerComponent: {
       component: IconRepository,
       props: { iconName: "filled-delete" },

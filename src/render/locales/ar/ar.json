@@ -27,6 +27,8 @@
   "name": "اسم {label}",
   "type": "نوع {label}",
   "date": "تاريخ {label}",
+  "count": "عدد {label}",
+
   "item": "العنصر",
   "value": "القيمة",
   "sponsorship": "الرعاية",
@@ -37,6 +39,7 @@
   "identity_card": "بطاقة الهوية",
   "category": "الفئة",
   "unit": "الوحدة",
+  "qty": "الكمية",
   "expense": "مصاريف",
   "donate": "تبرع",
   "donor": "المتبرع",
@@ -48,6 +51,7 @@
   "public_notes": "ملاحظات العامة",
   "my_notes": "ملاحظاتي",
   "is_public": "عام",
+  "beneficiaries": "المستفيدون",
 
   "pages": {
     "home": "الرئيسية",
