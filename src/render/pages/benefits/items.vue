@@ -7,12 +7,16 @@ import DynamicColumnRenders from "@render/modules/dynamic-table/components/organ
 import { useDynamicTable } from "@render/modules/dynamic-table/useDynamicTable";
 import UnitLabelSpan from "@render/modules/unit/components/atoms/unit-label-span.vue";
 import { TableColumns } from "@render/types/table.types";
-import { ItemIncludeCategoryAndBenefit } from "@shared/types/benefit/benefit.dto";
+import {
+  ItemBenefitsTableQuery,
+  ItemIncludeCategoryAndBenefit,
+} from "@shared/types/benefit/benefit.dto";
 import { DataTableFilterMeta } from "primevue/datatable";
 import { computed } from "vue";
 
 const saveFn = async () => {};
-const getNewItemValue = () => ({}) as Item;
+const getNewItemValue = () => ({}) as ItemIncludeCategoryAndBenefit;
+const pageSize = 15;
 const {
   filters,
   submitBatch,
@@ -23,11 +27,11 @@ const {
   tableData,
   totalRecords,
   isLoading,
-} = useDynamicTable({
+} = useDynamicTable<ItemIncludeCategoryAndBenefit, ItemBenefitsTableQuery>({
   queryFn: benefitRepository.getBenefitItems,
   saveFn,
   initialQuery: {
-    pagination: { page: 0, pageSize: 10 },
+    pagination: { page: 0, pageSize },
     filter: {},
   },
   getDefaultValues: getNewItemValue,
@@ -69,7 +73,7 @@ const headers = computed<TableColumns<ItemIncludeCategoryAndBenefit>[]>(() => [
 <template>
   <div>
     <DataTable
-      :rows="10"
+      :rows="pageSize"
       :value="tableData"
       :loading="isLoading"
       :filters="filters as DataTableFilterMeta"

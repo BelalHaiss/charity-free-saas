@@ -26,28 +26,24 @@ const categoriesOptions = computed<SelectOptions<number>[]>(
     categories.value?.map((item) => ({ label: item.name, value: item.id })) ??
     [],
 );
+
 const selectedValue = defineModel<SelectOptions>();
+
+const handleNewItem = async (categoryName: string) => {
+  await categoryRepository.createCategory({
+    name: categoryName,
+    branch_id: branchId.value,
+  });
+  refetch();
+};
 </script>
 <template>
-  <Dropdown
+  <CreatableSelect
     v-model="selectedValue"
-    :loading="isRefetching"
-    input-id="select"
-    :options="categoriesOptions"
-    filter
-    option-label="label"
+    :label="t('select', { label: t('category') })"
+    :handleNewItem="handleNewItem"
+    :isLoading="isRefetching"
     :placeholder="t('select', { label: t('category') })"
-    class="max-w-[300px] form-input"
-    :pt="{
-      filterContainer: {
-        class: 'max-w-[300px] overflow-hidden  [&>input]:m-0',
-      },
-    }"
-  >
-    <template #option="slotProps">
-      <div class="flex align-items-center ms-2">
-        <span>{{ t(slotProps.option.label) }}</span>
-      </div>
-    </template>
-  </Dropdown>
+    :options="categoriesOptions"
+  />
 </template>

@@ -40,12 +40,6 @@ export type TableFilter<T extends object> = {
 };
 
 export type FilterInputProps = InputTextProps | InputNumberProps;
-export type FilterFieldInputType<K extends string = string> = {
-  name: K;
-  type: FilterFieldType;
-  inputProps?: FilterInputProps;
-};
-
 export type FilterFieldInputProps<P extends FilterInputProps> = {
   name: string;
   type: FilterFieldType;

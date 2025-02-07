@@ -30,6 +30,7 @@
     "@prisma/client": "^5.19.1",
     "@tanstack/vue-query": "^5.56.2",
     "@tanstack/vue-query-devtools": "^5.56.2",
+    "@tanstack/vue-table": "^8.20.5",
     "@vee-validate/zod": "^4.13.2",
     "@vueuse/core": "^10.11.1",
     "@vueuse/integrations": "^10.11.1",
