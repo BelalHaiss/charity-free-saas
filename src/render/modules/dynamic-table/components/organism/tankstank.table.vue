@@ -1,41 +1,51 @@
 <script setup generic="TData extends object" lang="ts">
-import { defineProps, defineEmits, watch } from "vue";
+import { defineProps, inject, ComputedRef, Ref } from "vue";
 import {
   useVueTable,
   ColumnDef,
   getCoreRowModel,
   FlexRender,
+  ColumnFilter,
+  Updater,
+  ColumnFiltersState,
 } from "@tanstack/vue-table";
-import Paginator from "primevue/paginator";
+import Paginator, { PageState } from "primevue/paginator";
+import { PagingData } from "../../useDynamicTable";
 
 // Define Props
-interface PagingData {
-  totalRecords: number;
-  pageSize: number;
-}
 
 const props = defineProps<{
   columns: ColumnDef<TData>[];
-  data: TData[];
-  loading: boolean;
-  pagingData?: PagingData;
 }>();
 
 // Define Emits
-const emit = defineEmits<{
-  (event: "onPaginationChange", page: number): void;
-  (event: "onFilter", value: string): void;
-}>();
 
-const handlePageChange = (pageNumber: number) => {
-  emit("onPaginationChange", pageNumber); // Reset to first page on page size change
-};
+const { tableData, isLoading } = inject<{
+  tableData: Ref<TData[]>;
+  isLoading: Ref<[]>;
+}>("table-data")!;
+const { columnFilters, updateFilter } = inject<{
+  columnFilters: ComputedRef<ColumnFilter[]>;
+  updateFilter: (updater: Updater<ColumnFiltersState>) => void;
+}>("columnFilters")!;
 
+const { onPaginate, pageData } = inject<{
+  onPaginate: (event: PageState) => void;
+  pageData: ComputedRef<PagingData>;
+}>("pagination")!;
 // TanStack Table Instance
 const table = useVueTable<TData>({
-  data: props.data,
+  data: tableData,
   columns: props.columns,
   getCoreRowModel: getCoreRowModel(),
+  manualFiltering: true,
+
+  state: {
+    get columnFilters() {
+      return columnFilters.value;
+    },
+  },
+  onColumnFiltersChange: (updater) => updateFilter(updater),
 });
 </script>
 
@@ -58,7 +68,7 @@ const table = useVueTable<TData>({
       </tr>
     </thead>
     <tbody>
-      <template v-if="loading">
+      <template v-if="isLoading">
         <tr>
           <td
             :colspan="columns.length"
@@ -87,9 +97,9 @@ const table = useVueTable<TData>({
   <!-- Pagination -->
 
   <Paginator
-    v-if="pagingData"
-    :rows="pagingData.pageSize"
-    :totalRecords="pagingData.totalRecords"
-    @page="(page) => handlePageChange(page.page)"
+    v-if="pageData"
+    :rows="pageData.pageSize"
+    :totalRecords="pageData.totalRecords"
+    @page="onPaginate"
   ></Paginator>
 </template>

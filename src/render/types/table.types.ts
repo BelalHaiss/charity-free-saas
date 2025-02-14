@@ -5,10 +5,9 @@ import { InputTextProps } from "primevue/inputtext";
 import { InputNumberProps } from "primevue/inputnumber";
 import { Primitive } from "zod";
 import { Component } from "vue";
-
-type DynamicComponentWithProps = {
-  component: Component;
-  props?: Record<string, unknown>; // Props to be passed to the custom component
+import { Identifiable } from "@shared/types/util.types";
+export type MutableTableRow<T extends Identifiable> = T & {
+  isNew?: boolean;
 };
 export type FilterFieldType = "text" | "date" | "number" | "select";
 export type TableColumns<T extends object> = (
