@@ -19,11 +19,12 @@ export interface PagingData {
 
 // Define the Input Object for the Composable
 export interface UseDynamicTableOptions<
-  T extends object,
+  T extends Identifiable,
   TQuery extends ApiPaginationQueryParams,
 > {
   queryFn: (params: API_QUERY_STRING) => Promise<ApiPaginationQueryResponse<T>>;
   initialQuery?: TQuery;
+  addNewItem(): MutableTableRow<T>;
 }
 
 export function useDynamicTable<
@@ -31,6 +32,7 @@ export function useDynamicTable<
   TQuery extends ApiPaginationQueryParams,
 >({
   queryFn,
+  addNewItem,
   initialQuery = {
     pagination: { page: 0, pageSize: 10 },
     filter: {},
@@ -68,6 +70,7 @@ export function useDynamicTable<
   provide("table-data", {
     tableData,
     isLoading,
+    addNewItem,
   });
 
   provide("pagination", {
@@ -89,8 +92,10 @@ export function useDynamicTable<
 
   watch(data, (newData) => {
     if (!newData) return;
-    tableData.value = newData.data;
-
+    tableData.value = newData.data.map((row) => ({
+      ...row,
+      localId: row.id,
+    }));
     totalRecords.value = newData.totalRecords;
   });
 
@@ -112,8 +117,10 @@ export function useDynamicTable<
     };
   };
 
-  const syncDeletedRow = (id: number) => {
-    const index = tableData.value.findIndex((row) => row.id === id);
+  const syncDeletedRow = (localId: number) => {
+    const index = tableData.value.findIndex(
+      (row) => "localId" in row && row.localId == localId,
+    );
     if (index === -1) return;
 
     // Only remove from local state
@@ -122,7 +129,9 @@ export function useDynamicTable<
 
   const syncSavedRow = (updatedRow: MutableTableRow<T>) => {
     delete updatedRow.isNew;
-    const index = tableData.value.findIndex((row) => row.id === updatedRow.id);
+    const index = tableData.value.findIndex(
+      (row) => "localId" in row && row.localId === updatedRow.localId,
+    );
     Object.assign(tableData.value[index], updatedRow);
   };
 

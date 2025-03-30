@@ -6,9 +6,17 @@ import { InputNumberProps } from "primevue/inputnumber";
 import { Primitive } from "zod";
 import { Component } from "vue";
 import { Identifiable } from "@shared/types/util.types";
-export type MutableTableRow<T extends Identifiable> = T & {
-  isNew?: boolean;
-};
+export type MutableTableRow<T extends Identifiable> =
+  | (T & {
+      isNew?: never; // Marks saved row (must not have isNew)
+      localId: number; // Stable unique key for rendering
+    })
+  | (Partial<T> & {
+      isNew: boolean; // Marks new, unsaved row
+      id: number; // Temporary ID before saving
+      localId: number; // Stable unique key for rendering
+    });
+
 export type FilterFieldType = "text" | "date" | "number" | "select";
 export type TableColumns<T extends object> = (
   | {

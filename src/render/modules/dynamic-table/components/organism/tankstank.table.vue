@@ -1,4 +1,4 @@
-<script setup generic="TData extends object" lang="ts">
+<script setup generic="TData extends MutableTableRow<Identifiable>" lang="ts">
 import { defineProps, inject, ComputedRef, Ref } from "vue";
 import {
   useVueTable,
@@ -11,6 +11,9 @@ import {
 } from "@tanstack/vue-table";
 import Paginator, { PageState } from "primevue/paginator";
 import { PagingData } from "../../useDynamicTable";
+import { MutableTableRow } from "@render/types/table.types";
+import { Identifiable } from "@shared/types/util.types";
+import AddBtnIcon from "@render/components/atoms/add-btn-icon.vue";
 
 // Define Props
 
@@ -20,9 +23,10 @@ const props = defineProps<{
 
 // Define Emits
 
-const { tableData, isLoading } = inject<{
+const { tableData, isLoading, addNewItem } = inject<{
   tableData: Ref<TData[]>;
   isLoading: Ref<[]>;
+  addNewItem(): TData;
 }>("table-data")!;
 const { columnFilters, updateFilter } = inject<{
   columnFilters: ComputedRef<ColumnFilter[]>;
@@ -92,6 +96,13 @@ const table = useVueTable<TData>({
         </tr>
       </template>
     </tbody>
+    <tfoot>
+      <tr>
+        <td :colspan="columns.length" class="text-center py-4">
+          <AddBtnIcon @click="addNewItem" />
+        </td>
+      </tr>
+    </tfoot>
   </table>
 
   <!-- Pagination -->

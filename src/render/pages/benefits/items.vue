@@ -5,6 +5,8 @@ import { benefitRepository } from "@render/modules/benefits/repository/benefit.r
 import TankStankTable from "@render/modules/dynamic-table/components/organism/tankstank.table.vue";
 import { useDynamicTable } from "@render/modules/dynamic-table/useDynamicTable";
 import UnitLabelSpan from "@render/modules/unit/components/atoms/unit-label-span.vue";
+import { MutableTableRow } from "@render/types/table.types";
+import { generateTempId } from "@render/utils/app.util";
 import {
   ItemBenefitsTableQuery,
   ItemIncludeCategoryAndBenefit,
@@ -12,6 +14,11 @@ import {
 import { ColumnDef } from "@tanstack/vue-table";
 import { computed } from "vue";
 
+const getNewItem = (): MutableTableRow<ItemIncludeCategoryAndBenefit> => ({
+  isNew: true,
+  id: generateTempId(),
+  localId: generateTempId(),
+});
 const pageSize = 15;
 useDynamicTable<ItemIncludeCategoryAndBenefit, ItemBenefitsTableQuery>({
   queryFn: benefitRepository.getBenefitItems,
@@ -19,18 +26,19 @@ useDynamicTable<ItemIncludeCategoryAndBenefit, ItemBenefitsTableQuery>({
     pagination: { page: 0, pageSize },
     filter: {},
   },
+  addNewItem: getNewItem,
 });
 const { t } = useTypedI18n();
-const headers = computed<ColumnDef<Item>[]>(() => [
+const headers = computed<
+  ColumnDef<MutableTableRow<ItemIncludeCategoryAndBenefit>>[]
+>(() => [
   {
     header: t("category"),
     field: "category_id",
-    accessorFn: (data) => data.category_id,
   },
   {
     header: t("item"),
     field: "name",
-    dataGetter: (data) => data.name,
   },
   {
     header: t("unit"),
@@ -58,7 +66,7 @@ const headers = computed<ColumnDef<Item>[]>(() => [
   <TankStankTable :columns="headers">
     <template #table-body="{ rows }">
       <p v-for="item in rows" :key="item.id">
-        {{ item.original.name }}
+        {{ item.original.name ?? " dummy name" }}
       </p>
     </template>
   </TankStankTable>
