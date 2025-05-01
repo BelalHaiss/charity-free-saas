@@ -33,6 +33,7 @@ declare module 'vue-router/auto-routes' {
     '/settings/users/manage': RouteRecordInfo<'/settings/users/manage', '/settings/users/manage', Record<never, never>, Record<never, never>>,
     '/settings/users/roles': RouteRecordInfo<'/settings/users/roles', '/settings/users/roles', Record<never, never>, Record<never, never>>,
     '/setup': RouteRecordInfo<'/setup', '/setup', Record<never, never>, Record<never, never>>,
+    '/test': RouteRecordInfo<'/test', '/test', Record<never, never>, Record<never, never>>,
     '/visits/': RouteRecordInfo<'/visits/', '/visits', Record<never, never>, Record<never, never>>,
     '/visits/[id]/': RouteRecordInfo<'/visits/[id]/', '/visits/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/visits/create': RouteRecordInfo<'/visits/create', '/visits/create', Record<never, never>, Record<never, never>>,

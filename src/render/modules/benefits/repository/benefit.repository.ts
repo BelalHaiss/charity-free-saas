@@ -57,6 +57,16 @@ class BenefitRepository {
       url: `/benefit/financial/?${qs}`,
     });
   }
+
+  removeBenefitsByIds(ids: number[]) {
+    return fetcher({
+      url: `/benefit`,
+      config: {
+        data: ids,
+        method: "DELETE",
+      },
+    });
+  }
 }
 
 export const benefitRepository = new BenefitRepository();

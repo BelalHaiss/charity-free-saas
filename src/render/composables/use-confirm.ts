@@ -44,6 +44,7 @@ export const useConfirm = (
     }
   };
   return {
+    ...customProps,
     isVisible,
     isSubmitting,
     onCancel,

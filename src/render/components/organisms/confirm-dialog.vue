@@ -6,7 +6,7 @@ const props = defineProps<ConfirmReturn>();
 
 const isSubmitting = computed(() => props.isSubmitting.value);
 const isVisible = computed(() => props.isVisible.value);
-
+console.log(props.confirmButtonSeverity);
 const { t } = useI18n();
 </script>
 

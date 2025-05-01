@@ -8,7 +8,7 @@ import { ClientTransaction } from "@render/modules/transaction/types/transaction
 import { useGlobalState } from "@render/composables/use-global-state";
 import { getCodeLabel } from "@render/modules/unit/utils/money-unit-utils";
 import IconRepository from "@render/components/atoms/icon-repository.vue";
-import DeleteItemWithConfirmDialog from "@render/components/molecules/delete-item-with-confirm-dialog.vue";
+import DeleteItemWithConfirmDialog from "@render/components/molecules/action-icon-with-confirm-dialog.vue";
 import { transactionRepository } from "@render/modules/transaction/repository/transaction.repository";
 import { useToast } from "@render/composables/use-toast";
 import {

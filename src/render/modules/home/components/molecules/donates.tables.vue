@@ -8,7 +8,7 @@ import { DayData } from "../../view-model/home-summary-view-mode";
 import { DonateWithRelations } from "@shared/types/donates/donates.dto";
 import ViewDonateModal from "../template/view-donate-modal.vue";
 import IconRepository from "@render/components/atoms/icon-repository.vue";
-import DeleteItemWithConfirmDialog from "@render/components/molecules/delete-item-with-confirm-dialog.vue";
+import DeleteItemWithConfirmDialog from "@render/components/molecules/action-icon-with-confirm-dialog.vue";
 import { donateRepository } from "@render/modules/donate/repository/donate.repository";
 import { useToast } from "@render/composables/use-toast";
 import {

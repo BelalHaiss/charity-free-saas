@@ -18,7 +18,7 @@ export type EditItemPayload = Required<
 >;
 
 export type ItemIncludeCategoryAndBenefit = Prisma.ItemGetPayload<{
-  include: { category: true; benefit: true };
+  include: { category: true; benefit: true; unit: true };
 }>;
 
 export type ItemQueryResponse =

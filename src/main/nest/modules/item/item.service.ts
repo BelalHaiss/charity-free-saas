@@ -97,7 +97,7 @@ export class ItemService {
     const [data, totalRecords] = await this.prismaService.$transaction([
       this.prismaService.item.findMany({
         ...queryFilter,
-        include: { category: true, benefit: true },
+        include: { category: true, benefit: true, unit: true },
         ...this.prismaService.handlePagination(query.pagination),
         orderBy: this.prismaService.handleSorting(query.sort),
       }),

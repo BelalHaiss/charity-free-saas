@@ -52,6 +52,7 @@
   "my_notes": "My Notes",
   "beneficiaries": "Beneficiaries",
 
+  "_actions": "Actions",
   "pages": {
     "home": "Home",
     "beneficiaries": "Beneficiaries",
@@ -91,7 +92,7 @@
     "username": "username",
     "max_selected": "selected items count {count} "
   },
-  "actions": {
+  "": {
     "confirm-msg": "Are you sure the data is correct",
     "confirm-changes": "Confirm Changes"
   },

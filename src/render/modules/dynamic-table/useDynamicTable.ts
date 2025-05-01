@@ -1,4 +1,4 @@
-import { ref, computed, Ref, watch, provide } from "vue";
+import { ref, computed, Ref, watch, provide, inject } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 import {
   ApiPaginationQueryParams,
@@ -12,6 +12,16 @@ import { DataTableSortEvent } from "primevue/datatable";
 import { ColumnFilter, ColumnFiltersState, Updater } from "@tanstack/vue-table";
 import { PageState } from "primevue/paginator";
 import { MutableTableRow } from "@render/types/table.types";
+import {
+  TableDataContext,
+  TABLE_DATA_SYMBOL,
+  FilterContext,
+  FILTER_COLUMN_SYMBOL,
+  PaginationContext,
+  PAGINATION_SYMBOL,
+  SyncRowUpdateContext,
+  SYNC_ROW_SYMBOL,
+} from "./types/injection-keys";
 export interface PagingData {
   totalRecords: number;
   pageSize: number;
@@ -38,7 +48,7 @@ export function useDynamicTable<
     filter: {},
   } as TQuery,
 }: UseDynamicTableOptions<T, TQuery>) {
-  const tableData = ref<MutableTableRow<T>[]>([]);
+  const tableData = ref([]) as Ref<MutableTableRow<T>[]>;
 
   const totalRecords = ref(0);
   const { failedToast } = useToast();
@@ -67,18 +77,19 @@ export function useDynamicTable<
     queryKey: ["tableData", qs],
     queryFn: () => queryFn(qs.value),
   });
-  provide("table-data", {
+
+  provide<TableDataContext<MutableTableRow<T>>>(TABLE_DATA_SYMBOL, {
     tableData,
     isLoading,
     addNewItem,
   });
 
-  provide("pagination", {
+  provide<PaginationContext>(PAGINATION_SYMBOL, {
     onPaginate,
     pageData,
   });
 
-  provide("tank-table-filter", {
+  provide<FilterContext>(FILTER_COLUMN_SYMBOL, {
     columnFilters,
     updateFilter: (updater: Updater<ColumnFiltersState>) => {
       const newFilters =
@@ -118,28 +129,45 @@ export function useDynamicTable<
   };
 
   const syncDeletedRow = (localId: number) => {
-    const index = tableData.value.findIndex(
-      (row) => "localId" in row && row.localId == localId,
+    tableData.value = tableData.value.filter(
+      (item) => item.localId !== localId,
     );
-    if (index === -1) return;
-
-    // Only remove from local state
-    tableData.value.splice(index, 1);
   };
 
   const syncSavedRow = (updatedRow: MutableTableRow<T>) => {
     delete updatedRow.isNew;
-    const index = tableData.value.findIndex(
-      (row) => "localId" in row && row.localId === updatedRow.localId,
+
+    tableData.value = tableData.value.map((item) =>
+      item.localId === updatedRow.localId ? updatedRow : item,
     );
-    Object.assign(tableData.value[index], updatedRow);
   };
 
-  // Provide these methods for child components
-  provide("table-sync-states", {
+  provide<SyncRowUpdateContext<MutableTableRow<T>>>(SYNC_ROW_SYMBOL, {
     syncDeletedRow,
     syncSavedRow,
   });
-
   return {};
+}
+
+export function useDynamicTableContext<
+  TData extends MutableTableRow<Identifiable>,
+>() {
+  const tableData = inject<TableDataContext<TData>>(TABLE_DATA_SYMBOL)!;
+  const columnFilter = inject<FilterContext>(FILTER_COLUMN_SYMBOL)!;
+
+  const pagination = inject<PaginationContext>(PAGINATION_SYMBOL)!;
+  const syncRow = inject<SyncRowUpdateContext<TData>>(SYNC_ROW_SYMBOL)!;
+
+  if (!tableData || !pagination || !columnFilter) {
+    throw new Error(
+      "useDynamicTableContext must be used within a table provider",
+    );
+  }
+
+  return {
+    ...tableData,
+    ...pagination,
+    ...columnFilter,
+    ...syncRow,
+  };
 }

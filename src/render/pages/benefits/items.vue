@@ -4,14 +4,14 @@ import { useTypedI18n } from "@render/composables/use-typed-i18n";
 import { benefitRepository } from "@render/modules/benefits/repository/benefit.repository";
 import TankStankTable from "@render/modules/dynamic-table/components/organism/tankstank.table.vue";
 import { useDynamicTable } from "@render/modules/dynamic-table/useDynamicTable";
-import UnitLabelSpan from "@render/modules/unit/components/atoms/unit-label-span.vue";
+import ItemRow from "@render/modules/item/components/organisms/item-row.vue";
 import { MutableTableRow } from "@render/types/table.types";
 import { generateTempId } from "@render/utils/app.util";
 import {
   ItemBenefitsTableQuery,
   ItemIncludeCategoryAndBenefit,
 } from "@shared/types/benefit/benefit.dto";
-import { ColumnDef } from "@tanstack/vue-table";
+import { ColumnDef, createColumnHelper } from "@tanstack/vue-table";
 import { computed } from "vue";
 
 const getNewItem = (): MutableTableRow<ItemIncludeCategoryAndBenefit> => ({
@@ -29,45 +29,46 @@ useDynamicTable<ItemIncludeCategoryAndBenefit, ItemBenefitsTableQuery>({
   addNewItem: getNewItem,
 });
 const { t } = useTypedI18n();
+const columnHelper =
+  createColumnHelper<MutableTableRow<ItemIncludeCategoryAndBenefit>>();
+
 const headers = computed<
   ColumnDef<MutableTableRow<ItemIncludeCategoryAndBenefit>>[]
 >(() => [
   {
     header: t("category"),
-    field: "category_id",
+    accessorKey: "category.name",
   },
   {
     header: t("item"),
-    field: "name",
+    accessorKey: "name",
   },
   {
     header: t("unit"),
-    field: "unit",
-    bodyComponent: {
-      component: UnitLabelSpan,
-      props: (data) => ({
-        unitId: data.unit_id,
-      }),
-    },
+    accessorKey: "unit.name",
   },
   {
     header: t("qty"),
-    field: "qty",
-    dataGetter: (data) => data.qty,
+    accessorKey: "qty",
   },
   {
     header: t("count", { label: t("beneficiaries") }),
-    field: "benefit",
-    dataGetter: (data) => data.benefit.beneficiaries_count,
+    accessorKey: "benefit",
   },
+  columnHelper.display({
+    header: t("_actions"),
+    id: "actions",
+  }),
 ]);
 </script>
 <template>
   <TankStankTable :columns="headers">
     <template #table-body="{ rows }">
-      <p v-for="item in rows" :key="item.id">
-        {{ item.original.name ?? " dummy name" }}
-      </p>
+      <ItemRow
+        v-for="item in rows"
+        :item="item.original"
+        :key="item.original.localId"
+      />
     </template>
   </TankStankTable>
 </template>

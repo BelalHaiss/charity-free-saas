@@ -1,19 +1,16 @@
 <script setup generic="TData extends MutableTableRow<Identifiable>" lang="ts">
-import { defineProps, inject, ComputedRef, Ref } from "vue";
+import { defineProps, watch } from "vue";
 import {
   useVueTable,
   ColumnDef,
   getCoreRowModel,
   FlexRender,
-  ColumnFilter,
-  Updater,
-  ColumnFiltersState,
 } from "@tanstack/vue-table";
-import Paginator, { PageState } from "primevue/paginator";
-import { PagingData } from "../../useDynamicTable";
+import Paginator from "primevue/paginator";
 import { MutableTableRow } from "@render/types/table.types";
 import { Identifiable } from "@shared/types/util.types";
 import AddBtnIcon from "@render/components/atoms/add-btn-icon.vue";
+import { useDynamicTableContext } from "../../useDynamicTable";
 
 // Define Props
 
@@ -23,20 +20,23 @@ const props = defineProps<{
 
 // Define Emits
 
-const { tableData, isLoading, addNewItem } = inject<{
-  tableData: Ref<TData[]>;
-  isLoading: Ref<[]>;
-  addNewItem(): TData;
-}>("table-data")!;
-const { columnFilters, updateFilter } = inject<{
-  columnFilters: ComputedRef<ColumnFilter[]>;
-  updateFilter: (updater: Updater<ColumnFiltersState>) => void;
-}>("columnFilters")!;
+const {
+  tableData,
+  columnFilters,
+  updateFilter,
+  pageData,
+  onPaginate,
+  isLoading,
+  addNewItem,
+} = useDynamicTableContext<TData>();
 
-const { onPaginate, pageData } = inject<{
-  onPaginate: (event: PageState) => void;
-  pageData: ComputedRef<PagingData>;
-}>("pagination")!;
+watch(
+  tableData,
+  (tableData) => {
+    console.log(tableData, "deep watch");
+  },
+  { deep: true },
+);
 // TanStack Table Instance
 const table = useVueTable<TData>({
   data: tableData,
@@ -57,12 +57,16 @@ const table = useVueTable<TData>({
   <!-- Table -->
   <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd">
     <thead>
-      <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
+      <tr
+        class="bg-brand-300"
+        v-for="headerGroup in table.getHeaderGroups()"
+        :key="headerGroup.id"
+      >
         <th
+          class="py-2"
           v-for="header in headerGroup.headers"
           :key="header.id"
           colSpan="{header.colSpan}"
-          style="border: 1px solid #ddd; padding: 0.5rem; text-align: left"
         >
           <FlexRender
             :render="header.column.columnDef.header"

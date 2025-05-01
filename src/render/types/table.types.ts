@@ -13,7 +13,6 @@ export type MutableTableRow<T extends Identifiable> =
     })
   | (Partial<T> & {
       isNew: boolean; // Marks new, unsaved row
-      id: number; // Temporary ID before saving
       localId: number; // Stable unique key for rendering
     });
 
