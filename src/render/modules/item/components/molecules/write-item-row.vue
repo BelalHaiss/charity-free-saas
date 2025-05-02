@@ -25,23 +25,23 @@ const { values, meta } = useForm<CreateNewItem>({
   },
   validationSchema: toTypedSchema(benefitItemSchema(locale.value)),
 });
+
+// <!-- <CustomFormControl
+//       v-bind="{
+//         label: 'item',
+//         name: 'category_id',
+//         type: 'number',
+//         hideLabel: true
+//       }"
+//     >
+//       <template #input="{ value }">
+//         <CategorySelect v-model="value!" />
+//       </template>
+//     </CustomFormControl> -->
 </script>
 
 <template>
-  <td>
-    <CustomFormControl
-      v-bind="{
-        label: 'item',
-        name: 'category_id',
-        type: 'number',
-        hideLabel: true,
-      }"
-    >
-      <!-- <template #input="{ value }">
-        <CategorySelect v-model="value!" />
-      </template>  -->
-    </CustomFormControl>
-  </td>
+  <td></td>
   <td>{{ draftItem.name }}</td>
   <td>{{ draftItem.unit?.label }}</td>
   <td>
