@@ -8,7 +8,7 @@ import {
   EditItemPayload,
 } from "@shared/types/benefit/benefit.dto";
 
-const benefitItemSchema = (locale: Locale) =>
+export const benefitItemSchema = (locale: Locale) =>
   z.object({
     name: ValidationSchemas.getStringSchema(locale),
     qty: ValidationSchemas.getNumberSchema(locale),

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import CreatableSelect from "@render/components/molecules/creatable-select.vue";
 import { QUERY_KEYS } from "@render/composables/use-query-typed";
 import { useI18n } from "vue-i18n";
 import { categoryRepository } from "../../repository/category.repository";
@@ -11,11 +10,7 @@ const { t } = useI18n();
 
 const { storage } = useGlobalState();
 const branchId = computed(() => storage.value.branchId);
-const {
-  data: categories,
-  isRefetching,
-  refetch,
-} = useQuery({
+const { data: categories, isRefetching } = useQuery({
   queryKey: QUERY_KEYS.CATEGORY(branchId),
   queryFn: () => categoryRepository.findAll(branchId.value),
   initialData: [],
