@@ -1,9 +1,13 @@
-<script setup lang="ts">
-import { FormField } from "@render/types/form.types";
-import { useField } from "vee-validate";
-const props = defineProps<FormField<string>>();
+<script setup generic="T extends FormFieldType" lang="ts">
+import {
+  FormField,
+  FormFieldType,
+  FormFieldValueTypeMap
+} from '@render/types/form.types';
+import { useField } from 'vee-validate';
+const props = defineProps<Omit<FormField<string>, 'type'> & { type: T }>();
 
-const { value, errorMessage } = useField(props.name);
+const { value, errorMessage } = useField<FormFieldValueTypeMap[T]>(props.name);
 </script>
 <template>
   <label v-if="!hideLabel" :for="props.name">{{ props.label }}</label>

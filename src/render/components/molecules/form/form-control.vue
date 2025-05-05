@@ -1,24 +1,26 @@
 <script setup lang="ts">
-import { FormField, FormFieldType } from "@render/types/form.types";
-import { type Component } from "vue";
-import FormControlText from "./form-control-text.vue";
-import FormControlMultiSelectCreatable from "./form-control-multi-select-creatable.vue";
-import FormControlDate from "./form-control-date.vue";
-import FormControlNumber from "./form-control-number.vue";
-import FormControlPassword from "./form-control-password.vue";
-import FormControlCheckbox from "./form-control-checkbox.vue";
-import FormControlTextArea from "./form-control-text-area.vue";
+import { FormField, FormFieldType } from '@render/types/form.types';
+import { type Component } from 'vue';
+import FormControlText from './form-control-text.vue';
+import FormControlMultiSelectCreatable from './form-control-multi-select-creatable.vue';
+import FormControlDate from './form-control-date.vue';
+import FormControlNumber from './form-control-number.vue';
+import FormControlPassword from './form-control-password.vue';
+import FormControlCheckbox from './form-control-checkbox.vue';
+import FormControlTextArea from './form-control-text-area.vue';
+import FormControlSelect from './form-control-select.vue';
 
 const props = defineProps<FormField<string>>();
 
 const activeComponent: Record<FormFieldType, Component> = {
   date: FormControlDate,
-  "multi-select-creatable": FormControlMultiSelectCreatable,
+  'multi-select-creatable': FormControlMultiSelectCreatable,
   text: FormControlText,
   textArea: FormControlTextArea,
   number: FormControlNumber,
   password: FormControlPassword,
   checkbox: FormControlCheckbox,
+  'select-number': FormControlSelect
 };
 </script>
 

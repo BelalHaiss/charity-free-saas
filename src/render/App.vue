@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, watchEffect } from "vue";
-import { useI18n } from "vue-i18n";
-import { usePrimeVue } from "primevue/config";
-import { getPrimeLocale } from "./locales/locale.util";
+import { computed, ref, watchEffect } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { usePrimeVue } from 'primevue/config';
+import { getPrimeLocale } from './locales/locale.util';
 // import { useGlobalState } from './composables/use-global-state';
-import { useRoute } from "vue-router/auto";
-import SideNav from "./modules/layout/components/side-nav.vue";
-import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
-import { useInitialCacheHandler } from "./composables/use-initial-cache";
-import CenteredSpinner from "./components/molecules/centered-spinner.vue";
-import { Settings } from "luxon";
-import { Locale } from "@shared/types/util.types";
-import { useInitialRouteHandling } from "./composables/use-initial-route-handling";
-import ActionButton from "./modules/layout/components/action-button/action.button.vue";
+import { useRoute } from 'vue-router/auto';
+import SideNav from './modules/layout/components/side-nav.vue';
+import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
+import CenteredSpinner from './components/molecules/centered-spinner.vue';
+import { Settings } from 'luxon';
+import { Locale } from '@shared/types/util.types';
+import { useInitialRouteHandling } from './composables/use-initial-route-handling';
+import ActionButton from './modules/layout/components/action-button/action.button.vue';
 
 const { locale } = useI18n<object, Locale>();
 const primevue = usePrimeVue();
@@ -20,32 +19,25 @@ const primevue = usePrimeVue();
 const isFirstRouteHandled = ref(false);
 // const { storage } = useGlobalState();
 const route = useRoute();
-const isCachedDataFetched = ref(false);
 
-const setCachedFetchedDone = () => {
-  isCachedDataFetched.value = true;
-};
-const isInitializing = computed(
-  () => !isCachedDataFetched.value || !isFirstRouteHandled.value,
-);
+const isInitializing = computed(() => !isFirstRouteHandled.value);
 
 const setRouteHandled = () => {
   // wait until redirection already happen
   setTimeout(() => (isFirstRouteHandled.value = true), 700);
 };
 useInitialRouteHandling(setRouteHandled);
-useInitialCacheHandler(setCachedFetchedDone);
 
 watchEffect(() => {
   document.documentElement.lang = locale.value;
-  document.documentElement.dir = locale.value === "ar" ? "rtl" : "ltr";
+  document.documentElement.dir = locale.value === 'ar' ? 'rtl' : 'ltr';
   primevue.config.locale = getPrimeLocale(locale.value);
   Settings.defaultLocale = locale.value;
 });
 
 const isSetupPage = computed(() => {
   const fullPath = route.fullPath;
-  return fullPath === "/setup" || fullPath === "/login";
+  return fullPath === '/setup' || fullPath === '/login';
 });
 </script>
 
@@ -67,6 +59,6 @@ const isSetupPage = computed(() => {
 </template>
 
 <style>
-@import "./assets/css/global.css";
-@import "primevue/resources/themes/aura-light-green/theme.css";
+@import './assets/css/global.css';
+@import 'primevue/resources/themes/aura-light-green/theme.css';
 </style>
