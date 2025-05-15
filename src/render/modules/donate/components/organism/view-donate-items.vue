@@ -2,12 +2,14 @@
 import SmContainer from "@render/components/organisms/sm-container.vue";
 import ViewItemWithUnit from "@render/modules/item/components/organisms/view-item-with-unit.vue";
 import { TableHeader } from "@render/types/util.types";
-import { DonateWithRelations } from "@shared/types/donates/donates.dto";
+import { ClientDonateWithRelations } from "@shared/types/donates/donates.dto";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
-const { items } = defineProps<{ items: DonateWithRelations["donate_items"] }>();
+const { items } = defineProps<{
+  items: ClientDonateWithRelations["donate_items"];
+}>();
 const tableHeader = computed((): TableHeader[] => [
   {
     label: t("item"),

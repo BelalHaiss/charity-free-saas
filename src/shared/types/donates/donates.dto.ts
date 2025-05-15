@@ -1,7 +1,8 @@
 import { ISO_8601_DateString } from "../util.types";
-import { NewTransaction } from "../transaction/transaction.dto";
+import { NewTransaction, TransactionDTO } from "../transaction/transaction.dto";
 import { WithTempId } from "@render/types/util.types";
 import { Donate, Prisma, UNIT_SIZE } from "@prisma/client";
+import { DecimalToNumber } from "@render/modules/transaction/types/transactions.types";
 
 export type QueryDonateByDate = {
   date: ISO_8601_DateString;
@@ -31,7 +32,8 @@ export type PartialDonateItem = WithTempId<Partial<NewDonateItem>>;
 
 export type DonateWithRelations = Prisma.DonateGetPayload<{
   include: {
-    transaction: true;
     donate_items: true;
   };
-}>;
+}> & { transaction?: TransactionDTO | null };
+
+export type ClientDonateWithRelations = DecimalToNumber<DonateWithRelations>;

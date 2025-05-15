@@ -38,8 +38,7 @@ const headers = computed<TableColumns<ClientTransaction>[]>(() => [
   },
   {
     field: "amount",
-    dataGetter: (expense) =>
-      `${expense.amount} ${getCodeLabel(getters.getMoneyUnitById(expense.unit_id)!)}`,
+    dataGetter: (expense) => `${expense.amount} ${getCodeLabel(expense.Unit)}`,
     header: t("amount"),
   },
 

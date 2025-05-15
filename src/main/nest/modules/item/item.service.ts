@@ -14,10 +14,22 @@ import {
   ItemQueryResponse,
 } from "@shared/types/benefit/benefit.dto";
 import { optionalCast } from "@shared/services/object.util";
+import { ItemDTO } from "@shared/types/item/item.dto";
 
 @Injectable()
 export class ItemService {
   constructor(private prismaService: PrismaService) {}
+
+  findItemById(id: number): Promise<ItemDTO | null> {
+    return this.prismaService.item.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        unit: true,
+      },
+    });
+  }
 
   createItems(newItems: CreateNewItem[]) {
     return this.prismaService.$transaction(async (tx) => {

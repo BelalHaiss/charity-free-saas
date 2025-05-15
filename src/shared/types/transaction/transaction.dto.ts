@@ -14,3 +14,9 @@ export type NewTransaction = Omit<
   date: Date;
   amount: number;
 };
+
+export type TransactionDTO = Prisma.TransactionGetPayload<{
+  include: {
+    Unit: true;
+  };
+}>;

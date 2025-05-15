@@ -1,20 +1,18 @@
-import { Note } from "@prisma/client";
 import { useGlobalState } from "@render/composables/use-global-state";
 import { QUERY_KEYS } from "@render/composables/use-query-typed";
 import { useToast } from "@render/composables/use-toast";
 import { donateRepository } from "@render/modules/donate/repository/donate.repository";
-import { noteRepository } from "@render/modules/note/repository/note.repository";
 import { transactionRepository } from "@render/modules/transaction/repository/transaction.repository";
 import { ClientTransaction } from "@render/modules/transaction/types/transactions.types";
 import { formatDateRefToIsoDateOnly } from "@render/utils/date.util";
-import { DonateWithRelations } from "@shared/types/donates/donates.dto";
+import { ClientDonateWithRelations } from "@shared/types/donates/donates.dto";
 import { useQuery } from "@tanstack/vue-query";
-import { computed, provide, ref, watch } from "vue";
+import { provide, ref, watch } from "vue";
 
 export type DayData = {
   expenses: ClientTransaction[];
   incomes: ClientTransaction[];
-  donates: DonateWithRelations[];
+  donates: ClientDonateWithRelations[];
 };
 export const useHomeSummary = () => {
   const selectedDate = ref(new Date());

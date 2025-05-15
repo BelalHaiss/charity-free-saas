@@ -106,7 +106,11 @@ export class DonateService {
         created_at: this.utilService.getFullDayDateFilter(query.date, timeZone),
       },
       include: {
-        transaction: true,
+        transaction: {
+          include: {
+            Unit: true,
+          },
+        },
         donate_items: true,
       },
     });

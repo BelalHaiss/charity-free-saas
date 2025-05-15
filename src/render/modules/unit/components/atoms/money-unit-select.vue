@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { MoneyUnit } from '@prisma/client';
-import { getCodeLabel, getLabel } from '../../utils/money-unit-utils';
-import { QUERY_KEYS } from '@render/composables/use-query-typed';
-import { moneyUnitRepository } from '../../repository/money-unit.repository';
-import { useQuery } from '@tanstack/vue-query';
+import { MoneyUnit } from "@prisma/client";
+import { getCodeLabel, getLabel } from "../../utils/money-unit-utils";
+import { QUERY_KEYS } from "@render/composables/use-query-typed";
+import { moneyUnitRepository } from "../../repository/money-unit.repository";
+import { useQuery } from "@tanstack/vue-query";
 
-const { data: unitsOptions, isLoading } = useQuery({
+const { data: unitsOptions } = useQuery({
   queryKey: QUERY_KEYS.MONEY_UNITS,
   queryFn: () => moneyUnitRepository.getAllUnits(),
-  initialData: []
+  initialData: [],
 });
 
 const selectedUnit = defineModel<MoneyUnit>();

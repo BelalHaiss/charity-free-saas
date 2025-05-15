@@ -2,8 +2,7 @@
 import { QUERY_KEYS } from "@render/composables/use-query-typed";
 import { itemRepository } from "../../repository/item.repository";
 import ItemDeleted from "@render/components/atoms/item-deleted.vue";
-import { computed, watch } from "vue";
-import { useGlobalState } from "@render/composables/use-global-state";
+import { computed } from "vue";
 import { UNIT_SIZE } from "@prisma/client";
 import { useQuery } from "@tanstack/vue-query";
 
@@ -12,15 +11,14 @@ const { itemId, unitSize } = defineProps<{
   unitSize: UNIT_SIZE;
 }>();
 
-const { getters } = useGlobalState();
-const { data, error, isLoading } = useQuery({
+const { data, isLoading } = useQuery({
   queryKey: QUERY_KEYS.ITEM_ID(itemId),
   queryFn: () => itemRepository.getItemById(itemId),
 });
 
 const donateItemUnit = computed(() => {
-  if (!data || !data.value) return "";
-  const unit = getters.getUnitById(data.value.unit_id)!;
+  if (!data.value) return "";
+  const unit = data.value.unit;
   return unitSize === "LG" ? unit.bg_unit_abbr : unit.sm_unit_abbr;
 });
 </script>

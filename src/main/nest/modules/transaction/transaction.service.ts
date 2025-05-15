@@ -44,6 +44,9 @@ export class TransactionService {
         created_at: this.utilService.getFullDayDateFilter(query.date, timeZone),
         branch_id: +query.branchId,
       },
+      include: {
+        Unit: true,
+      },
     });
   }
 

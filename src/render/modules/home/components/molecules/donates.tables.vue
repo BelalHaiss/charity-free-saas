@@ -5,7 +5,7 @@ import { formatDate } from "@render/utils/date.util";
 import { computed, inject, ref, Ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { DayData } from "../../view-model/home-summary-view-mode";
-import { DonateWithRelations } from "@shared/types/donates/donates.dto";
+import { ClientDonateWithRelations } from "@shared/types/donates/donates.dto";
 import ViewDonateModal from "../template/view-donate-modal.vue";
 import IconRepository from "@render/components/atoms/icon-repository.vue";
 import DeleteItemWithConfirmDialog from "@render/components/molecules/action-icon-with-confirm-dialog.vue";
@@ -74,8 +74,8 @@ const dayData = inject<Ref<DayData>>("dayData");
 const donates = computed<Donate[]>(() => dayData?.value.donates ?? []);
 
 const isDonateModalVisible = ref(true);
-const selectedDonate = ref<DonateWithRelations>();
-const openDonateDialog = (data?: DonateWithRelations) => {
+const selectedDonate = ref<ClientDonateWithRelations>();
+const openDonateDialog = (data?: ClientDonateWithRelations) => {
   if (!data) return;
   isDonateModalVisible.value = true;
   selectedDonate.value = data;

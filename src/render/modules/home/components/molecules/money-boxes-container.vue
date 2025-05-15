@@ -14,36 +14,39 @@ import { computed, ref } from "vue";
 import { Locale } from "@shared/types/util.types";
 import AddExpenseModal from "@render/modules/transaction/components/organisms/add-expense.modal.vue";
 import AddDonateModal from "@render/modules/transaction/components/organisms/add-donate.modal.vue";
+import { useQuery } from "@tanstack/vue-query";
+import { QUERY_KEYS } from "@render/composables/use-query-typed";
+import { moneyUnitRepository } from "@render/modules/unit/repository/money-unit.repository";
 
 const { expenses, incomes } = defineProps<DayData>();
 
-const { storage } = useGlobalState();
 const { locale } = useI18n<object, Locale>();
 
-const moneyUnits = computed(() => storage.value.moneyUnits);
-
+const { data: moneyUnits } = useQuery({
+  queryKey: QUERY_KEYS.MONEY_UNITS,
+  queryFn: moneyUnitRepository.getAllUnits,
+  initialData: [],
+});
 const moneyTotals = ref<MoneyTotalsBoxes>({
   incomes: [],
   expenses: [],
   net: [],
 });
 
-const totalExpenses = groupAndSumTransactions(
-  expenses,
-  moneyUnits.value,
-  locale.value,
+const totalExpenses = computed(() =>
+  groupAndSumTransactions(expenses, moneyUnits.value!, locale.value),
 );
-const totalIncomes = groupAndSumTransactions(
-  incomes,
-  moneyUnits.value,
-  locale.value,
+const totalIncomes = computed(() =>
+  groupAndSumTransactions(incomes, moneyUnits.value!, locale.value),
 );
-const net = getTransactionNet(totalIncomes, totalExpenses);
+const net = computed(() =>
+  getTransactionNet(totalIncomes.value, totalExpenses.value),
+);
 
 moneyTotals.value = {
-  expenses: convertTransactionGroupToArray(totalExpenses),
-  incomes: convertTransactionGroupToArray(totalIncomes),
-  net: convertTransactionGroupToArray(net),
+  expenses: convertTransactionGroupToArray(totalExpenses.value),
+  incomes: convertTransactionGroupToArray(totalIncomes.value),
+  net: convertTransactionGroupToArray(net.value),
 };
 
 const isExpenseModalVisible = ref(false);

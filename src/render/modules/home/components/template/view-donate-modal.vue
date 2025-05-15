@@ -2,9 +2,9 @@
 import ViewDonateAmount from "@render/modules/donate/components/organism/view-donate-amount.vue";
 import ViewDonateItems from "@render/modules/donate/components/organism/view-donate-items.vue";
 import ViewDonorDetails from "@render/modules/donate/components/organism/view-donor-details.vue";
-import { DonateWithRelations } from "@shared/types/donates/donates.dto";
+import { ClientDonateWithRelations } from "@shared/types/donates/donates.dto";
 
-const props = defineProps<{ donate: DonateWithRelations }>();
+const props = defineProps<{ donate: ClientDonateWithRelations }>();
 
 const isVisible = defineModel<boolean>();
 </script>

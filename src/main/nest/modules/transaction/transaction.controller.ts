@@ -17,6 +17,7 @@ import type {
 } from "@shared/types/util.types";
 import type {
   NewTransaction,
+  TransactionDTO,
   TransactionQueryByType,
 } from "@shared/types/transaction/transaction.dto";
 import { Language, Timezone } from "@main/nest/decorator/headers.decorator";
@@ -51,7 +52,7 @@ export class TransactionController {
   findTransactionByType(
     @Query() query: CastQueryFieldsToStrings<TransactionQueryByType>,
     @Timezone() timeZone: string,
-  ) {
+  ): Promise<TransactionDTO[]> {
     return this.transactionService.findByType(query, timeZone);
   }
 

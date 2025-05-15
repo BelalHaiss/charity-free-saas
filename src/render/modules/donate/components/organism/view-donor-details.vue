@@ -3,30 +3,33 @@ import { Donate } from "@prisma/client";
 import SmContainer from "@render/components/organisms/sm-container.vue";
 import { TableHeader } from "@render/types/util.types";
 import { formatDate } from "@render/utils/date.util";
-import { DonateWithRelations } from "@shared/types/donates/donates.dto";
+import { ClientDonateWithRelations } from "@shared/types/donates/donates.dto";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
-const props = defineProps<{ donate: DonateWithRelations }>();
+const props = defineProps<{ donate: ClientDonateWithRelations }>();
 
 const tableHeader = computed(
-  (): ({ getter: (data: Donate) => string | number } & TableHeader)[] => [
+  (): ({
+    getter: (data: ClientDonateWithRelations) => string | number;
+  } & TableHeader)[] => [
     {
       label: t("donor"),
       styles: { flex: 2 },
-      getter: (data: Donate) => data.donor,
+      getter: (data: ClientDonateWithRelations) => data.donor,
     },
     {
       label: t("form.phone"),
       styles: { flex: 1 },
-      getter: (data: Donate) => data.donor_phone ?? "",
+      getter: (data: ClientDonateWithRelations) => data.donor_phone ?? "",
     },
     {
       label: t("date"),
       styles: { flex: 1 },
-      getter: (data: Donate) => formatDate(data.created_at, "tt"),
+      getter: (data: ClientDonateWithRelations) =>
+        formatDate(data.created_at, "tt"),
     },
   ],
 );

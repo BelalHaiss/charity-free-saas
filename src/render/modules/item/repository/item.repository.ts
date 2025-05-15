@@ -1,6 +1,7 @@
 import { Item } from "@prisma/client";
 import { fetcher } from "@render/utils/api.util";
 import { CreateNewItem } from "@shared/types/benefit/benefit.dto";
+import { ItemDTO } from "@shared/types/item/item.dto";
 import qs from "qs";
 
 class ItemRepository {
@@ -19,7 +20,7 @@ class ItemRepository {
   }
 
   getItemById(id: number) {
-    return fetcher<Item | null>({
+    return fetcher<ItemDTO | null>({
       url: `/item/${id}`,
     });
   }

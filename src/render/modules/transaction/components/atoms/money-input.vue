@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { MoneyUnit } from "@prisma/client";
 import FormControlWrapper from "@render/components/molecules/form/form-control-wrapper.vue";
-import { useGlobalState } from "@render/composables/use-global-state";
 import MoneyUnitSelect from "@render/modules/unit/components/atoms/money-unit-select.vue";
 import { useField } from "vee-validate";
 import { ref, watch } from "vue";
 
-const { getters } = useGlobalState();
 const props = defineProps<{
   moneyUnitFieldName: string;
   amountFieldName: string;
@@ -18,10 +16,12 @@ const { value: amountValue, errorMessage: amountErrorMessage } =
 const { setValue: setMoneyUnitValue, errorMessage: moneyUnitErrorMessage } =
   useField<number>(() => props.moneyUnitFieldName);
 
-const moneyUnit = ref<MoneyUnit>(getters.getMoneyUnitByEnCode("EGP")!);
+const moneyUnit = ref<MoneyUnit>();
 
-watch(moneyUnit, (newMoneyUnit) => setMoneyUnitValue(newMoneyUnit.id), {
-  immediate: true,
+watch(moneyUnit, (newMoneyUnit) => {
+  if (newMoneyUnit) {
+    setMoneyUnitValue(newMoneyUnit.id);
+  }
 });
 </script>
 <template>

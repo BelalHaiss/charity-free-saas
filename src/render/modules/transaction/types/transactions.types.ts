@@ -1,11 +1,18 @@
-import { Transaction } from "@prisma/client";
+import { TransactionDTO } from "@shared/types/transaction/transaction.dto";
 import Decimal from "decimal.js";
 
-export type DecimalToNumber<T extends object> = {
-  [K in keyof T]: T[K] extends Decimal ? number : T[K];
-};
+// Robust utility type that deeply converts Decimal to number throughout nested structures
+export type DecimalToNumber<T> = T extends Decimal
+  ? number
+  : T extends Date
+    ? T
+    : T extends (infer U)[]
+      ? DecimalToNumber<U>[]
+      : T extends object
+        ? { [K in keyof T]: DecimalToNumber<T[K]> }
+        : T;
 
-export type ClientTransaction = DecimalToNumber<Transaction>;
+export type ClientTransaction = DecimalToNumber<TransactionDTO>;
 
 export type TransactionGroup = Record<string, Decimal>;
 
