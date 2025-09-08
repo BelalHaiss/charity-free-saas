@@ -27,7 +27,7 @@ model Beneficiary {
   BeneficiaryBenefit  BeneficiaryBenefit[]
 
   branch_id  Int
-  Branch     Branch?  @relation(fields: [branch_id], references: [id])
+  Branch     Branch   @relation(fields: [branch_id], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -35,17 +35,19 @@ model Beneficiary {
 }
 
 model Person {
-  id            Int         @id @default(autoincrement())
+  id            Int        @id @default(autoincrement())
   name          String
-  identity_card String?     @unique
-  type          PersonType?
+  identity_card String?
+  type          PersonType
   birthday      DateTime
   gender        GENDER?
-  income        Decimal?    @db.Decimal(10, 2)
+  income        Decimal?   @db.Decimal(19, 4)
+  currency_code String? // ISO code: "USD", "EGP", "JPY"
+  Currency      MoneyUnit? @relation(fields: [currency_code], references: [code])
   address       String?
   phone         String?
-  created_at    DateTime    @default(now())
-  updated_at    DateTime    @updatedAt
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
 
   sponsorship_case_id Int?             @db.TinyInt
   sponsorship         SponsorshipCase? @relation(fields: [sponsorship_case_id], references: [id])
@@ -53,9 +55,12 @@ model Person {
   beneficiary_id Int
   Beneficiary    Beneficiary @relation(fields: [beneficiary_id], references: [id])
 
+  branch_id Int
+  Branch    Branch @relation(fields: [branch_id], references: [id])
+
+  @@unique([identity_card, branch_id])
   @@map("person")
 }
-
 
 model Benefit {
   id                  Int         @id @default(autoincrement())
@@ -68,18 +73,23 @@ model Benefit {
   visit_benefits       VisitBenefit[]
   beneficiary_benefits BeneficiaryBenefit[]
 
+  branch_id Int
+  branch    Branch @relation(fields: [branch_id], references: [id])
+
   @@map("benefit")
 }
+
 model FinancialBenefit {
   id Int @id @default(autoincrement())
 
-  name    String
-  amount  Decimal   @db.Decimal(10, 2)
-  unit_id Int
-  unit    MoneyUnit @relation(fields: [unit_id], references: [id])
+  name          String
+  amount        Decimal @db.Decimal(19, 4)
+  currency_code String
+
+  Currency MoneyUnit @relation(fields: [currency_code], references: [code])
 
   benefit_id Int     @unique()
-  benefit    Benefit @relation(fields: [benefit_id], references: [id],onDelete: Cascade)
+  benefit    Benefit @relation(fields: [benefit_id], references: [id], onDelete: Cascade)
 
   @@map("financial_benefit")
 }
@@ -93,12 +103,10 @@ model Item {
   category    Category @relation(fields: [category_id], references: [id])
   unit_id     Int
   unit        Unit     @relation(fields: [unit_id], references: [id])
-  branch_id   Int
-  branch      Branch   @relation(fields: [branch_id], references: [id])
 
-  benefit_id  Int          @unique()
-  benefit Benefit      @relation(fields: [benefit_id], references: [id],onDelete: Cascade)
-  DonateItem  DonateItem[]
+  benefit_id Int          @unique()
+  benefit    Benefit      @relation(fields: [benefit_id], references: [id], onDelete: Cascade)
+  DonateItem DonateItem[]
 
   @@map("item")
 }
@@ -107,7 +115,7 @@ model BeneficiaryBenefit {
   beneficiary_id Int
   beneficiary    Beneficiary @relation(fields: [beneficiary_id], references: [id])
   benefit_id     Int
-  Benefit        Benefit     @relation(fields: [benefit_id], references: [id],onDelete: Cascade)
+  Benefit        Benefit     @relation(fields: [benefit_id], references: [id], onDelete: Cascade)
 
   item_unit_size UNIT_SIZE? // if not financial benefit
   item_value     Int? // if not financial benefit
@@ -117,8 +125,7 @@ model BeneficiaryBenefit {
 }
 
 model VisitBenefit {
-  id Int @id @default(autoincrement())
-
+  id         Int     @id @default(autoincrement())
   visit_id   Int
   visit      Visit   @relation(fields: [visit_id], references: [id])
   benefit_id Int
@@ -160,14 +167,17 @@ model Category {
 }
 
 model MoneyUnit {
-  id      Int    @id @default(autoincrement())
-  en_code String
-  en_name String
+  code String @id // ISO code: "USD", "EGP", "JPY"
 
-  ar_code          String
-  ar_name          String
-  Transaction      Transaction[]
-  FinancialBenefit FinancialBenefit[]
+  enName   String // English name: "US Dollar"
+  arName   String? // Arabic name: "دولار أمريكي"
+  symbolEn String? // "$", "E£"
+  symbolAr String? // "ج.م", "ر.س"
+
+  // Relations
+  transactions      Transaction[]
+  financialBenefits FinancialBenefit[]
+  Person            Person[]
 
   @@map("money_unit")
 }
@@ -193,15 +203,19 @@ model SponsorshipCase {
   branch    Branch   @relation(fields: [branch_id], references: [id])
   persons   Person[]
 
+  @@unique([name, branch_id])
   @@map("sponsorship_case")
 }
 
 model Organization {
   id         Int       @id @default(autoincrement())
-  name       String
+  name       String    @unique
   created_at DateTime?
   logo_url   String?
   branches   Branch[]
+
+  userRoles UserRole[]
+  roles     Role[]
 
   @@map("organization")
 }
@@ -221,37 +235,69 @@ model Branch {
   Donate             Donate[]
   Transaction        Transaction[]
   CategoryItem       Category[]
-  Item               Item[]
+  benefits           Benefit[]
+  persons            Person[]
+  userRoles          UserRole[]
 
-  users BranchUser[]
-
+  @@unique([name, organization_id])
   @@map("branch")
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
-  username     String  @unique
+  id           Int        @id @default(autoincrement())
+  username     String
   password     String
-  is_suspended Boolean @default(false)
+  is_suspended Boolean    @default(false)
   lang         Lang
-  role_id      Int?
-  role         Role?   @relation(fields: [role_id], references: [id])
   notes        Note[]
-
-  branches BranchUser[]
+  appRole      AppRole?
+  userRoles    UserRole[]
 
   @@map("user")
 }
 
-model BranchUser {
-  branch_id Int
-  user_id   Int
+model Role {
+  id             Int           @id @default(autoincrement())
+  name           String
+  scope          RoleScope
+  // Optional: use when each org wants its own custom roles
+  organizationId Int?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
 
-  Branch Branch @relation(fields: [branch_id], references: [id])
-  User   User   @relation(fields: [user_id], references: [id])
+  rolePermissions RolePermission[]
+  userRoles       UserRole[]
+}
 
-  @@id([branch_id, user_id])
-  @@map("branch_user")
+model Permission {
+  id              Int              @id @default(autoincrement())
+  action          String           @unique
+  description     String?
+  rolePermissions RolePermission[]
+}
+
+model RolePermission {
+  roleId       Int
+  permissionId Int
+
+  role       Role       @relation(fields: [roleId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  @@id([roleId, permissionId])
+}
+
+model UserRole {
+  id             Int          @id @default(autoincrement())
+  userId         Int
+  roleId         Int
+  organizationId Int // always set (tenant boundary)
+  branchId       Int? // NULL ⇒ org-wide role
+  branchKey      Int          @default(-1) // for unique constraints when branchId is null
+  user           User         @relation(fields: [userId], references: [id])
+  role           Role         @relation(fields: [roleId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  branch         Branch?      @relation(fields: [branchId], references: [id])
+
+  @@unique([userId, roleId, organizationId, branchKey])
 }
 
 model Donate {
@@ -284,15 +330,15 @@ model DonateItem {
 }
 
 model Transaction {
-  id         Int             @id @default(autoincrement())
-  created_at DateTime        @default(now())
-  created_by String
-  unit_id    Int
-  amount     Decimal         @db.Decimal(10, 2)
-  label      String?
-  type       TransactionType
+  id            Int             @id @default(autoincrement())
+  created_at    DateTime        @default(now())
+  created_by    String
+  currency_code String
+  amount        Decimal         @db.Decimal(19, 4)
+  label         String?
+  type          TransactionType
 
-  Unit MoneyUnit @relation(fields: [unit_id], references: [id])
+  Currency MoneyUnit @relation(fields: [currency_code], references: [code])
 
   branch_id Int
   branch    Branch @relation(fields: [branch_id], references: [id])
@@ -305,21 +351,10 @@ model Transaction {
   @@map("transaction")
 }
 
-model Role {
-  id          Int      @id @default(autoincrement())
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-  /// [RolePermissions]
-  permissions Json
-  users       User[]
-
-  @@map("role")
-}
-
 model Note {
   id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
-  content       String
+  content    String
   branch_id  Int?
 
   user_id Int
@@ -357,4 +392,14 @@ enum PersonType {
 enum BenefitType {
   FINANCIAL
   ITEM
+}
+
+enum RoleScope {
+  ORGANIZATION
+  BRANCH
+}
+
+enum AppRole {
+  SUPER_ADMIN
+  SUPPORT
 }

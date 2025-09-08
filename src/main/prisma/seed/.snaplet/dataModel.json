@@ -1,5 +1,327 @@
 {
   "models": {
+    "Permission": {
+      "id": "charity.Permission",
+      "schemaName": "charity",
+      "tableName": "Permission",
+      "fields": [
+        {
+          "id": "charity.Permission.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "charity.Permission.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "charity.Permission.key",
+          "name": "key",
+          "columnName": "key",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 191
+        },
+        {
+          "id": "charity.Permission.label",
+          "name": "label",
+          "columnName": "label",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 191
+        },
+        {
+          "name": "RolePermission",
+          "type": "RolePermission",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "RolePermissionToPermission",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "charity.Permission.key",
+          "fields": [
+            "key"
+          ]
+        },
+        {
+          "name": "charity.Permission.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "RolePermission": {
+      "id": "charity.RolePermission",
+      "schemaName": "charity",
+      "tableName": "RolePermission",
+      "fields": [
+        {
+          "id": "charity.RolePermission.permission_id",
+          "name": "permission_id",
+          "columnName": "permission_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "charity.RolePermission.role_id",
+          "name": "role_id",
+          "columnName": "role_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "name": "Permission",
+          "type": "Permission",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "RolePermissionToPermission",
+          "relationFromFields": [
+            "permission_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "role",
+          "type": "role",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "RolePermissionTorole",
+          "relationFromFields": [
+            "role_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "charity.RolePermission.role_id_permission_id",
+          "fields": [
+            "role_id",
+            "permission_id"
+          ]
+        }
+      ]
+    },
+    "UserRole": {
+      "id": "charity.UserRole",
+      "schemaName": "charity",
+      "tableName": "UserRole",
+      "fields": [
+        {
+          "id": "charity.UserRole.branch_id",
+          "name": "branch_id",
+          "columnName": "branch_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "charity.UserRole.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "charity.UserRole.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "charity.UserRole.organization_id",
+          "name": "organization_id",
+          "columnName": "organization_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "charity.UserRole.role_id",
+          "name": "role_id",
+          "columnName": "role_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "charity.UserRole.user_id",
+          "name": "user_id",
+          "columnName": "user_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "branch",
+          "type": "branch",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "UserRoleTobranch",
+          "relationFromFields": [
+            "branch_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "organization",
+          "type": "organization",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "UserRoleToorganization",
+          "relationFromFields": [
+            "organization_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "role",
+          "type": "role",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "UserRoleTorole",
+          "relationFromFields": [
+            "role_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "user",
+          "type": "user",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "UserRoleTouser",
+          "relationFromFields": [
+            "user_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "charity.UserRole.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
     "_prisma_migrations": {
       "id": "charity._prisma_migrations",
       "schemaName": "charity",
@@ -432,6 +754,20 @@
           "maxLength": null
         },
         {
+          "id": "charity.benefit.branch_id",
+          "name": "branch_id",
+          "columnName": "branch_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
           "id": "charity.benefit.id",
           "name": "id",
           "columnName": "id",
@@ -462,6 +798,24 @@
           "hasDefaultValue": false,
           "isId": false,
           "maxLength": 9
+        },
+        {
+          "name": "branch",
+          "type": "branch",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "benefitTobranch",
+          "relationFromFields": [
+            "branch_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
         },
         {
           "name": "beneficiary_benefit",
@@ -655,11 +1009,39 @@
           "hasDefaultValue": false
         },
         {
+          "name": "UserRole",
+          "type": "UserRole",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "UserRoleTobranch",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
           "name": "beneficiary",
           "type": "beneficiary",
           "isRequired": false,
           "kind": "object",
           "relationName": "beneficiaryTobranch",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "benefit",
+          "type": "benefit",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "benefitTobranch",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -744,6 +1126,20 @@
           "isRequired": false,
           "kind": "object",
           "relationName": "transactionTobranch",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "unit",
+          "type": "unit",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "unitTobranch",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -1352,7 +1748,7 @@
           "id": "charity.financial_benefit.unit_id",
           "name": "unit_id",
           "columnName": "unit_id",
-          "type": "int",
+          "type": "enum_charity_financial_benefit_unit_id",
           "isRequired": true,
           "kind": "scalar",
           "isList": false,
@@ -1360,7 +1756,7 @@
           "sequence": false,
           "hasDefaultValue": false,
           "isId": false,
-          "maxLength": null
+          "maxLength": 3
         },
         {
           "name": "benefit",
@@ -1370,24 +1766,6 @@
           "relationName": "financial_benefitTobenefit",
           "relationFromFields": [
             "benefit_id"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "money_unit",
-          "type": "money_unit",
-          "isRequired": true,
-          "kind": "object",
-          "relationName": "financial_benefitTomoney_unit",
-          "relationFromFields": [
-            "unit_id"
           ],
           "relationToFields": [
             "id"
@@ -1623,123 +2001,6 @@
         }
       ]
     },
-    "money_unit": {
-      "id": "charity.money_unit",
-      "schemaName": "charity",
-      "tableName": "money_unit",
-      "fields": [
-        {
-          "id": "charity.money_unit.ar_code",
-          "name": "ar_code",
-          "columnName": "ar_code",
-          "type": "varchar",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": 191
-        },
-        {
-          "id": "charity.money_unit.ar_name",
-          "name": "ar_name",
-          "columnName": "ar_name",
-          "type": "varchar",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": 191
-        },
-        {
-          "id": "charity.money_unit.en_code",
-          "name": "en_code",
-          "columnName": "en_code",
-          "type": "varchar",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": 191
-        },
-        {
-          "id": "charity.money_unit.en_name",
-          "name": "en_name",
-          "columnName": "en_name",
-          "type": "varchar",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": 191
-        },
-        {
-          "id": "charity.money_unit.id",
-          "name": "id",
-          "columnName": "id",
-          "type": "int",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": {
-            "identifier": "charity.money_unit.id",
-            "increment": 1,
-            "start": 1
-          },
-          "hasDefaultValue": false,
-          "isId": true,
-          "maxLength": null
-        },
-        {
-          "name": "financial_benefit",
-          "type": "financial_benefit",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "financial_benefitTomoney_unit",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "transaction",
-          "type": "transaction",
-          "isRequired": false,
-          "kind": "object",
-          "relationName": "transactionTomoney_unit",
-          "relationFromFields": [],
-          "relationToFields": [],
-          "isList": true,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        }
-      ],
-      "uniqueConstraints": [
-        {
-          "name": "charity.money_unit.id",
-          "fields": [
-            "id"
-          ]
-        }
-      ]
-    },
     "note": {
       "id": "charity.note",
       "schemaName": "charity",
@@ -1913,11 +2174,53 @@
           "maxLength": 191
         },
         {
+          "name": "UserRole",
+          "type": "UserRole",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "UserRoleToorganization",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
           "name": "branch",
           "type": "branch",
           "isRequired": false,
           "kind": "object",
           "relationName": "branchToorganization",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "person",
+          "type": "person",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "personToorganization",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "role",
+          "type": "role",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "roleToorganization",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -2072,6 +2375,20 @@
           "maxLength": 191
         },
         {
+          "id": "charity.person.organization_id",
+          "name": "organization_id",
+          "columnName": "organization_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
           "id": "charity.person.phone",
           "name": "phone",
           "columnName": "phone",
@@ -2146,6 +2463,24 @@
           "hasDefaultValue": false
         },
         {
+          "name": "organization",
+          "type": "organization",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "personToorganization",
+          "relationFromFields": [
+            "organization_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
           "name": "sponsorship_case",
           "type": "sponsorship_case",
           "isRequired": false,
@@ -2166,8 +2501,9 @@
       ],
       "uniqueConstraints": [
         {
-          "name": "charity.person.identity_card",
+          "name": "charity.person.organization_id_identity_card",
           "fields": [
+            "organization_id",
             "identity_card"
           ]
         },
@@ -2217,10 +2553,24 @@
           "maxLength": null
         },
         {
-          "id": "charity.role.permissions",
-          "name": "permissions",
-          "columnName": "permissions",
-          "type": "json",
+          "id": "charity.role.name",
+          "name": "name",
+          "columnName": "name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 191
+        },
+        {
+          "id": "charity.role.organization_id",
+          "name": "organization_id",
+          "columnName": "organization_id",
+          "type": "int",
           "isRequired": true,
           "kind": "scalar",
           "isList": false,
@@ -2245,11 +2595,43 @@
           "maxLength": null
         },
         {
-          "name": "user",
-          "type": "user",
+          "name": "organization",
+          "type": "organization",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "roleToorganization",
+          "relationFromFields": [
+            "organization_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "RolePermission",
+          "type": "RolePermission",
           "isRequired": false,
           "kind": "object",
-          "relationName": "userTorole",
+          "relationName": "RolePermissionTorole",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "UserRole",
+          "type": "UserRole",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "UserRoleTorole",
           "relationFromFields": [],
           "relationToFields": [],
           "isList": true,
@@ -2486,7 +2868,7 @@
           "id": "charity.transaction.unit_id",
           "name": "unit_id",
           "columnName": "unit_id",
-          "type": "int",
+          "type": "enum_charity_transaction_unit_id",
           "isRequired": true,
           "kind": "scalar",
           "isList": false,
@@ -2494,7 +2876,7 @@
           "sequence": false,
           "hasDefaultValue": false,
           "isId": false,
-          "maxLength": null
+          "maxLength": 3
         },
         {
           "id": "charity.transaction.visit_benefit_id",
@@ -2536,24 +2918,6 @@
           "relationName": "transactionTodonate",
           "relationFromFields": [
             "donate_id"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
-          "isId": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false
-        },
-        {
-          "name": "money_unit",
-          "type": "money_unit",
-          "isRequired": true,
-          "kind": "object",
-          "relationName": "transactionTomoney_unit",
-          "relationFromFields": [
-            "unit_id"
           ],
           "relationToFields": [
             "id"
@@ -2636,6 +3000,20 @@
           "hasDefaultValue": false,
           "isId": false,
           "maxLength": 191
+        },
+        {
+          "id": "charity.unit.branch_id",
+          "name": "branch_id",
+          "columnName": "branch_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
         },
         {
           "id": "charity.unit.category_label",
@@ -2726,6 +3104,24 @@
           "maxLength": 191
         },
         {
+          "name": "branch",
+          "type": "branch",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "unitTobranch",
+          "relationFromFields": [
+            "branch_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
           "name": "item",
           "type": "item",
           "isRequired": false,
@@ -2746,12 +3142,6 @@
           "fields": [
             "id"
           ]
-        },
-        {
-          "name": "charity.unit.label",
-          "fields": [
-            "label"
-          ]
         }
       ]
     },
@@ -2760,6 +3150,20 @@
       "schemaName": "charity",
       "tableName": "user",
       "fields": [
+        {
+          "id": "charity.user.appRole",
+          "name": "appRole",
+          "columnName": "appRole",
+          "type": "enum_charity_user_app_role",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 11
+        },
         {
           "id": "charity.user.id",
           "name": "id",
@@ -2821,20 +3225,6 @@
           "maxLength": 191
         },
         {
-          "id": "charity.user.role_id",
-          "name": "role_id",
-          "columnName": "role_id",
-          "type": "int",
-          "isRequired": true,
-          "kind": "scalar",
-          "isList": false,
-          "isGenerated": false,
-          "sequence": false,
-          "hasDefaultValue": false,
-          "isId": false,
-          "maxLength": null
-        },
-        {
           "id": "charity.user.username",
           "name": "username",
           "columnName": "username",
@@ -2849,18 +3239,14 @@
           "maxLength": 191
         },
         {
-          "name": "role",
-          "type": "role",
+          "name": "UserRole",
+          "type": "UserRole",
           "isRequired": false,
           "kind": "object",
-          "relationName": "userTorole",
-          "relationFromFields": [
-            "role_id"
-          ],
-          "relationToFields": [
-            "id"
-          ],
-          "isList": false,
+          "relationName": "UserRoleTouser",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
           "isId": false,
           "isGenerated": false,
           "sequence": false,
@@ -3172,6 +3558,17 @@
     }
   },
   "enums": {
+    "enum_charity_user_app_role": {
+      "schemaName": "charity",
+      "values": [
+        {
+          "name": "SUPER_ADMIN"
+        },
+        {
+          "name": "MODERATOR"
+        }
+      ]
+    },
     "enum_charity_person_gender": {
       "schemaName": "charity",
       "values": [
@@ -3249,6 +3646,442 @@
         },
         {
           "name": "EXPENSE"
+        }
+      ]
+    },
+    "enum_charity_financial_benefit_unit_id": {
+      "schemaName": "charity",
+      "values": [
+        {
+          "name": "SAR"
+        },
+        {
+          "name": "AED"
+        },
+        {
+          "name": "QAR"
+        },
+        {
+          "name": "KWD"
+        },
+        {
+          "name": "BHD"
+        },
+        {
+          "name": "OMR"
+        },
+        {
+          "name": "EGP"
+        },
+        {
+          "name": "JOD"
+        },
+        {
+          "name": "IQD"
+        },
+        {
+          "name": "LBP"
+        },
+        {
+          "name": "SYP"
+        },
+        {
+          "name": "YER"
+        },
+        {
+          "name": "SDG"
+        },
+        {
+          "name": "DZD"
+        },
+        {
+          "name": "MAD"
+        },
+        {
+          "name": "TND"
+        },
+        {
+          "name": "LYD"
+        },
+        {
+          "name": "MRU"
+        },
+        {
+          "name": "KMF"
+        },
+        {
+          "name": "SOS"
+        },
+        {
+          "name": "ZAR"
+        },
+        {
+          "name": "NGN"
+        },
+        {
+          "name": "KES"
+        },
+        {
+          "name": "GHS"
+        },
+        {
+          "name": "TZS"
+        },
+        {
+          "name": "UGX"
+        },
+        {
+          "name": "XOF"
+        },
+        {
+          "name": "XAF"
+        },
+        {
+          "name": "ZMW"
+        },
+        {
+          "name": "MZN"
+        },
+        {
+          "name": "ETB"
+        },
+        {
+          "name": "RWF"
+        },
+        {
+          "name": "USD"
+        },
+        {
+          "name": "EUR"
+        },
+        {
+          "name": "GBP"
+        },
+        {
+          "name": "JPY"
+        },
+        {
+          "name": "CNY"
+        },
+        {
+          "name": "CHF"
+        },
+        {
+          "name": "CAD"
+        },
+        {
+          "name": "AUD"
+        },
+        {
+          "name": "NZD"
+        },
+        {
+          "name": "INR"
+        },
+        {
+          "name": "BRL"
+        },
+        {
+          "name": "RUB"
+        },
+        {
+          "name": "KRW"
+        },
+        {
+          "name": "SEK"
+        },
+        {
+          "name": "NOK"
+        },
+        {
+          "name": "DKK"
+        },
+        {
+          "name": "PLN"
+        },
+        {
+          "name": "MXN"
+        },
+        {
+          "name": "TRY"
+        },
+        {
+          "name": "PKR"
+        },
+        {
+          "name": "IDR"
+        },
+        {
+          "name": "THB"
+        },
+        {
+          "name": "SGD"
+        },
+        {
+          "name": "HKD"
+        },
+        {
+          "name": "MYR"
+        },
+        {
+          "name": "PHP"
+        },
+        {
+          "name": "VND"
+        },
+        {
+          "name": "ARS"
+        },
+        {
+          "name": "CLP"
+        },
+        {
+          "name": "COP"
+        },
+        {
+          "name": "CZK"
+        },
+        {
+          "name": "HUF"
+        },
+        {
+          "name": "ILS"
+        },
+        {
+          "name": "UAH"
+        },
+        {
+          "name": "TWD"
+        },
+        {
+          "name": "BDT"
+        },
+        {
+          "name": "LKR"
+        },
+        {
+          "name": "MMK"
+        },
+        {
+          "name": "AOA"
+        }
+      ]
+    },
+    "enum_charity_transaction_unit_id": {
+      "schemaName": "charity",
+      "values": [
+        {
+          "name": "SAR"
+        },
+        {
+          "name": "AED"
+        },
+        {
+          "name": "QAR"
+        },
+        {
+          "name": "KWD"
+        },
+        {
+          "name": "BHD"
+        },
+        {
+          "name": "OMR"
+        },
+        {
+          "name": "EGP"
+        },
+        {
+          "name": "JOD"
+        },
+        {
+          "name": "IQD"
+        },
+        {
+          "name": "LBP"
+        },
+        {
+          "name": "SYP"
+        },
+        {
+          "name": "YER"
+        },
+        {
+          "name": "SDG"
+        },
+        {
+          "name": "DZD"
+        },
+        {
+          "name": "MAD"
+        },
+        {
+          "name": "TND"
+        },
+        {
+          "name": "LYD"
+        },
+        {
+          "name": "MRU"
+        },
+        {
+          "name": "KMF"
+        },
+        {
+          "name": "SOS"
+        },
+        {
+          "name": "ZAR"
+        },
+        {
+          "name": "NGN"
+        },
+        {
+          "name": "KES"
+        },
+        {
+          "name": "GHS"
+        },
+        {
+          "name": "TZS"
+        },
+        {
+          "name": "UGX"
+        },
+        {
+          "name": "XOF"
+        },
+        {
+          "name": "XAF"
+        },
+        {
+          "name": "ZMW"
+        },
+        {
+          "name": "MZN"
+        },
+        {
+          "name": "ETB"
+        },
+        {
+          "name": "RWF"
+        },
+        {
+          "name": "USD"
+        },
+        {
+          "name": "EUR"
+        },
+        {
+          "name": "GBP"
+        },
+        {
+          "name": "JPY"
+        },
+        {
+          "name": "CNY"
+        },
+        {
+          "name": "CHF"
+        },
+        {
+          "name": "CAD"
+        },
+        {
+          "name": "AUD"
+        },
+        {
+          "name": "NZD"
+        },
+        {
+          "name": "INR"
+        },
+        {
+          "name": "BRL"
+        },
+        {
+          "name": "RUB"
+        },
+        {
+          "name": "KRW"
+        },
+        {
+          "name": "SEK"
+        },
+        {
+          "name": "NOK"
+        },
+        {
+          "name": "DKK"
+        },
+        {
+          "name": "PLN"
+        },
+        {
+          "name": "MXN"
+        },
+        {
+          "name": "TRY"
+        },
+        {
+          "name": "PKR"
+        },
+        {
+          "name": "IDR"
+        },
+        {
+          "name": "THB"
+        },
+        {
+          "name": "SGD"
+        },
+        {
+          "name": "HKD"
+        },
+        {
+          "name": "MYR"
+        },
+        {
+          "name": "PHP"
+        },
+        {
+          "name": "VND"
+        },
+        {
+          "name": "ARS"
+        },
+        {
+          "name": "CLP"
+        },
+        {
+          "name": "COP"
+        },
+        {
+          "name": "CZK"
+        },
+        {
+          "name": "HUF"
+        },
+        {
+          "name": "ILS"
+        },
+        {
+          "name": "UAH"
+        },
+        {
+          "name": "TWD"
+        },
+        {
+          "name": "BDT"
+        },
+        {
+          "name": "LKR"
+        },
+        {
+          "name": "MMK"
+        },
+        {
+          "name": "AOA"
         }
       ]
     },
