@@ -1,12 +1,12 @@
-import { z, ZodType } from "zod";
-import { ValidationSchemas } from "./schema.util";
-import { Locale } from "@shared/types/util.types";
+import { z, ZodType } from 'zod';
+import { ValidationSchemas } from './schema.util';
+import { Locale } from '@shared/types/util.types';
 import {
   CreateFinancialBenefitPayload,
   CreateNewItem,
   EditFinancialBenefitPayload,
-  EditItemPayload,
-} from "@shared/types/benefit/benefit.dto";
+  EditItemPayload
+} from '@shared/types/benefit/benefit.dto';
 
 export const benefitItemSchema = (locale: Locale) =>
   z.object({
@@ -14,7 +14,7 @@ export const benefitItemSchema = (locale: Locale) =>
     qty: ValidationSchemas.getNumberSchema(locale),
     category_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
     unit_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
-    branch_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+    branch_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale)
   }) satisfies ZodType<CreateNewItem>;
 
 const editBenefitItemSchema = (locale: Locale) =>
@@ -22,49 +22,50 @@ const editBenefitItemSchema = (locale: Locale) =>
     .pick({
       name: true,
       category_id: true,
-      qty: true,
+      qty: true
     })
     .extend({
-      id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+      id: ValidationSchemas.getPositiveIntegerNumberSchema(locale)
     }) satisfies ZodType<EditItemPayload>;
 
 export const createBenefitItemPayloadSchema = (locale: Locale) =>
   ValidationSchemas.getArraySchema(
     locale,
-    benefitItemSchema(locale),
+    benefitItemSchema(locale)
   ) satisfies ZodType<CreateNewItem[]>;
 
 export const editBenefitItemPayloadSchema = (locale: Locale) =>
   ValidationSchemas.getArraySchema(
     locale,
-    editBenefitItemSchema(locale),
+    editBenefitItemSchema(locale)
   ) satisfies ZodType<EditItemPayload[]>;
 
 const newFinancialItemSchema = (locale: Locale) =>
   z.object({
     name: ValidationSchemas.getStringSchema(locale),
     unit_id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
-    amount: ValidationSchemas.getNumberSchema(locale),
+    amount: ValidationSchemas.getAmountSchemaForContract(locale),
+    currency_code: ValidationSchemas.getStringSchema(locale)
   }) satisfies ZodType<CreateFinancialBenefitPayload>;
 
 const editFinancialItemSchema = (locale: Locale) =>
   newFinancialItemSchema(locale)
     .pick({
       name: true,
-      amount: true,
+      amount: true
     })
     .extend({
-      id: ValidationSchemas.getPositiveIntegerNumberSchema(locale),
+      id: ValidationSchemas.getPositiveIntegerNumberSchema(locale)
     }) satisfies ZodType<EditFinancialBenefitPayload>;
 
 export const createFinancialItemsPayloadSchema = (locale: Locale) =>
   ValidationSchemas.getArraySchema(
     locale,
-    newFinancialItemSchema(locale),
+    newFinancialItemSchema(locale)
   ) satisfies ZodType<CreateFinancialBenefitPayload[]>;
 
 export const editFinancialItemsPayloadSchema = (locale: Locale) =>
   ValidationSchemas.getArraySchema(
     locale,
-    editFinancialItemSchema(locale),
+    editFinancialItemSchema(locale)
   ) satisfies ZodType<EditFinancialBenefitPayload[]>;

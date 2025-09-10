@@ -5,7 +5,7 @@ export const nonNullableArray = <T>(arr: Nullable<T>[]): T[] =>
 
 export function extractFields<T extends object, K extends keyof T>(
   obj: T,
-  keys: K[],
+  keys: K[]
 ): Pick<T, K> {
   const pickedObj: Pick<T, K> = {} as Pick<T, K>;
   for (const key of keys) {
@@ -21,7 +21,7 @@ export function removeUndefinedValues<T extends object>(obj: T): T {
   const objectWithoutUndefined: T = {} as T;
 
   for (const [key, value] of Object.entries(obj)) {
-    if (typeof value === "undefined") continue;
+    if (typeof value === 'undefined') continue;
     objectWithoutUndefined[key as keyof T] = value;
   }
 
@@ -30,9 +30,9 @@ export function removeUndefinedValues<T extends object>(obj: T): T {
 
 export function removeFields<T extends object, K extends keyof T>(
   obj: T,
-  keys: K[],
+  keys: K[]
 ): Omit<T, K> {
-  const filteredObj: Partial<T> = { ...obj };
+  const filteredObj: Partial<T> = structuredClone(obj);
   for (const key of keys) {
     delete filteredObj[key];
   }
@@ -42,7 +42,7 @@ export function removeFields<T extends object, K extends keyof T>(
 export function addArrayItemIfNotIncluded<T>(
   array: T[],
   newItem: T,
-  optionalFindFunction?: (_: T) => boolean,
+  optionalFindFunction?: (_: T) => boolean
 ): T[] {
   // Check if the new item is already included in the array
   const itemExists = optionalFindFunction
@@ -64,31 +64,31 @@ export function arrayHasMatches(array1: string[], array2: string[]): boolean {
 
 export const mapObjectArrayToItemArray = <T extends object, K extends keyof T>(
   array: T[],
-  key: K,
+  key: K
 ): T[K][] => array.map((obj) => obj[key]);
 
 const casters = {
   toNumber: (value: unknown) => Number(value),
   toString: (value: unknown) => String(value),
   toBoolean: (value: unknown) => Boolean(value),
-  toUpperCase: (value: unknown) => String(value).toUpperCase(),
+  toUpperCase: (value: unknown) => String(value).toUpperCase()
 };
 
 type CasterMethods = keyof typeof casters;
 
-type CasterReturnType<T extends CasterMethods> = T extends "toNumber"
+type CasterReturnType<T extends CasterMethods> = T extends 'toNumber'
   ? number
-  : T extends "toString"
+  : T extends 'toString'
     ? string
-    : T extends "toBoolean"
+    : T extends 'toBoolean'
       ? boolean
-      : T extends "toUpperCase"
+      : T extends 'toUpperCase'
         ? string
         : never;
 
 export function optionalCast<T extends CasterMethods>(
   value: unknown,
-  caster: T,
+  caster: T
 ): CasterReturnType<T> | undefined {
   return value !== undefined
     ? (casters[caster](value) as CasterReturnType<T>)
@@ -100,7 +100,7 @@ export function removeNullOrUndefinedFromObject(obj: object): object {
   return Object.entries(obj).reduce((acc, [key, value]) => {
     if (value !== undefined && value !== null) {
       // If the value is an object, recursively process it
-      if (typeof value === "object" && !Array.isArray(value)) {
+      if (typeof value === 'object' && !Array.isArray(value)) {
         const cleanedValue = removeNullOrUndefinedFromObject(value);
         // Only add the key if the nested object has keys left after cleaning
         if (Object.keys(cleanedValue).length > 0) {
@@ -124,11 +124,11 @@ const input = {
     f: null,
     g: {
       h: undefined,
-      i: 3,
-    },
+      i: 3
+    }
   },
   j: [],
   k: {
-    l: null,
-  },
+    l: null
+  }
 };

@@ -1,5 +1,5 @@
-import { Prisma, TransactionType } from "@prisma/client";
-import { ISO_8601_DateString } from "../util.types";
+import { Prisma, TransactionType } from '@prisma/client';
+import { ISO_8601_DateString } from '../util.types';
 
 export type TransactionQueryByType = {
   type: TransactionType;
@@ -9,7 +9,7 @@ export type TransactionQueryByType = {
 
 export type NewTransaction = Omit<
   Prisma.TransactionUncheckedCreateInput,
-  "created_at" | "amount"
+  'created_at' | 'amount'
 > & {
   date: Date;
   amount: number;
@@ -17,6 +17,6 @@ export type NewTransaction = Omit<
 
 export type TransactionDTO = Prisma.TransactionGetPayload<{
   include: {
-    Unit: true;
+    Currency: true;
   };
 }>;

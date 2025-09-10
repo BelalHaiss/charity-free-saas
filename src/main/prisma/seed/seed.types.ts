@@ -1,0 +1,170 @@
+import {
+  Role,
+  User,
+  Organization,
+  Branch,
+  RolePermission,
+  UserRole,
+  Unit
+} from '@prisma/client';
+
+export type RoleSeed = {
+  id: number;
+  name: string;
+  scope: 'ORGANIZATION' | 'BRANCH';
+  organization_id?: number;
+};
+
+export type UserSeed = Pick<User, 'id' | 'username' | 'password' | 'lang'>;
+
+export type OrganizationSeed = Pick<Organization, 'id' | 'name'> & {
+  branches: BranchSeed[];
+};
+
+export type BranchSeed = Pick<Branch, 'id' | 'lang' | 'name'>;
+
+export type RolePermissionSeed = {
+  role_id: number;
+  permission_action: string;
+};
+
+export type UserRoleSeed = {
+  user_id: number;
+  role_id: number;
+  organization_id: number;
+  branch_id?: number;
+  branch_key?: number;
+};
+
+export type UnitSeed = Omit<Unit, 'id'> & {
+  id?: number;
+};
+
+// Permission action constants for type safety
+export const PERMISSIONS = {
+  // User management
+  USER_CREATE: 'USER_CREATE',
+  USER_READ: 'USER_READ',
+  USER_UPDATE: 'USER_UPDATE',
+  USER_DELETE: 'USER_DELETE',
+  USER_LIST: 'USER_LIST',
+
+  // Organization
+  ORGANIZATION_CREATE: 'ORGANIZATION_CREATE',
+  ORGANIZATION_READ: 'ORGANIZATION_READ',
+  ORGANIZATION_UPDATE: 'ORGANIZATION_UPDATE',
+  ORGANIZATION_DELETE: 'ORGANIZATION_DELETE',
+  ORGANIZATION_LIST: 'ORGANIZATION_LIST',
+
+  // Branch
+  BRANCH_CREATE: 'BRANCH_CREATE',
+  BRANCH_READ: 'BRANCH_READ',
+  BRANCH_UPDATE: 'BRANCH_UPDATE',
+  BRANCH_DELETE: 'BRANCH_DELETE',
+  BRANCH_LIST: 'BRANCH_LIST',
+
+  // Beneficiary
+  BENEFICIARY_CREATE: 'BENEFICIARY_CREATE',
+  BENEFICIARY_READ: 'BENEFICIARY_READ',
+  BENEFICIARY_UPDATE: 'BENEFICIARY_UPDATE',
+  BENEFICIARY_DELETE: 'BENEFICIARY_DELETE',
+  BENEFICIARY_LIST: 'BENEFICIARY_LIST',
+
+  // Benefit
+  BENEFIT_CREATE: 'BENEFIT_CREATE',
+  BENEFIT_READ: 'BENEFIT_READ',
+  BENEFIT_UPDATE: 'BENEFIT_UPDATE',
+  BENEFIT_DELETE: 'BENEFIT_DELETE',
+  BENEFIT_LIST: 'BENEFIT_LIST',
+
+  // Financial benefit
+  FINANCIAL_BENEFIT_CREATE: 'FINANCIAL_BENEFIT_CREATE',
+  FINANCIAL_BENEFIT_READ: 'FINANCIAL_BENEFIT_READ',
+  FINANCIAL_BENEFIT_UPDATE: 'FINANCIAL_BENEFIT_UPDATE',
+  FINANCIAL_BENEFIT_DELETE: 'FINANCIAL_BENEFIT_DELETE',
+  FINANCIAL_BENEFIT_LIST: 'FINANCIAL_BENEFIT_LIST',
+
+  // Item
+  ITEM_CREATE: 'ITEM_CREATE',
+  ITEM_READ: 'ITEM_READ',
+  ITEM_UPDATE: 'ITEM_UPDATE',
+  ITEM_DELETE: 'ITEM_DELETE',
+  ITEM_LIST: 'ITEM_LIST',
+  ITEM_SEARCH_BY_NAME: 'ITEM_SEARCH_BY_NAME',
+
+  // Category
+  CATEGORY_CREATE: 'CATEGORY_CREATE',
+  CATEGORY_READ: 'CATEGORY_READ',
+  CATEGORY_UPDATE: 'CATEGORY_UPDATE',
+  CATEGORY_DELETE: 'CATEGORY_DELETE',
+  CATEGORY_LIST: 'CATEGORY_LIST',
+
+  // Unit
+  UNIT_CREATE: 'UNIT_CREATE',
+  UNIT_READ: 'UNIT_READ',
+  UNIT_UPDATE: 'UNIT_UPDATE',
+  UNIT_DELETE: 'UNIT_DELETE',
+  UNIT_LIST: 'UNIT_LIST',
+
+  // Donation
+  DONATE_CREATE: 'DONATE_CREATE',
+  DONATE_READ: 'DONATE_READ',
+  DONATE_UPDATE: 'DONATE_UPDATE',
+  DONATE_DELETE: 'DONATE_DELETE',
+  DONATE_LIST: 'DONATE_LIST',
+
+  // Transaction
+  TRANSACTION_CREATE: 'TRANSACTION_CREATE',
+  TRANSACTION_READ: 'TRANSACTION_READ',
+  TRANSACTION_UPDATE: 'TRANSACTION_UPDATE',
+  TRANSACTION_DELETE: 'TRANSACTION_DELETE',
+  TRANSACTION_LIST: 'TRANSACTION_LIST',
+
+  // Note
+  NOTE_CREATE: 'NOTE_CREATE',
+  NOTE_READ: 'NOTE_READ',
+  NOTE_UPDATE: 'NOTE_UPDATE',
+  NOTE_DELETE: 'NOTE_DELETE',
+  NOTE_LIST: 'NOTE_LIST',
+  NOTE_READ_PRIVATE: 'NOTE_READ_PRIVATE',
+  NOTE_READ_PUBLIC: 'NOTE_READ_PUBLIC',
+
+  // Visit
+  VISIT_CREATE: 'VISIT_CREATE',
+  VISIT_READ: 'VISIT_READ',
+  VISIT_UPDATE: 'VISIT_UPDATE',
+  VISIT_DELETE: 'VISIT_DELETE',
+  VISIT_LIST: 'VISIT_LIST',
+
+  // Setup
+  SETUP_READ: 'SETUP_READ',
+  SETUP_UPDATE: 'SETUP_UPDATE',
+
+  // Role and permission management
+  ROLE_CREATE: 'ROLE_CREATE',
+  ROLE_READ: 'ROLE_READ',
+  ROLE_UPDATE: 'ROLE_UPDATE',
+  ROLE_DELETE: 'ROLE_DELETE',
+  ROLE_LIST: 'ROLE_LIST',
+  ROLE_ASSIGN: 'ROLE_ASSIGN',
+
+  PERMISSION_READ: 'PERMISSION_READ',
+  PERMISSION_LIST: 'PERMISSION_LIST',
+
+  // Reports
+  REPORT_VIEW: 'REPORT_VIEW',
+  REPORT_EXPORT: 'REPORT_EXPORT',
+  REPORT_GENERATE: 'REPORT_GENERATE'
+} as const;
+
+export type PermissionAction = keyof typeof PERMISSIONS;
+
+// Role IDs constants
+export const ROLE_IDS = {
+  SUPER_ADMIN: 1,
+  BRANCH_MANAGER: 2,
+  STAFF: 3,
+  VOLUNTEER: 4
+} as const;
+
+export type RoleId = (typeof ROLE_IDS)[keyof typeof ROLE_IDS];

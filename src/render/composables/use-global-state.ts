@@ -9,7 +9,6 @@ type StateValues = {
   userToken: `Bearer ${string}` | null;
   branchId: number;
 };
-
 export const useGlobalState = createGlobalState(() => {
   const initialState: NullableKeys<StateValues, 'branchId' | 'user'> = {
     organization: null,

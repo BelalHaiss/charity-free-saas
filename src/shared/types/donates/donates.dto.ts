@@ -1,8 +1,8 @@
-import { ISO_8601_DateString } from "../util.types";
-import { NewTransaction, TransactionDTO } from "../transaction/transaction.dto";
-import { WithTempId } from "@render/types/util.types";
-import { Donate, Prisma, UNIT_SIZE } from "@prisma/client";
-import { DecimalToNumber } from "@render/modules/transaction/types/transactions.types";
+import { ISO_8601_DateString } from '../util.types';
+import { NewTransaction, TransactionDTO } from '../transaction/transaction.dto';
+import { WithTempId } from '@render/types/util.types';
+import { Donate, Prisma, UNIT_SIZE } from '@prisma/client';
+import { DecimalToNumber } from '@render/modules/transaction/types/transactions.types';
 
 export type QueryDonateByDate = {
   date: ISO_8601_DateString;
@@ -11,12 +11,12 @@ export type QueryDonateByDate = {
 
 type FinancialDonateTransaction = Pick<
   NewTransaction,
-  "amount" | "branch_id" | "unit_id"
+  'amount' | 'branch_id' | 'currency_code'
 >;
 
 export type NewDonate = Pick<
   Donate,
-  "branch_id" | "created_by" | "donor" | "donor_phone"
+  'branch_id' | 'created_by' | 'donor' | 'donor_phone'
 > & {
   financialTransaction: FinancialDonateTransaction;
   items?: PartialDonateItem[];
@@ -25,7 +25,7 @@ export type NewDonate = Pick<
 
 type NewDonateItem = Omit<
   Prisma.DonateItemUncheckedCreateInput,
-  "donate_id" | "id"
+  'donate_id' | 'id'
 > & { unitSize: UNIT_SIZE; unitId: number };
 
 export type PartialDonateItem = WithTempId<Partial<NewDonateItem>>;

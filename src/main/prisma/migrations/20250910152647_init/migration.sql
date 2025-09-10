@@ -1,0 +1,382 @@
+-- CreateTable
+CREATE TABLE `beneficiary` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `join_date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `initial_visit_date` DATETIME(3) NULL,
+    `days_between_visits` INTEGER NULL,
+    `notes` TEXT NULL,
+    `branch_id` INTEGER NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `person` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `identity_card` VARCHAR(191) NULL,
+    `type` ENUM('BENEFICIARY', 'SPOUSE', 'CHILD') NOT NULL,
+    `birthday` DATETIME(3) NOT NULL,
+    `gender` ENUM('MALE', 'FEMALE') NULL,
+    `income` DECIMAL(19, 4) NULL,
+    `currency_code` VARCHAR(191) NULL,
+    `address` VARCHAR(191) NULL,
+    `phone` VARCHAR(191) NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updated_at` DATETIME(3) NOT NULL,
+    `sponsorship_case_id` TINYINT NULL,
+    `beneficiary_id` INTEGER NOT NULL,
+    `branch_id` INTEGER NOT NULL,
+
+    UNIQUE INDEX `person_identity_card_branch_id_key`(`identity_card`, `branch_id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `benefit` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `beneficiaries_count` INTEGER NOT NULL DEFAULT 0,
+    `type` ENUM('FINANCIAL', 'ITEM') NOT NULL,
+    `branch_id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `financial_benefit` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `amount` DECIMAL(19, 4) NOT NULL,
+    `currency_code` VARCHAR(191) NOT NULL,
+    `benefit_id` INTEGER NOT NULL,
+
+    UNIQUE INDEX `financial_benefit_benefit_id_key`(`benefit_id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `item` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `qty` INTEGER NOT NULL,
+    `category_id` INTEGER NOT NULL,
+    `unit_id` INTEGER NOT NULL,
+    `benefit_id` INTEGER NOT NULL,
+
+    UNIQUE INDEX `item_benefit_id_key`(`benefit_id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `beneficiary_benefit` (
+    `beneficiary_id` INTEGER NOT NULL,
+    `benefit_id` INTEGER NOT NULL,
+    `item_unit_size` ENUM('SM', 'LG') NULL,
+    `item_value` INTEGER NULL,
+
+    PRIMARY KEY (`beneficiary_id`, `benefit_id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `visit_benefit` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `visit_id` INTEGER NOT NULL,
+    `benefit_id` INTEGER NOT NULL,
+    `unit_label_and_unit` VARCHAR(191) NOT NULL,
+    `unit_value` DECIMAL(65, 30) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `visit` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `beneficiary_id` INTEGER NOT NULL,
+    `created_at` DATETIME(3) NOT NULL,
+    `note` TEXT NULL,
+    `branch_id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `category` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `parent_category_id` INTEGER NULL,
+    `branch_id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `money_unit` (
+    `code` VARCHAR(191) NOT NULL,
+    `enName` VARCHAR(191) NOT NULL,
+    `arName` VARCHAR(191) NOT NULL,
+    `symbolEn` VARCHAR(191) NOT NULL,
+    `symbolAr` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`code`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `unit` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `category_label` VARCHAR(191) NOT NULL,
+    `label` VARCHAR(191) NOT NULL,
+    `bg_unit_label` VARCHAR(191) NOT NULL,
+    `bg_unit_abbr` VARCHAR(191) NOT NULL,
+    `sm_unit_label` VARCHAR(191) NOT NULL,
+    `sm_unit_abbr` VARCHAR(191) NOT NULL,
+    `sm_to_bg_factor` INTEGER NOT NULL,
+
+    UNIQUE INDEX `unit_label_key`(`label`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `sponsorship_case` (
+    `id` TINYINT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `branch_id` INTEGER NOT NULL,
+
+    UNIQUE INDEX `sponsorship_case_name_branch_id_key`(`name`, `branch_id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `organization` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `created_at` DATETIME(3) NULL,
+    `logo_url` VARCHAR(191) NULL,
+
+    UNIQUE INDEX `organization_name_key`(`name`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `branch` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `address` VARCHAR(191) NULL,
+    `phone` VARCHAR(191) NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `organization_id` INTEGER NOT NULL,
+    `scheduled_visits` BOOLEAN NOT NULL DEFAULT false,
+    `lang` ENUM('ar', 'en') NOT NULL,
+
+    UNIQUE INDEX `branch_name_organization_id_key`(`name`, `organization_id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `user` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `is_suspended` BOOLEAN NOT NULL DEFAULT false,
+    `lang` ENUM('ar', 'en') NOT NULL,
+    `appRole` ENUM('SUPER_ADMIN', 'SUPPORT') NULL,
+
+    UNIQUE INDEX `user_username_key`(`username`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Role` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `scope` ENUM('ORGANIZATION', 'BRANCH') NOT NULL,
+    `organizationId` INTEGER NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Permission` (
+    `action` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`action`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `RolePermission` (
+    `roleId` INTEGER NOT NULL,
+    `permissionAction` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`roleId`, `permissionAction`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `UserRole` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `userId` INTEGER NOT NULL,
+    `roleId` INTEGER NOT NULL,
+    `organizationId` INTEGER NOT NULL,
+    `branchId` INTEGER NULL,
+    `branchKey` INTEGER NOT NULL DEFAULT -1,
+
+    UNIQUE INDEX `UserRole_userId_roleId_organizationId_branchKey_key`(`userId`, `roleId`, `organizationId`, `branchKey`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `donate` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `donor` VARCHAR(191) NOT NULL,
+    `donor_phone` VARCHAR(191) NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `created_by` VARCHAR(191) NOT NULL,
+    `branch_id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `donate_item` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `item_id` INTEGER NOT NULL,
+    `donate_id` INTEGER NOT NULL,
+    `unit_value` INTEGER NOT NULL,
+    `user_unit_size` ENUM('SM', 'LG') NOT NULL,
+    `user_unit_value` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `transaction` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `created_by` VARCHAR(191) NOT NULL,
+    `currency_code` VARCHAR(191) NOT NULL,
+    `amount` DECIMAL(19, 4) NOT NULL,
+    `label` VARCHAR(191) NULL,
+    `type` ENUM('DONATE', 'EXPENSE') NOT NULL,
+    `branch_id` INTEGER NOT NULL,
+    `donate_id` INTEGER NULL,
+    `visit_benefit_id` INTEGER NULL,
+
+    UNIQUE INDEX `transaction_donate_id_key`(`donate_id`),
+    UNIQUE INDEX `transaction_visit_benefit_id_key`(`visit_benefit_id`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `note` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `content` VARCHAR(191) NOT NULL,
+    `branch_id` INTEGER NULL,
+    `user_id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `beneficiary` ADD CONSTRAINT `beneficiary_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `person` ADD CONSTRAINT `person_currency_code_fkey` FOREIGN KEY (`currency_code`) REFERENCES `money_unit`(`code`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `person` ADD CONSTRAINT `person_sponsorship_case_id_fkey` FOREIGN KEY (`sponsorship_case_id`) REFERENCES `sponsorship_case`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `person` ADD CONSTRAINT `person_beneficiary_id_fkey` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiary`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `person` ADD CONSTRAINT `person_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `benefit` ADD CONSTRAINT `benefit_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `financial_benefit` ADD CONSTRAINT `financial_benefit_currency_code_fkey` FOREIGN KEY (`currency_code`) REFERENCES `money_unit`(`code`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `financial_benefit` ADD CONSTRAINT `financial_benefit_benefit_id_fkey` FOREIGN KEY (`benefit_id`) REFERENCES `benefit`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `item` ADD CONSTRAINT `item_category_id_fkey` FOREIGN KEY (`category_id`) REFERENCES `category`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `item` ADD CONSTRAINT `item_unit_id_fkey` FOREIGN KEY (`unit_id`) REFERENCES `unit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `item` ADD CONSTRAINT `item_benefit_id_fkey` FOREIGN KEY (`benefit_id`) REFERENCES `benefit`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `beneficiary_benefit` ADD CONSTRAINT `beneficiary_benefit_beneficiary_id_fkey` FOREIGN KEY (`beneficiary_id`) REFERENCES `beneficiary`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `beneficiary_benefit` ADD CONSTRAINT `beneficiary_benefit_benefit_id_fkey` FOREIGN KEY (`benefit_id`) REFERENCES `benefit`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `visit_benefit` ADD CONSTRAINT `visit_benefit_visit_id_fkey` FOREIGN KEY (`visit_id`) REFERENCES `visit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `visit_benefit` ADD CONSTRAINT `visit_benefit_benefit_id_fkey` FOREIGN KEY (`benefit_id`) REFERENCES `benefit`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `visit` ADD CONSTRAINT `visit_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `category` ADD CONSTRAINT `category_parent_category_id_fkey` FOREIGN KEY (`parent_category_id`) REFERENCES `category`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `category` ADD CONSTRAINT `category_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `sponsorship_case` ADD CONSTRAINT `sponsorship_case_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `branch` ADD CONSTRAINT `branch_organization_id_fkey` FOREIGN KEY (`organization_id`) REFERENCES `organization`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Role` ADD CONSTRAINT `Role_organizationId_fkey` FOREIGN KEY (`organizationId`) REFERENCES `organization`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `RolePermission` ADD CONSTRAINT `RolePermission_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `RolePermission` ADD CONSTRAINT `RolePermission_permissionAction_fkey` FOREIGN KEY (`permissionAction`) REFERENCES `Permission`(`action`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UserRole` ADD CONSTRAINT `UserRole_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UserRole` ADD CONSTRAINT `UserRole_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UserRole` ADD CONSTRAINT `UserRole_organizationId_fkey` FOREIGN KEY (`organizationId`) REFERENCES `organization`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UserRole` ADD CONSTRAINT `UserRole_branchId_fkey` FOREIGN KEY (`branchId`) REFERENCES `branch`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `donate` ADD CONSTRAINT `donate_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `donate_item` ADD CONSTRAINT `donate_item_donate_id_fkey` FOREIGN KEY (`donate_id`) REFERENCES `donate`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `donate_item` ADD CONSTRAINT `donate_item_item_id_fkey` FOREIGN KEY (`item_id`) REFERENCES `item`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `transaction` ADD CONSTRAINT `transaction_currency_code_fkey` FOREIGN KEY (`currency_code`) REFERENCES `money_unit`(`code`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `transaction` ADD CONSTRAINT `transaction_branch_id_fkey` FOREIGN KEY (`branch_id`) REFERENCES `branch`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `transaction` ADD CONSTRAINT `transaction_donate_id_fkey` FOREIGN KEY (`donate_id`) REFERENCES `donate`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `transaction` ADD CONSTRAINT `transaction_visit_benefit_id_fkey` FOREIGN KEY (`visit_benefit_id`) REFERENCES `visit_benefit`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `note` ADD CONSTRAINT `note_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

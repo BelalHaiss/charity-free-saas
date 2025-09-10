@@ -169,10 +169,10 @@ model Category {
 model MoneyUnit {
   code String @id // ISO code: "USD", "EGP", "JPY"
 
-  enName   String // English name: "US Dollar"
-  arName   String? // Arabic name: "دولار أمريكي"
-  symbolEn String? // "$", "E£"
-  symbolAr String? // "ج.م", "ر.س"
+  en_name   String // English name: "US Dollar"
+  ar_name   String // Arabic name: "دولار أمريكي"
+  symbol_en String // "$", "E£"
+  symbol_ar String // "ج.م", "ر.س"
 
   // Relations
   transactions      Transaction[]
@@ -245,7 +245,7 @@ model Branch {
 
 model User {
   id           Int        @id @default(autoincrement())
-  username     String
+  username     String     @unique
   password     String
   is_suspended Boolean    @default(false)
   lang         Lang
@@ -257,47 +257,45 @@ model User {
 }
 
 model Role {
-  id             Int           @id @default(autoincrement())
-  name           String
-  scope          RoleScope
+  id              Int           @id @default(autoincrement())
+  name            String
+  scope           RoleScope
   // Optional: use when each org wants its own custom roles
-  organizationId Int?
-  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organization_id Int?
+  organization    Organization? @relation(fields: [organization_id], references: [id])
 
   rolePermissions RolePermission[]
   userRoles       UserRole[]
 }
 
 model Permission {
-  id              Int              @id @default(autoincrement())
-  action          String           @unique
-  description     String?
+  action          String           @id
   rolePermissions RolePermission[]
 }
 
 model RolePermission {
-  roleId       Int
-  permissionId Int
+  role_id           Int
+  permission_action String
 
-  role       Role       @relation(fields: [roleId], references: [id])
-  permission Permission @relation(fields: [permissionId], references: [id])
+  role       Role       @relation(fields: [role_id], references: [id])
+  permission Permission @relation(fields: [permission_action], references: [action])
 
-  @@id([roleId, permissionId])
+  @@id([role_id, permission_action])
 }
 
 model UserRole {
-  id             Int          @id @default(autoincrement())
-  userId         Int
-  roleId         Int
-  organizationId Int // always set (tenant boundary)
-  branchId       Int? // NULL ⇒ org-wide role
-  branchKey      Int          @default(-1) // for unique constraints when branchId is null
-  user           User         @relation(fields: [userId], references: [id])
-  role           Role         @relation(fields: [roleId], references: [id])
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  branch         Branch?      @relation(fields: [branchId], references: [id])
+  id              Int          @id @default(autoincrement())
+  user_id         Int
+  role_id         Int
+  organization_id Int // always set (tenant boundary)
+  branch_id       Int? // NULL ⇒ org-wide role
+  branch_key      Int          @default(-1) // for unique constraints when branchId is null
+  user            User         @relation(fields: [user_id], references: [id])
+  role            Role         @relation(fields: [role_id], references: [id])
+  organization    Organization @relation(fields: [organization_id], references: [id])
+  branch          Branch?      @relation(fields: [branch_id], references: [id])
 
-  @@unique([userId, roleId, organizationId, branchKey])
+  @@unique([user_id, role_id, organization_id, branch_key])
 }
 
 model Donate {

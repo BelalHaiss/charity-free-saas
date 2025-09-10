@@ -92,9 +92,7 @@ Every feature module must follow this pattern:
 ```
 modules/[feature]/
 ├── components/
-│   ├── [feature]-list.vue
-│   ├── [feature]-form.vue
-│   └── [feature]-detail.vue
+│   ├── [feature].vue  #atomic design components
 ├── composables/
 │   └── use-[feature]-vm.ts    # ViewModel (business logic)
 ├── types/                     # Move to @shared instead
@@ -158,7 +156,7 @@ const { ipcRenderer } = require('electron'); // Don't do this
 
 - **All DTOs** in `@shared/types/[module]/`
 - **All schemas** in `@shared/services/schema/`
-- Validation schemas must use Zod
+- Validation schemas must use Zod with satisfies ts keyword
 - Types shared between frontend/backend
 
 ## Business Domain
@@ -272,3 +270,4 @@ export class UserService {
 - Cross-platform compatibility
 - Multi-language support working
 - Clean, maintainable codebase
+- Generate Nestjs module with nest cli command

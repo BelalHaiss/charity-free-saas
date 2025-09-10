@@ -25,7 +25,7 @@
     ],
     "strict": true,
     "allowJs": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "noEmit": true,
     "sourceMap": true,
     "esModuleInterop": true,
